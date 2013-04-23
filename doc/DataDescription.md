@@ -3,3 +3,4 @@
 2. Contains 240 images of size 320x213 and 9 objects.
 3. used for the image labeling task.
 
+Evaluation: using 5-fold cross validation.
