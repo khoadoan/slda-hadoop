@@ -11,7 +11,7 @@ Two types of input format can be specified:
 2. ASCII File
  1. Each row contains a double-valued vector separated by single space
 
-##### Output format
+###### Output format
 The final clustering result is located at `${output-dir}/clusters-*-final`, where * is the number of iterations.
 The file is a SequenceFile, each entry of which contains points belong to the same cluster:
 
