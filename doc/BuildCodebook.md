@@ -6,8 +6,8 @@
 Two types of input format can be specified:
 
 1. SequenceFile
- 1. Key: Text/LongWritable
- 2. Value: org.apache.mahout.math.RandomAccessSparseVector
+ 1. Key: `Text/LongWritable`
+ 2. Value: `org.apache.mahout.math.RandomAccessSparseVector`
 2. ASCII File
  1. Each row contains a double-valued vector separated by single space
 
