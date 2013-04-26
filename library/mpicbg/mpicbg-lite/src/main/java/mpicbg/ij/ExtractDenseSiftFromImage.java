@@ -3,7 +3,6 @@ package mpicbg.ij;
 import ij.ImagePlus;
 import ij.process.ImageProcessor;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +29,10 @@ public class ExtractDenseSiftFromImage {
 			ImagePlus iplus = new ImagePlus("test", input);
 			
 			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
-			final ImageProcessor ip2 = iplus.getProcessor().duplicate().convertToRGB();
+			iplus.getProcessor().duplicate().convertToRGB();
 			
 			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
+			ijSift.setStepSize(stepSize);
 			fs.clear();
 			
 			final long start_time = System.currentTimeMillis();

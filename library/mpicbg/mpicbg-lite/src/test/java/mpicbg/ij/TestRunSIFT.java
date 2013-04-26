@@ -14,6 +14,7 @@ import mpicbg.imagefeatures.Feature;
 import mpicbg.imagefeatures.FloatArray2DSIFT;
 
 import org.junit.Test;
+import org.junit.Assert;
 
 import ij.ImagePlus;
 import ij.process.ImageProcessor;
@@ -79,7 +80,6 @@ public class TestRunSIFT {
 	    ip.drawPolygon( new Polygon( x, y, x.length ) );
 	}
 	
-	@Test
 	public void testBasic() throws IOException {
 		
 		// Load the image
@@ -111,6 +111,16 @@ public class TestRunSIFT {
 		
 		ImageIO.write(ip2.getBufferedImage(),"png",new File("images/ouput.png"));
 		
+	}
+	
+	@Test
+	public void testUsingExtractDenseSiftFromImage() {
+		
+		float[][] extractedSiftFeatures = 
+				new ExtractDenseSiftFromImage("images/test03.bmp", 16).getExtractedFeatures();
+		
+		
+		Assert.assertTrue(extractedSiftFeatures.length != 0);
 	}
 
 }
