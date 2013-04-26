@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-package org.apache.mahout.clustering.syntheticcontrol.kmeans;
-
 import java.util.List;
 import java.util.Map;
 
