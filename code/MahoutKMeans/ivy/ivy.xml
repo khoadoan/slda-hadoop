@@ -7,12 +7,6 @@
   </publications>
 
   <dependencies>
-	  <dependency org="org.apache.mahout" name="mahout-core" rev="0.7">
-		  <artifact name="mahout-core" type="jar" />
-	  </dependency>
-	  <dependency org="org.apache.mahout" name="mahout-integration" rev="0.7" conf="*->*,!sources,!javadoc"/>
-	  <dependency org="org.apache.mahout" name="mahout-buildtools" rev="0.7" conf="*->*,!sources,!javadoc"/>
-	  <dependency org="org.apache.mahout" name="mahout-collections" rev="1.0" conf="*->*,!sources,!javadoc"/>
     <dependency org="edu.umd" name="cloud9" rev="1.4.13" conf="*->*,!sources,!javadoc">
       <exclude org="fastutil"/>
     </dependency>
