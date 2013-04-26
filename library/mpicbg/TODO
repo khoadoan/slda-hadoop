@@ -1,0 +1,2 @@
+* Folds or other (less visible) discontinuities may be detected by clustering
+  blockmatches by shift relative to the gross affine/rigid transformation.
