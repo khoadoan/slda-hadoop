@@ -52,6 +52,11 @@ public class DenseSIFT extends FeatureTransform< FloatArray2DSIFT >
 		p.fdSize = ( int )gd.getNextNumber();
 		p.fdBins = ( int )gd.getNextNumber();
 	}
+	
+	private int stepSize = 16;
+	public void setStepSize(int size) {
+		stepSize = size;
+	}
 
 	
 	/**
@@ -104,7 +109,7 @@ public class DenseSIFT extends FeatureTransform< FloatArray2DSIFT >
 		fa = Filter.convolveSeparable( fa, initialKernel, initialKernel );
 		
 		t.init( fa );
-		t.extractDenseFeatures(16, ip.getWidth(), ip.getHeight(), features);
+		t.extractDenseFeatures(stepSize, ip.getWidth(), ip.getHeight(), features);
 		if ( scale != 1.0f )
 		{
 			for ( Feature f : features )

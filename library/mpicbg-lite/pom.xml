@@ -11,9 +11,9 @@
 		<version>0.6.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>mpicbg</artifactId>
+	<artifactId>mpicbg-lite</artifactId>
 
-	<name>jars/mpicbg.jar</name>
+	<name>jars/mpicbg-lite.jar</name>
 	<description></description>
 
 	<dependencies>
