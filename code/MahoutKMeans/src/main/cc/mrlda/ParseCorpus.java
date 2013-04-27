@@ -327,6 +327,7 @@ public class ParseCorpus extends Configured implements Tool {
     sLogger.info(" - number of reducers: " + numberOfReducers);
 
     JobConf conf = new JobConf(ParseCorpus.class);
+    conf.setJarByClass(ParseCorpus.class);
     conf.setJobName(ParseCorpus.class.getSimpleName() + " - tokenize document");
     FileSystem fs = FileSystem.get(conf);
 
