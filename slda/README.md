@@ -39,6 +39,11 @@ To tokenize, parse and index the raw text file, please run either the following 
     hadoop jar Mr.LDA.jar cc.mrlda.ParseCorpus -input /hadoop/raw/text/input/directory -output /hadoop/index/document/output/directory
     hadoop jar Mr.LDA.jar cc.mrlda.ParseCorpus -input /hadoop/raw/text/input/directory -output /hadoop/index/document/output/directory -mapper 10 -reducer 4
 
+*** SLDA ***
+	etc/hadoop-local.sh slda.jar cc.mrlda.ParseCorpus -input /path_to_corpus.txt -output /path_to_output
+	etc/hadoop-cluster.sh slda.jar cc.mrlda.ParseCorpus -input /path_to_corpus.txt -output /path_to_output -mapper 10 -reducer 5
+	*Note* Remember to set the number of mappers and reducers for small cluster(defaults are 100).
+
 To print the help information and usage hints, please run the following command
 
     hadoop jar Mr.LDA.jar cc.mrlda.ParseCorpus -help
