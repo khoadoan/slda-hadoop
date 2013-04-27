@@ -1,0 +1,11 @@
+Here is how to extract dense sift feature from a single image.
+
+1) Create a new object of class ExtractDenseSiftFromImage and specify the file path and 
+   the step size in the constructor parameter.
+2) From the object, call getExtractedFeatures() method and it will return a 2D array of 
+   size [number of patches] * [number of feature].
+
+Example:
+
+float[][] extractedSiftFeatures = 
+            new ExtractDenseSiftFromImage(filePath, 16).getExtractedFeatures();
