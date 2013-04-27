@@ -10,6 +10,7 @@
   <property name="javadoc.dir" location="docs/api/" />
   <property name="bin.dir" location="bin" />
 
+  <property name="artifactId" value="slda" />
   <property name="version" value="0.0.1"/>
 
   <!-- paths used for compilation and run  -->
@@ -20,6 +21,11 @@
     <path refid="lib.path.id" />
     <path location="${build.dir}" />
   </path>
+  <path id="libjars.path.id">
+    <path refid="lib.path.id" />
+    <path location="${build.dir}" />
+  </path>
+	
 
   <property name="ivy.install.version" value="2.2.0"/>
   <property name="ivy.jar.dir" value="${basedir}/ivy"/>
@@ -96,10 +102,10 @@
 	  </target>
 	
   <target name="jar" depends="compile" description="generate the distribution">
-      <jar jarfile="${dist.dir}/mrlda-${version}.jar" basedir="${build.dir}" />
+      <jar jarfile="${dist.dir}/${artifactId}-${version}.jar" basedir="${build.dir}" />
   </target>
   <target name="jaro" depends="compileo" description="generate the distribution">
-      <jar jarfile="${dist.dir}/mrlda-${version}.jar" basedir="${build.dir}" />
+      <jar jarfile="${dist.dir}/${artifactId}-${version}.jar" basedir="${build.dir}" />
 	  <zip destfile="${dist.dir}/slda-${version}.jar">
 	  	<zipgroupfileset dir="${lib.dir}" includes="*.jar" />
 	  	<zipgroupfileset dir="${dist.dir}" includes="*.jar" />
@@ -113,8 +119,8 @@
   </target>
 
   <target name="dist" depends="jar,javadoc" description="generate the distribution">
-    <jar jarfile="${dist.dir}/mrlda-${version}-sources.jar" basedir="${src.dir}" />
-    <jar jarfile="${dist.dir}/mrlda-${version}-javadoc.jar" basedir="${javadoc.dir}" />
+    <jar jarfile="${dist.dir}/${artifactId}-${version}-sources.jar" basedir="${src.dir}" />
+    <jar jarfile="${dist.dir}/${artifactId}-${version}-javadoc.jar" basedir="${javadoc.dir}" />
   </target>
 
   <target name="clean" description="clean up">
@@ -163,7 +169,9 @@
 
   <target name="scripts" depends="jar">
     <pathconvert property="run.path.id" refid="run.path.id" targetos="${platform}" />
-
+  	<pathconvert property="lib.path.id" refid="lib.path.id" targetos="${platform}" />
+  	<pathconvert property="libjars.path.id" refid="libjars.path.id" targetos="${platform}" pathsep="," />
+  	
     <condition property="suffix" value="sh">
       <equals arg1="${platform}" arg2="unix" />
     </condition>
@@ -208,7 +216,15 @@
     <echo file="./etc/run.${suffix}" message="${script_prefix}" />
     <echo file="./etc/run.${suffix}" message="${java_command} " append="true" />
     <echo file="./etc/run.${suffix}" message="${param_prefix}1 ${param_prefix}2 ${param_prefix}3 ${param_prefix}4 ${param_prefix}5 ${param_prefix}6 ${param_prefix}7 ${param_prefix}8 ${param_prefix}9" append="true" />
-
+	
+	<!-- Hadoop Stuffs -->  	
+  	<property name="script_prefix" value="#!/bin/sh${line.separator}export HADOOP_CLASSPATH=&quot;${run.path.id}:$HADOOP_CLASSPATH&quot;${line.separator}" />
+  	<echo file="./etc/hadoop-local.${suffix}" message="${script_prefix}" />
+    <echo file="./etc/hadoop-local.${suffix}" message="hadoop jar ${basedir}/${dist.dir}/${artifactId}-${version}.jar ${param_prefix}1 -D mapreduce.framework.name=local -D mapreduce.jobtracker.address=local -D fs.default.name=file:/// -D mapreduce.cluster.local.dir=/tmp/mapred/local -D mapreduce.cluster.temp.dir=/tmp/mapred/temp -D mapreduce.jobtracker.staging.root.dir=/tmp/mapred/staging -D mapreduce.jobtracker.system.dir=/tmp/mapred/system ${param_prefix}2 ${param_prefix}3 ${param_prefix}4 ${param_prefix}5 ${param_prefix}6 ${param_prefix}7 ${param_prefix}8 ${param_prefix}9 ${param_prefix}{10} ${param_prefix}{11} ${param_prefix}{12} ${param_prefix}{13} ${param_prefix}{14} ${param_prefix}{15} ${param_prefix}{16} ${param_prefix}{17} ${param_prefix}{18} ${param_prefix}{19} ${param_prefix}{20}${line.separator}" append="true" />
+	
+    <echo file="./etc/hadoop-cluster.${suffix}" message="${script_prefix}" />
+    <echo file="./etc/hadoop-cluster.${suffix}" message="hadoop jar ${basedir}/${dist.dir}/${artifactId}-${version}.jar ${param_prefix}1 -libjars ${libjars.path.id} ${param_prefix}2 ${param_prefix}3 ${param_prefix}4 ${param_prefix}5 ${param_prefix}6 ${param_prefix}7 ${param_prefix}8 ${param_prefix}9 ${param_prefix}{10} ${param_prefix}{11} ${param_prefix}{12} ${param_prefix}{13} ${param_prefix}{14} ${param_prefix}{15} ${param_prefix}{16} ${param_prefix}{17} ${param_prefix}{18} ${param_prefix}{19} ${param_prefix}{20}${line.separator}" append="true" />
+  	<chmod dir="./etc/" perm="ugo+rx" includes="**/*.sh"/>
   </target>
 	
 </project>
