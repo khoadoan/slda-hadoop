@@ -60,7 +60,7 @@
   </target>
 
   <target name="resolve" depends="install-ivy" description="--> retreive dependencies with ivy">
-	  <ivy:retrieve />
+    <ivy:retrieve/>
   </target>
 
   <target name="report" depends="resolve" description="--> generates a report of dependencies">
