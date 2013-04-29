@@ -1,0 +1,9 @@
+/build/
+/dist/
+/lib/
+/bin/
+/corpus/
+/docs/
+ivy/ivy.jar
+etc/*.sh
+etc/*.bat
