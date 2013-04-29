@@ -8,6 +8,9 @@
       <ibiblio name="cloudera" m2compatible="true" root="https://repository.cloudera.com/artifactory/cloudera-repos/"/>
       <ibiblio name="bliki" m2compatible="true" root="http://gwtwiki.googlecode.com/svn/maven-repository/"/>
       <ibiblio name="opennlp" m2compatible="true" root="http://opennlp.sourceforge.net/maven2/"/>
+	  <ibiblio name="imagej" m2compatible="true" root="http://code.imagej.net/maven2/releases/"/>
+	  <ibiblio name="imagej" m2compatible="true" root="http://code.imagej.net/maven2/snapshots/"/>
+	  <ibiblio name="imagej" m2compatible="true" root="http://code.imagej.net/maven2/thirdparty/"/>
 
       <filesystem name="libraries">
         <artifact pattern="${basedir}/ivy/local-repo/[artifact]-[revision].[ext]" />
