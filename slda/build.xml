@@ -106,10 +106,6 @@
   </target>
   <target name="jaro" depends="compileo" description="generate the distribution">
       <jar jarfile="${dist.dir}/${artifactId}-${version}.jar" basedir="${build.dir}" />
-	  <zip destfile="${dist.dir}/slda-${version}.jar">
-	  	<zipgroupfileset dir="${lib.dir}" includes="*.jar" />
-	  	<zipgroupfileset dir="${dist.dir}" includes="*.jar" />
-	  </zip>
   </target>
 
   <target name="export" depends="compile" description="generate Jar with all libs">

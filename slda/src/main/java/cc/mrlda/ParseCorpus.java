@@ -20,27 +20,24 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.tools.GetConf;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.Counters;
-import org.apache.hadoop.mapred.FileInputFormat;
-import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reducer;
-import org.apache.hadoop.mapred.Reporter;
-import org.apache.hadoop.mapred.RunningJob;
-import org.apache.hadoop.mapred.SequenceFileInputFormat;
-import org.apache.hadoop.mapred.SequenceFileOutputFormat;
-import org.apache.hadoop.mapred.TextInputFormat;
-import org.apache.hadoop.mapred.lib.MultipleOutputs;
+import org.apache.hadoop.mapreduce.Counters;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
@@ -48,6 +45,8 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.util.Version;
+
+import utils.HadoopUtils;
 
 import com.google.common.base.Preconditions;
 
@@ -81,6 +80,9 @@ public class ParseCorpus extends Configured implements Tool {
 
   @SuppressWarnings("unchecked")
   public int run(String[] args) throws Exception {
+    
+//    HadoopUtils.printConfiguration(getConf());
+    
     Options options = new Options();
 
     options.addOption(Settings.HELP_OPTION, false, "print the help message");
@@ -188,7 +190,7 @@ public class ParseCorpus extends Configured implements Tool {
     String indexPath = outputPath + INDEX;
 
     // Delete the output directory if it exists already
-    FileSystem fs = FileSystem.get(new JobConf(ParseCorpus.class));
+    FileSystem fs = FileSystem.get(getConf());
     fs.delete(new Path(outputPath), true);
 
     try {
@@ -218,7 +220,7 @@ public class ParseCorpus extends Configured implements Tool {
     return 0;
   }
 
-  public static class TokenizeMapper extends MapReduceBase implements
+  public static class TokenizeMapper extends
       Mapper<LongWritable, Text, Text, PairOfInts> {
     private Text term = new Text();
     private PairOfInts counts = new PairOfInts();
@@ -234,15 +236,18 @@ public class ParseCorpus extends Configured implements Tool {
     private HMapSIW docContent = null;
     private Iterator<String> itr = null;
     private String temp = null;
-
-    @SuppressWarnings("deprecation")
-    public void map(LongWritable key, Text value, OutputCollector<Text, PairOfInts> output,
-        Reporter reporter) throws IOException {
-      if (outputDocument == null) {
-        outputDocument = multipleOutputs.getCollector(DOCUMENT, DOCUMENT, reporter);
-        outputTitle = multipleOutputs.getCollector(TITLE, TITLE, reporter);
-      }
-
+    @Override
+    protected void setup(Context context) throws IOException,
+        InterruptedException {
+      multipleOutputs = new MultipleOutputs(context);
+    }
+    
+    /* (non-Javadoc)
+     * Count frequencies of each term: (document_frequency, term_frequency)
+     * @see org.apache.hadoop.mapreduce.Mapper#map(KEYIN, VALUEIN, org.apache.hadoop.mapreduce.Mapper.Context)
+     */
+    @Override
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
       temp = value.toString();
       int index = temp.indexOf(Settings.TAB);
       docTitle.set(temp.substring(0, index).trim());
@@ -250,74 +255,87 @@ public class ParseCorpus extends Configured implements Tool {
       stream = standardAnalyzer.tokenStream("contents,",
           new StringReader(temp.substring(index + 1)));
       TermAttribute termAttribute = stream.addAttribute(TermAttribute.class);
+      
+      //Walk thru the stream of tokens until the end. Increment each term's frequency.
       while (stream.incrementToken()) {
-        docContent.increment(termAttribute.term());
+        String term = termAttribute.term();
+        docContent.increment(term);
       }
-      outputTitle.collect(docTitle, NullWritable.get());
-      outputDocument.collect(docTitle, docContent);
+      
+      multipleOutputs.write(TITLE, docTitle, NullWritable.get());
+      multipleOutputs.write(DOCUMENT, docTitle, docContent);
 
       itr = docContent.keySet().iterator();
       while (itr.hasNext()) {
         temp = itr.next();
         term.set(temp);
         counts.set(1, docContent.get(temp));
-        output.collect(term, counts);
+        context.write(term, counts);
       }
-
-      reporter.incrCounter(MyCounter.TOTAL_DOCS, 1);
+      
+      context.getCounter(MyCounter.TOTAL_DOCS).increment(1);       
     }
 
-    public void configure(JobConf conf) {
-      multipleOutputs = new MultipleOutputs(conf);
-    }
-
-    public void close() throws IOException {
+    @Override
+    protected void cleanup(Context context) throws IOException,
+        InterruptedException {
       multipleOutputs.close();
     }
   }
 
-  public static class TokenizeCombiner extends MapReduceBase implements
-      Reducer<Text, PairOfInts, Text, PairOfInts> {
+  public static class TokenizeCombiner extends Reducer<Text, PairOfInts, Text, PairOfInts> {
     private PairOfInts counts = new PairOfInts();
 
-    public void reduce(Text key, Iterator<PairOfInts> values,
-        OutputCollector<Text, PairOfInts> output, Reporter reporter) throws IOException {
+    @Override
+    public void reduce(Text key, Iterable<PairOfInts> values, Context context) throws IOException, InterruptedException {
       int documentFrequency = 0;
       int termFrequency = 0;
 
-      while (values.hasNext()) {
-        counts = values.next();
+      while (values.iterator().hasNext()) {
+        counts = values.iterator().next();
         documentFrequency += counts.getLeftElement();
         termFrequency += counts.getRightElement();
       }
 
       counts.set(documentFrequency, termFrequency);
-      output.collect(key, counts);
+      context.write(key, counts);
     }
   }
 
-  public static class TokenizeReducer extends MapReduceBase implements
+  public static class TokenizeReducer extends
       Reducer<Text, PairOfInts, Text, PairOfInts> {
     private PairOfInts counts = new PairOfInts();
-
-    public void reduce(Text key, Iterator<PairOfInts> values,
-        OutputCollector<Text, PairOfInts> output, Reporter reporter) throws IOException {
+    
+    @Override
+    public void reduce(Text key, Iterable<PairOfInts> values,
+        Context context) throws IOException, InterruptedException {
       int documentFrequency = 0;
       int termFrequency = 0;
 
-      while (values.hasNext()) {
-        counts = values.next();
+      while (values.iterator().hasNext()) {
+        counts = values.iterator().next();
         documentFrequency += counts.getLeftElement();
         termFrequency += counts.getRightElement();
       }
 
       counts.set(documentFrequency, termFrequency);
-      output.collect(key, counts);
+      context.write(key, counts);
 
-      reporter.incrCounter(MyCounter.TOTAL_TERMS, 1);
+      context.getCounter(MyCounter.TOTAL_TERMS).increment(1);
     }
   }
 
+  /**
+   * Count frequencies for each term: (document_frequency, term_frequency).
+   * Also, write out document:(doc_title,doc_content) and title(doc_title,null)
+   * using MultipleOutputs in mappers.
+   * @param inputPath
+   * @param outputPath
+   * @param numberOfMappers
+   * @param numberOfReducers
+   * @return
+   * @throws Exception
+   */
   public PairOfInts tokenizeDocument(String inputPath, String outputPath, int numberOfMappers,
       int numberOfReducers) throws Exception {
     sLogger.info("Tool: " + ParseCorpus.class.getSimpleName());
@@ -326,128 +344,150 @@ public class ParseCorpus extends Configured implements Tool {
     sLogger.info(" - number of mappers: " + numberOfMappers);
     sLogger.info(" - number of reducers: " + numberOfReducers);
 
-    JobConf conf = new JobConf(ParseCorpus.class);
-    conf.setJobName(ParseCorpus.class.getSimpleName() + " - tokenize document");
-    FileSystem fs = FileSystem.get(conf);
-
-    MultipleOutputs.addMultiNamedOutput(conf, DOCUMENT, SequenceFileOutputFormat.class, Text.class,
+    Job job1 = Job.getInstance(getConf());
+    
+    job1.setJobName(ParseCorpus.class.getSimpleName() + " - tokenize document");
+    FileSystem fs = FileSystem.get(getConf());
+    
+    MultipleOutputs.addNamedOutput(job1, DOCUMENT, SequenceFileOutputFormat.class, Text.class,
         HMapSIW.class);
-    MultipleOutputs.addMultiNamedOutput(conf, TITLE, SequenceFileOutputFormat.class, Text.class,
+    MultipleOutputs.addNamedOutput(job1, TITLE, SequenceFileOutputFormat.class, Text.class,
         NullWritable.class);
 
-    conf.setNumMapTasks(numberOfMappers);
-    conf.setNumReduceTasks(numberOfReducers);
+    job1.setNumReduceTasks(numberOfReducers);
 
-    conf.setMapperClass(TokenizeMapper.class);
-    conf.setReducerClass(TokenizeReducer.class);
-    conf.setCombinerClass(TokenizeCombiner.class);
+    job1.setMapperClass(TokenizeMapper.class);
+    job1.setCombinerClass(TokenizeCombiner.class);
+    job1.setReducerClass(TokenizeReducer.class);
 
-    conf.setMapOutputKeyClass(Text.class);
-    conf.setMapOutputValueClass(PairOfInts.class);
-    conf.setOutputKeyClass(Text.class);
-    conf.setOutputValueClass(PairOfInts.class);
+    job1.setMapOutputKeyClass(Text.class);
+    job1.setMapOutputValueClass(PairOfInts.class);
+    job1.setOutputKeyClass(Text.class);
+    job1.setOutputValueClass(PairOfInts.class);
 
-    conf.setInputFormat(TextInputFormat.class);
-    conf.setOutputFormat(SequenceFileOutputFormat.class);
+    job1.setInputFormatClass(TextInputFormat.class);
+    job1.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    FileInputFormat.setInputPaths(conf, new Path(inputPath));
-    FileOutputFormat.setOutputPath(conf, new Path(outputPath));
-    FileOutputFormat.setCompressOutput(conf, true);
+    FileInputFormat.setInputPaths(job1, new Path(inputPath));
+    FileOutputFormat.setOutputPath(job1, new Path(outputPath));
+    FileOutputFormat.setCompressOutput(job1, true);
 
     long startTime = System.currentTimeMillis();
-    RunningJob job = JobClient.runJob(conf);
+
+    job1.waitForCompletion(true);
+
     sLogger.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0
         + " seconds");
 
-    Counters counters = job.getCounters();
-    int documentCount = (int) counters.findCounter(MyCounter.TOTAL_DOCS).getCounter();
+    Counters counters = job1.getCounters();
+    int documentCount = (int) counters.findCounter(MyCounter.TOTAL_DOCS).getValue();
     sLogger.info("Total number of documents is: " + documentCount);
 
-    int termCount = (int) counters.findCounter(MyCounter.TOTAL_TERMS).getCounter();
+    int termCount = (int) counters.findCounter(MyCounter.TOTAL_TERMS).getValue();
     sLogger.info("Total number of terms is: " + termCount);
 
     return new PairOfInts(documentCount, termCount);
   }
 
+  /**
+   * Index titles, auto-increments by 1
+   * @param inputTitles
+   * @param outputTitle
+   * @param numberOfMappers
+   * @return
+   * @throws Exception
+   */
   public Path indexTitle(String inputTitles, String outputTitle, int numberOfMappers)
       throws Exception {
-    JobConf conf = new JobConf(ParseCorpus.class);
-    FileSystem fs = FileSystem.get(conf);
+    Job job1 = Job.getInstance(getConf(), ParseCorpus.class.getSimpleName());
+    FileSystem fs = FileSystem.get(getConf());
 
-    Path titleIndexPath = new Path(outputTitle);
+    Path outputTitleIndexPath = new Path(outputTitle);
 
-    String outputTitleFile = titleIndexPath.getParent() + Path.SEPARATOR + Settings.TEMP;
-    Path titlePath = FileMerger.mergeSequenceFiles(conf, inputTitles, outputTitleFile, numberOfMappers,
+    String tempOutputTitleFile = outputTitleIndexPath.getParent() + Path.SEPARATOR + Settings.TEMP;
+    Path titlePath = FileMerger.mergeSequenceFiles(getConf(), inputTitles, tempOutputTitleFile, numberOfMappers,
         Text.class, NullWritable.class, true);
 
     SequenceFile.Reader sequenceFileReader = null;
     SequenceFile.Writer sequenceFileWriter = null;
-    fs.createNewFile(titleIndexPath);
+    fs.createNewFile(outputTitleIndexPath);
     try {
-      sequenceFileReader = new SequenceFile.Reader(fs, titlePath, conf);
-      sequenceFileWriter = new SequenceFile.Writer(fs, conf, titleIndexPath, IntWritable.class,
+      sequenceFileReader = new SequenceFile.Reader(fs, titlePath, getConf());
+      sequenceFileWriter = new SequenceFile.Writer(fs, getConf(), outputTitleIndexPath, IntWritable.class,
           Text.class);
       exportTitles(sequenceFileReader, sequenceFileWriter);
-      sLogger.info("Successfully index all the titles to " + titleIndexPath);
+      sLogger.info("Successfully index all the titles to " + outputTitleIndexPath);
     } finally {
       IOUtils.closeStream(sequenceFileReader);
       IOUtils.closeStream(sequenceFileWriter);
-      fs.delete(new Path(outputTitleFile), true);
+      fs.delete(new Path(tempOutputTitleFile), true);
     }
 
-    return titleIndexPath;
+    return outputTitleIndexPath;
   }
 
-  public static class IndexTermMapper extends MapReduceBase implements
+  public static class IndexTermMapper extends
       Mapper<Text, PairOfInts, PairOfInts, Text> {
     float minimumDocumentCount = 0;
     float maximumDocumentCount = Float.MAX_VALUE;
 
-    @SuppressWarnings("deprecation")
-    public void map(Text key, PairOfInts value, OutputCollector<PairOfInts, Text> output,
-        Reporter reporter) throws IOException {
+    @Override
+    protected void setup(Context context) throws IOException,
+        InterruptedException {
+      minimumDocumentCount = context.getConfiguration().getFloat("corpus.minimum.document.count", 0);
+      maximumDocumentCount = context.getConfiguration().getFloat("corpus.maximum.document.count", Float.MAX_VALUE);
+    }
+    
+    @Override
+    public void map(Text key, PairOfInts value, Context context) throws IOException, InterruptedException {
       if (value.getLeftElement() <= minimumDocumentCount) {
-        reporter.incrCounter(MyCounter.LOW_DOCUMENT_FREQUENCY_TERMS, 1);
+        context.getCounter(MyCounter.LOW_DOCUMENT_FREQUENCY_TERMS).increment(1);
         return;
       }
       if (value.getLeftElement() >= maximumDocumentCount) {
-        reporter.incrCounter(MyCounter.HIGH_DOCUMENT_FREQUENCY_TERMS, 1);
+        context.getCounter(MyCounter.HIGH_DOCUMENT_FREQUENCY_TERMS).increment(1);
         return;
       }
       value.set(-value.getLeftElement(), -value.getRightElement());
-      output.collect(value, key);
-    }
-
-    public void configure(JobConf conf) {
-      minimumDocumentCount = conf.getFloat("corpus.minimum.document.count", 0);
-      maximumDocumentCount = conf.getFloat("corpus.maximum.document.count", Float.MAX_VALUE);
+      context.write(value, key);
     }
   }
 
-  public static class IndexTermReducer extends MapReduceBase implements
+  public static class IndexTermReducer extends 
       Reducer<PairOfInts, Text, IntWritable, Text> {
     private IntWritable intWritable = new IntWritable();
     private int index = 0;
 
-    @SuppressWarnings("deprecation")
-    public void reduce(PairOfInts key, Iterator<Text> values,
-        OutputCollector<IntWritable, Text> output, Reporter reporter) throws IOException {
-      while (values.hasNext()) {
+    @Override
+    public void reduce(PairOfInts key, Iterable<Text> values,
+        Context context) throws IOException, InterruptedException {
+      while (values.iterator().hasNext()) {
         index++;
         intWritable.set(index);
-        reporter.incrCounter(MyCounter.LEFT_OVER_TERMS, 1);
-        output.collect(intWritable, values.next());
+        context.getCounter(MyCounter.LEFT_OVER_TERMS).increment(1);
+        context.write(intWritable, values.iterator().next());
       }
     }
   }
 
+  /**
+   * Reduce the dictionary size to terms (words) with document frequency within a range.
+   * Also assign auto-increment indices to the remaining terms. 
+   * @param inputTerms
+   * @param outputTerm
+   * @param numberOfMappers
+   * @param minimumDocumentCount
+   * @param maximumDocumentCount
+   * @return
+   * @throws Exception
+   */
   public Path indexTerm(String inputTerms, String outputTerm, int numberOfMappers,
       float minimumDocumentCount, float maximumDocumentCount) throws Exception {
     Path inputTermFiles = new Path(inputTerms);
     Path outputTermFile = new Path(outputTerm);
 
-    JobConf conf = new JobConf(ParseCorpus.class);
-    FileSystem fs = FileSystem.get(conf);
+    Job job1 = Job.getInstance(getConf(), ParseCorpus.class.getSimpleName());
+    FileSystem fs = FileSystem.get(getConf());
 
     sLogger.info("Tool: " + ParseCorpus.class.getSimpleName());
     sLogger.info(" - input path: " + inputTermFiles);
@@ -457,51 +497,52 @@ public class ParseCorpus extends Configured implements Tool {
     sLogger.info(" - minimum document count: " + minimumDocumentCount);
     sLogger.info(" - maximum document count: " + maximumDocumentCount);
 
-    conf.setJobName(ParseCorpus.class.getSimpleName() + " - index term");
+    job1.setJobName(ParseCorpus.class.getSimpleName() + " - index term");
 
-    conf.setNumMapTasks(numberOfMappers);
-    conf.setNumReduceTasks(1);
-    conf.setMapperClass(IndexTermMapper.class);
-    conf.setReducerClass(IndexTermReducer.class);
+    job1.setNumReduceTasks(1);
+    job1.setMapperClass(IndexTermMapper.class);
+    job1.setReducerClass(IndexTermReducer.class);
 
-    conf.setMapOutputKeyClass(PairOfInts.class);
-    conf.setMapOutputValueClass(Text.class);
-    conf.setOutputKeyClass(IntWritable.class);
-    conf.setOutputValueClass(Text.class);
+    job1.setMapOutputKeyClass(PairOfInts.class);
+    job1.setMapOutputValueClass(Text.class);
+    job1.setOutputKeyClass(IntWritable.class);
+    job1.setOutputValueClass(Text.class);
 
-    conf.setInputFormat(SequenceFileInputFormat.class);
-    conf.setOutputFormat(SequenceFileOutputFormat.class);
+    job1.setInputFormatClass(SequenceFileInputFormat.class);
+    job1.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    conf.setFloat("corpus.minimum.document.count", minimumDocumentCount);
-    conf.setFloat("corpus.maximum.document.count", maximumDocumentCount);
+    getConf().setFloat("corpus.minimum.document.count", minimumDocumentCount);
+    getConf().setFloat("corpus.maximum.document.count", maximumDocumentCount);
 
     String outputString = outputTermFile.getParent() + Path.SEPARATOR + Settings.TEMP;
     Path outputPath = new Path(outputString);
     fs.delete(outputPath, true);
 
-    FileInputFormat.setInputPaths(conf, inputTermFiles);
-    FileOutputFormat.setOutputPath(conf, outputPath);
-    FileOutputFormat.setCompressOutput(conf, true);
+    FileInputFormat.setInputPaths(job1, inputTermFiles);
+    FileOutputFormat.setOutputPath(job1, outputPath);
+    FileOutputFormat.setCompressOutput(job1, true);
 
     try {
       long startTime = System.currentTimeMillis();
-      RunningJob job = JobClient.runJob(conf);
+      job1.waitForCompletion(true);
       sLogger.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0
           + " seconds");
 
-      fs.rename(new Path(outputString + Path.SEPARATOR + "part-00000"), outputTermFile);
-      sLogger.info("Successfully index all the terms at " + outputTermFile);
+      fs.rename(new Path(outputString + Path.SEPARATOR + "part-r-00000"), outputTermFile);
+      sLogger.info(String.format("[Rename %s -> %s] Successfully index all the terms at " + outputTermFile, 
+          outputString + Path.SEPARATOR + "part-r-00000",
+          outputTermFile));
 
-      Counters counters = job.getCounters();
+      Counters counters = job1.getCounters();
       int lowDocumentFrequencyTerms = (int) counters.findCounter(
-          MyCounter.LOW_DOCUMENT_FREQUENCY_TERMS).getCounter();
+          MyCounter.LOW_DOCUMENT_FREQUENCY_TERMS).getValue();
       sLogger.info("Removed " + lowDocumentFrequencyTerms + " low frequency terms.");
 
       int highDocumentFrequencyTerms = (int) counters.findCounter(
-          MyCounter.HIGH_DOCUMENT_FREQUENCY_TERMS).getCounter();
+          MyCounter.HIGH_DOCUMENT_FREQUENCY_TERMS).getValue();
       sLogger.info("Removed " + highDocumentFrequencyTerms + " high frequency terms.");
 
-      int leftOverTerms = (int) counters.findCounter(MyCounter.LEFT_OVER_TERMS).getCounter();
+      int leftOverTerms = (int) counters.findCounter(MyCounter.LEFT_OVER_TERMS).getValue();
       sLogger.info("Total number of left-over terms: " + leftOverTerms);
     } finally {
       fs.delete(outputPath, true);
@@ -510,7 +551,7 @@ public class ParseCorpus extends Configured implements Tool {
     return outputTermFile;
   }
 
-  public static class IndexDocumentMapper extends MapReduceBase implements
+  public static class IndexDocumentMapper extends 
       Mapper<Text, HMapSIW, IntWritable, Document> {
     private static Map<String, Integer> termIndex = null;
     private static Map<String, Integer> titleIndex = null;
@@ -522,37 +563,14 @@ public class ParseCorpus extends Configured implements Tool {
     private Iterator<String> itr = null;
     private String temp = null;
 
-    @SuppressWarnings("deprecation")
-    public void map(Text key, HMapSIW value, OutputCollector<IntWritable, Document> output,
-        Reporter reporter) throws IOException {
-      Preconditions.checkArgument(titleIndex.containsKey(key.toString()),
-          "How embarrassing! Could not find title " + temp + " in index...");
-      content.clear();
-      itr = value.keySet().iterator();
-      while (itr.hasNext()) {
-        temp = itr.next();
-        // Preconditions.checkArgument(termIndex.containsKey(temp),
-        // "How embarrassing! Could not find term " + temp + " in index...");
-        if (termIndex.containsKey(temp)) {
-          content.put(termIndex.get(temp), value.get(temp));
-        }
-      }
-
-      if (content.size() == 0) {
-        reporter.incrCounter(MyCounter.COLLAPSED_DOCUMENTS, 1);
-        return;
-      }
-
-      reporter.incrCounter(MyCounter.LEFT_OVER_DOCUMENTS, 1);
-      index.set(titleIndex.get(key.toString()));
-      document.setDocument(content);
-      output.collect(index, document);
-    }
-
-    public void configure(JobConf conf) {
+    @Override
+    protected void setup(Context context) throws IOException,
+        InterruptedException {
       SequenceFile.Reader sequenceFileReader = null;
       try {
+        Configuration conf = context.getConfiguration();
         Path[] inputFiles = DistributedCache.getLocalCacheFiles(conf);
+        
         // TODO: check for the missing columns...
         if (inputFiles != null) {
           for (Path path : inputFiles) {
@@ -563,8 +581,7 @@ public class ParseCorpus extends Configured implements Tool {
                 Preconditions.checkArgument(termIndex == null,
                     "Term index was initialized already...");
                 termIndex = ParseCorpus.importParameter(sequenceFileReader);
-              }
-              if (path.getName().startsWith(TITLE)) {
+              } else if (path.getName().startsWith(TITLE)) {
                 Preconditions.checkArgument(titleIndex == null,
                     "Title index was initialized already...");
                 titleIndex = ParseCorpus.importParameter(sequenceFileReader);
@@ -585,6 +602,33 @@ public class ParseCorpus extends Configured implements Tool {
         IOUtils.closeStream(sequenceFileReader);
       }
     }
+    
+    @Override
+    public void map(Text key, HMapSIW value, Context context) throws IOException, InterruptedException {
+//      Preconditions.checkArgument(titleIndex.containsKey(key.toString()),
+//          "How embarrassing! Could not find title " + temp + " in index...");
+      content.clear();
+      itr = value.keySet().iterator();
+      while (itr.hasNext()) {
+        temp = itr.next();
+        // Preconditions.checkArgument(termIndex.containsKey(temp),
+        // "How embarrassing! Could not find term " + temp + " in index...");
+        if (termIndex.containsKey(temp)) {
+          content.put(termIndex.get(temp), value.get(temp));
+        }
+      }
+
+      if (content.size() == 0) {
+        context.getCounter(MyCounter.COLLAPSED_DOCUMENTS).increment(1);
+        return;
+      }
+
+      context.getCounter(MyCounter.LEFT_OVER_DOCUMENTS).increment(1);
+      index.set(titleIndex.get(key.toString()));
+      document.setDocument(content);
+      context.write(index, document);
+    }
+
   }
 
   public Path indexDocument(String inputDocument, String outputDocument, String termIndex,
@@ -593,8 +637,8 @@ public class ParseCorpus extends Configured implements Tool {
     Path outputDocumentFiles = new Path(outputDocument);
     Path termIndexPath = new Path(termIndex);
     Path titleIndexPath = new Path(titleIndex);
-
-    JobConf conf = new JobConf(ParseCorpus.class);
+    Configuration conf = getConf();
+    Job job1 = Job.getInstance(conf, ParseCorpus.class.getSimpleName());
     FileSystem fs = FileSystem.get(conf);
 
     sLogger.info("Tool: " + ParseCorpus.class.getSimpleName());
@@ -605,45 +649,52 @@ public class ParseCorpus extends Configured implements Tool {
     sLogger.info(" - number of mappers: " + numberOfMappers);
     sLogger.info(" - number of reducers: " + 0);
 
-    conf.setJobName(ParseCorpus.class.getSimpleName() + " - index document");
+    job1.setJobName(ParseCorpus.class.getSimpleName() + " - index document");
 
+    //cannot use getConf() here, have to use job1.getConfiguration()
     Preconditions.checkArgument(fs.exists(termIndexPath), "Missing term index files...");
-    DistributedCache.addCacheFile(termIndexPath.toUri(), conf);
+    DistributedCache.addCacheFile(termIndexPath.toUri(), job1.getConfiguration());
     Preconditions.checkArgument(fs.exists(titleIndexPath), "Missing title index files...");
-    DistributedCache.addCacheFile(titleIndexPath.toUri(), conf);
+    DistributedCache.addCacheFile(titleIndexPath.toUri(), job1.getConfiguration());
+        
+    job1.setNumReduceTasks(0);
+    job1.setMapperClass(IndexDocumentMapper.class);
 
-    conf.setNumMapTasks(numberOfMappers);
-    conf.setNumReduceTasks(0);
-    conf.setMapperClass(IndexDocumentMapper.class);
+    job1.setMapOutputKeyClass(IntWritable.class);
+    job1.setMapOutputValueClass(Document.class);
+    job1.setOutputKeyClass(IntWritable.class);
+    job1.setOutputValueClass(Document.class);
 
-    conf.setMapOutputKeyClass(IntWritable.class);
-    conf.setMapOutputValueClass(Document.class);
-    conf.setOutputKeyClass(IntWritable.class);
-    conf.setOutputValueClass(Document.class);
+    job1.setInputFormatClass(SequenceFileInputFormat.class);
+    job1.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    conf.setInputFormat(SequenceFileInputFormat.class);
-    conf.setOutputFormat(SequenceFileOutputFormat.class);
-
-    FileInputFormat.setInputPaths(conf, inputDocumentFiles);
-    FileOutputFormat.setOutputPath(conf, outputDocumentFiles);
-    FileOutputFormat.setCompressOutput(conf, false);
+    FileInputFormat.setInputPaths(job1, inputDocumentFiles);
+    FileOutputFormat.setOutputPath(job1, outputDocumentFiles);
+    FileOutputFormat.setCompressOutput(job1, false);
 
     long startTime = System.currentTimeMillis();
-    RunningJob job = JobClient.runJob(conf);
+    job1.waitForCompletion(true);
     sLogger.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0
         + " seconds");
     sLogger.info("Successfully index all the documents at " + outputDocumentFiles);
 
-    Counters counters = job.getCounters();
-    int collapsedDocuments = (int) counters.findCounter(MyCounter.COLLAPSED_DOCUMENTS).getCounter();
+    Counters counters = job1.getCounters();
+    int collapsedDocuments = (int) counters.findCounter(MyCounter.COLLAPSED_DOCUMENTS).getValue();
     sLogger.info("Total number of collapsed documnts: " + collapsedDocuments);
 
-    int leftOverDocuments = (int) counters.findCounter(MyCounter.LEFT_OVER_DOCUMENTS).getCounter();
+    int leftOverDocuments = (int) counters.findCounter(MyCounter.LEFT_OVER_DOCUMENTS).getValue();
     sLogger.info("Total number of left-over documents: " + leftOverDocuments);
 
     return outputDocumentFiles;
   }
 
+  /**
+   * Index titles: autoincrement numbers from 1.
+   * @param sequenceFileReader
+   * @param sequenceWriter
+   * @return
+   * @throws IOException
+   */
   public static int exportTitles(SequenceFile.Reader sequenceFileReader,
       SequenceFile.Writer sequenceWriter) throws IOException {
     Text text = new Text();
