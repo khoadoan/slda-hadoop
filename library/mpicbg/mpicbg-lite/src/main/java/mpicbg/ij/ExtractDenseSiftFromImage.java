@@ -4,6 +4,7 @@ import ij.ImagePlus;
 import ij.process.ImageProcessor;
 
 import java.awt.image.BufferedImage;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ public class ExtractDenseSiftFromImage {
 		
 	    // Load the image
 		try {
+			
 			BufferedImage input;
 			input = ImageIO.read(new File(filePath));
 			
-			ImagePlus iplus = new ImagePlus("test", input);
+			ImagePlus iplus = new ImagePlus("input", input);
 			
 			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
 			iplus.getProcessor().duplicate().convertToRGB();
@@ -35,12 +37,7 @@ public class ExtractDenseSiftFromImage {
 			ijSift.setStepSize(stepSize);
 			fs.clear();
 			
-			final long start_time = System.currentTimeMillis();
-			System.out.print( "processing SIFT ..." );
 			ijSift.extractFeatures( ip1, fs );
-			System.out.println( " took " + ( System.currentTimeMillis() - start_time ) + "ms" );
-			
-			System.out.println( fs.size() + " features identified and processed" );
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -49,17 +46,34 @@ public class ExtractDenseSiftFromImage {
 		
 	}
 	
-	public float[][] getExtractedFeatures() {
+    public ExtractDenseSiftFromImage(DataInputStream inStream, int stepSize) {
 		
-		float[][] features = new float[fs.size()][fs.get(0).descriptor.length];
-		
-		int count = 0;
-		for (final Feature f : fs) {
-			features[count] = f.descriptor;
-			count++;
+	    // Load the image
+		try {
+			
+			BufferedImage input;
+			input = ImageIO.read(inStream);
+			
+			ImagePlus iplus = new ImagePlus("input", input);
+			
+			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
+			iplus.getProcessor().duplicate().convertToRGB();
+			
+			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
+			ijSift.setStepSize(stepSize);
+			fs.clear();
+			
+			ijSift.extractFeatures( ip1, fs );
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		return features;
+	}
+	
+	public List<Feature> getExtractedFeatures() {
+		return fs;
 	}
 	
 }

@@ -116,11 +116,11 @@ public class TestRunSIFT {
 	@Test
 	public void testUsingExtractDenseSiftFromImage() {
 		
-		float[][] extractedSiftFeatures = 
+		List<Feature> extractedSiftFeatures = 
 				new ExtractDenseSiftFromImage("images/test03.bmp", 16).getExtractedFeatures();
 		
 		
-		Assert.assertTrue(extractedSiftFeatures.length != 0);
+		Assert.assertTrue(extractedSiftFeatures.size() != 0);
 	}
 
 }
