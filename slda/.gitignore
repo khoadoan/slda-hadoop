@@ -1,4 +1,10 @@
-/bin
-/corpus
-/dist
-/docs
+/bin/*
+/corpus/*
+/dist/*
+/docs/*
+/lib/*
+/run.log
+/build/*
+/ivy/ivy.jar
+/etc/*.sh
+/etc/*.bat
