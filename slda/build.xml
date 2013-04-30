@@ -109,7 +109,12 @@
   </target>
 
   <target name="export" depends="compile" description="generate Jar with all libs">
-      <jar jarfile="${bin.dir}/Mr.LDA-${version}.jar" basedir="${build.dir}">
+      <jar jarfile="${bin.dir}/${artifactId}-${version}.jar" basedir="${build.dir}">
+          <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+      </jar>
+  </target>
+<target name="exporto" description="generate Jar with all libs">
+      <jar jarfile="${bin.dir}/${artifactId}-${version}.jar" basedir="${build.dir}">
           <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
       </jar>
   </target>
