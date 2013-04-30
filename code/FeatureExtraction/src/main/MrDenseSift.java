@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +27,10 @@ import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.mahout.math.NamedVector;
+import org.apache.mahout.math.RandomAccessSparseVector;
+import org.apache.mahout.math.Vector;
+import org.apache.mahout.math.VectorWritable;
 
 import mpicbg.imagefeatures.Feature;
 
@@ -33,73 +38,50 @@ import cern.colt.Arrays;
 import edu.umd.cloud9.io.array.ArrayOfFloatsWritable;
 import edu.umd.cloud9.io.pair.PairOfFloats;
 import edu.umd.cloud9.io.pair.PairOfWritables;
+import edu.umd.cloud9.io.triple.TripleOfInts;
 
 public class MrDenseSift extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(MrDenseSift.class);
 
-  private static class MyMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
+  private static class MyMapper extends Mapper<LongWritable, Text, TripleOfInts, VectorWritable> {
+
+    // Reuse objects.
+    private final static PairOfFloats CENTER = new PairOfFloats();
+    private final static Text FILE_PATH = new Text();
+    private final static TripleOfInts KEY = new TripleOfInts();
+    private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
+    private static RandomAccessSparseVector VECTOR = new RandomAccessSparseVector(128);
 
     @Override
     public void map(LongWritable key, Text value, Context context) throws IOException,
         InterruptedException {
 
-      // just passing the key-value pair
-      context.write(key, value);
+      //
+      String[] str = value.toString().split("\t");
+      String filePath = str[0];
+      int id = Integer.parseInt(str[1]);
 
-    }
-  }
+      FSDataInputStream stream = FileSystem.get(context.getConfiguration())
+          .open(new Path(filePath));
 
-  // Reducer: sums up all the counts.
-  private static class MyReducer extends
-      Reducer<LongWritable, Text, PairOfWritables<Text, PairOfFloats>, ArrayOfFloatsWritable> {
+      List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, 16)
+          .getExtractedFeatures();
 
-    // Reuse objects.
-    private final static PairOfFloats CENTER = new PairOfFloats();
-    private final static Text FILE_PATH = new Text();
-    private final static PairOfWritables<Text, PairOfFloats> KEY = new PairOfWritables<Text, PairOfFloats>();
-    private final static ArrayOfFloatsWritable FEATURE_VECTOR = new ArrayOfFloatsWritable();
-    private FileSystem fs;
+      for (Feature f : extractedSiftFeatures) {
+        // float[] centerLocation = f.location;
+        // CENTER.set(centerLocation[0], centerLocation[1]);
+        // FILE_PATH.set(filePath);
+        KEY.set(id, (int) f.location[0], (int) f.location[1]);
+        if (f.descriptor.length != VECTOR.size())
+          VECTOR = new RandomAccessSparseVector(f.descriptor.length);
+        for (int i = 0; i < f.descriptor.length; ++i)
+          VECTOR.set(i, (double) f.descriptor[i]);
+        FEATURE_VECTOR.set(VECTOR);
 
-    @Override
-    public void setup(Context context) throws IOException {
-      Configuration conf = context.getConfiguration();
-
-      fs = FileSystem.get(conf);
-    }
-
-    @Override
-    public void reduce(LongWritable key, Iterable<Text> values, Context context)
-        throws IOException, InterruptedException {
-
-      // there is only one value for each group
-      Iterator<Text> iter = values.iterator();
-
-      try {
-        // take the value which is the file path and process the image
-        if (iter.hasNext()) {
-
-          String filePath = iter.next().toString();
-
-          FSDataInputStream stream = fs.open(new Path(filePath));
-
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, 16)
-              .getExtractedFeatures();
-
-          for (Feature f : extractedSiftFeatures) {
-            float[] centerLocation = f.location;
-            CENTER.set(centerLocation[0], centerLocation[1]);
-            FILE_PATH.set(filePath);
-            KEY.set(FILE_PATH, CENTER);
-            FEATURE_VECTOR.setArray(f.descriptor);
-
-            context.write(KEY, FEATURE_VECTOR);
-          }
-
-          stream.close();
-        }
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
+        context.write(KEY, FEATURE_VECTOR);
       }
+
+      stream.close();
     }
   }
 
@@ -111,7 +93,7 @@ public class MrDenseSift extends Configured implements Tool {
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
-  private static final String NUM_REDUCERS = "numReducers";
+  private static final String NUM_MAPPERS = "numMappers";
 
   /**
    * Runs this tool.
@@ -125,7 +107,7 @@ public class MrDenseSift extends Configured implements Tool {
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("output path")
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
-        .withDescription("number of reducers").create(NUM_REDUCERS));
+        .withDescription("number of mappers").create(NUM_MAPPERS));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -148,20 +130,20 @@ public class MrDenseSift extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
-    int reduceTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
-        .getOptionValue(NUM_REDUCERS)) : 1;
+    int mapTasks = cmdline.hasOption(NUM_MAPPERS) ? Integer.parseInt(cmdline
+        .getOptionValue(NUM_MAPPERS)) : 1;
 
     LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
-    LOG.info(" - number of reducers: " + reduceTasks);
+    LOG.info(" - number of mappers: " + mapTasks);
 
     Configuration conf = getConf();
     Job job = Job.getInstance(conf);
     job.setJobName(MrDenseSift.class.getSimpleName());
     job.setJarByClass(MrDenseSift.class);
 
-    job.setNumReduceTasks(reduceTasks);
+    job.setNumReduceTasks(0);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
@@ -172,11 +154,10 @@ public class MrDenseSift extends Configured implements Tool {
     job.setMapOutputKeyClass(LongWritable.class);
     job.setMapOutputValueClass(Text.class);
 
-    job.setOutputKeyClass(PairOfWritables.class);
-    job.setOutputValueClass(ArrayOfFloatsWritable.class);
+    job.setOutputKeyClass(TripleOfInts.class);
+    job.setOutputValueClass(VectorWritable.class);
 
     job.setMapperClass(MyMapper.class);
-    job.setReducerClass(MyReducer.class);
 
     // Delete the output directory if it exists already.
     Path outputDir = new Path(outputPath);

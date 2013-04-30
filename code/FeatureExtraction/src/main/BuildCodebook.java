@@ -39,154 +39,172 @@ import org.apache.mahout.utils.clustering.ClusterDumper;
 import cern.colt.Arrays;
 
 public class BuildCodebook extends Configured implements Tool {
-	private static final Logger LOG = Logger.getLogger(BuildCodebook.class);
+  private static final Logger LOG = Logger.getLogger(BuildCodebook.class);
 
-	public void TransformVectorsToSequence(Configuration conf,
-			String inputPath, String outputPath) throws IOException {
-		FileSystem fs = FileSystem.get(conf);
-		Path inPath = new Path(inputPath);
-		Path outPath = new Path(outputPath);
+  public void TransformVectorsToSequence(Configuration conf, String inputPath, String outputPath)
+      throws IOException {
+    FileSystem fs = FileSystem.get(conf);
+    Path inPath = new Path(inputPath);
+    Path outPath = new Path(outputPath);
 
-		SequenceFile.Writer writer = SequenceFile.createWriter(conf,
-				SequenceFile.Writer.file(outPath),
-				SequenceFile.Writer.keyClass(Text.class),
-				SequenceFile.Writer.valueClass(VectorWritable.class));
+    SequenceFile.Writer writer = SequenceFile.createWriter(conf, SequenceFile.Writer.file(outPath),
+        SequenceFile.Writer.keyClass(Text.class),
+        SequenceFile.Writer.valueClass(VectorWritable.class));
 
-		Text key = new Text();
-		VectorWritable value = new VectorWritable();
+    Text key = new Text();
+    VectorWritable value = new VectorWritable();
 
-		FSDataInputStream fdstream = fs.open(inPath);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				fdstream));
+    FSDataInputStream fdstream = fs.open(inPath);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(fdstream));
 
-		String line = "";
-		int id = 0;
-		while ((line = reader.readLine()) != null) {
-			StringTokenizer token = new StringTokenizer(line);
-			int numTokens = token.countTokens();
-			NamedVector vec = new NamedVector();
-			for (int i = 0; i < numTokens; ++i)
-				vec.setQuick(i, Double.parseDouble(token.nextToken()));
-			key.set(String.valueOf(++id));
-			value.set(vec);
-			writer.append(key, value);
-		}
-		writer.close();
-	}
+    String line = "";
+    int id = 0;
+    while ((line = reader.readLine()) != null) {
+      StringTokenizer token = new StringTokenizer(line);
+      int numTokens = token.countTokens();
+      NamedVector vec = new NamedVector();
+      for (int i = 0; i < numTokens; ++i)
+        vec.setQuick(i, Double.parseDouble(token.nextToken()));
+      key.set(String.valueOf(++id));
+      value.set(vec);
+      writer.append(key, value);
+    }
+    writer.close();
+  }
+  
+  public void KMeansClustering(Configuration conf, String inputSequencePath, String outputSequencePath, int numClusters) throws IOException, InterruptedException, ClassNotFoundException {
 
-	public void KMeansByMahout(Configuration conf, String inputPath,
-			String outputPath, int K) throws Exception {
-		
-		DistanceMeasure measure = new EuclideanDistanceMeasure();
+    DistanceMeasure measure = new EuclideanDistanceMeasure();
+    
+    Path input = new Path(inputSequencePath);
+    Path output = new Path(outputSequencePath);
+    FileSystem.get(conf).delete(output, true);
+    
+    // Initial clustering
+    LOG.info("Running random seed to get initial clusters");
+    Path clusters = new Path(outputSequencePath, Cluster.INITIAL_CLUSTERS_DIR);
+    clusters = RandomSeedGenerator.buildRandom(conf, input, clusters, numClusters, measure);
 
-		// Read from text input data and transform it to Sequence File
-		//TransformVectorsToSequence(conf, inputPath, sequencePath);
-		Path input = new Path(inputPath);
-		String sequencePath = "codebook/input-serial";
-		Path sequence = new Path(sequencePath);
-		FileSystem.get(conf).delete(sequence, true);
-		
-	    LOG.info("Preparing Input");
-		InputDriver.runJob(input, sequence, "org.apache.mahout.math.RandomAccessSparseVector");
+    // Kmeans clustering
 
-		Path output = new Path(outputPath);
-		FileSystem.get(conf).delete(output, true);
-		
-		// Initial clustering
-		LOG.info("Running random seed to get initial clusters");
-		Path clusters = new Path(output, Cluster.INITIAL_CLUSTERS_DIR);
-	    clusters = RandomSeedGenerator.buildRandom(conf, sequence, clusters, K, measure);
-	    
-		// Kmeans clustering
+    double convergenceDelta = 1e-3;
+    int maxIterations = 100;
+    LOG.info("Running KMeans");
+    KMeansDriver.run(conf, input, clusters, output, measure, convergenceDelta, maxIterations,
+        true, 0.0, false);
+  }
 
-		double convergenceDelta = 1e-3;
-		int maxIterations = 100;
-	    LOG.info("Running KMeans");
-		KMeansDriver.run(conf, sequence, clusters, output,
-				measure, convergenceDelta, maxIterations, true, 0.0, false);
+  public void KMeansByMahout(Configuration conf, String inputPath, String outputPath, int K)
+      throws Exception {
 
-	    // run ClusterDumper
-	    ClusterDumper clusterDumper = new ClusterDumper(new Path(output, "clusters-*-final"), new Path(output,
-	        "clusteredPoints"));
-//	    clusterDumper.printClusters(null);
-	    
-	    String textoutput = "HumanReadableClusters";
-	    FSDataOutputStream fsout = FileSystem.get(conf).create(new Path(output, textoutput));
-	    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
-	    Map<Integer, List<WeightedVectorWritable>> clusterMap = clusterDumper.getClusterIdToPoints();
-	    for (Map.Entry<Integer, List<WeightedVectorWritable>> entry : clusterMap.entrySet()) {
-	    	writer.write(entry.toString() + "\n");
-	    }
-	    writer.close();
-	}
+    DistanceMeasure measure = new EuclideanDistanceMeasure();
 
-	/**
-	 * Creates an instance of this tool.
-	 */
-	public BuildCodebook() {
-	}
+    // Read from text input data and transform it to Sequence File
+    // TransformVectorsToSequence(conf, inputPath, sequencePath);
+    Path input = new Path(inputPath);
+    String sequencePath = "codebook/input-serial";
+    Path sequence = new Path(sequencePath);
+    FileSystem.get(conf).delete(sequence, true);
 
-	private static final String INPUT = "input";
-	private static final String OUTPUT = "output";
-	private static final String NUM_CLUSTERS = "K";
+    LOG.info("Preparing Input");
+    InputDriver.runJob(input, sequence, "org.apache.mahout.math.RandomAccessSparseVector");
 
-	/**
-	 * Runs this tool.
-	 */
-	@SuppressWarnings({ "static-access" })
-	public int run(String[] args) throws Exception {
-		Options options = new Options();
+    Path output = new Path(outputPath);
+    FileSystem.get(conf).delete(output, true);
 
-		options.addOption(OptionBuilder.withArgName("path").hasArg()
-				.withDescription("input path").create(INPUT));
-		options.addOption(OptionBuilder.withArgName("path").hasArg()
-				.withDescription("output path").create(OUTPUT));
-		options.addOption(OptionBuilder.withArgName("num").hasArg()
-				.withDescription("number of clusters").create(NUM_CLUSTERS));
+    // Initial clustering
+    LOG.info("Running random seed to get initial clusters");
+    Path clusters = new Path(output, Cluster.INITIAL_CLUSTERS_DIR);
+    clusters = RandomSeedGenerator.buildRandom(conf, sequence, clusters, K, measure);
 
-		CommandLine cmdline;
-		CommandLineParser parser = new GnuParser();
+    // Kmeans clustering
 
-		try {
-			cmdline = parser.parse(options, args);
-		} catch (ParseException exp) {
-			System.err.println("Error parsing command line: "
-					+ exp.getMessage());
-			return -1;
-		}
+    double convergenceDelta = 1e-3;
+    int maxIterations = 100;
+    LOG.info("Running KMeans");
+    KMeansDriver.run(conf, sequence, clusters, output, measure, convergenceDelta, maxIterations,
+        true, 0.0, false);
 
-		if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(OUTPUT)) {
-			System.out.println("args: " + Arrays.toString(args));
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.setWidth(120);
-			formatter.printHelp(this.getClass().getName(), options);
-			ToolRunner.printGenericCommandUsage(System.out);
-			return -1;
-		}
+    // run ClusterDumper
+    ClusterDumper clusterDumper = new ClusterDumper(new Path(output, "clusters-*-final"), new Path(
+        output, "clusteredPoints"));
+    // clusterDumper.printClusters(null);
 
-		String inputPath = cmdline.getOptionValue(INPUT);
-		String outputPath = cmdline.getOptionValue(OUTPUT);
-	    int numClusters = cmdline.hasOption(NUM_CLUSTERS) ?
-	            Integer.parseInt(cmdline.getOptionValue(NUM_CLUSTERS)) : 1024;
+    String textoutput = "HumanReadableClusters";
+    FSDataOutputStream fsout = FileSystem.get(conf).create(new Path(output, textoutput));
+    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
+    Map<Integer, List<WeightedVectorWritable>> clusterMap = clusterDumper.getClusterIdToPoints();
+    for (Map.Entry<Integer, List<WeightedVectorWritable>> entry : clusterMap.entrySet()) {
+      writer.write(entry.toString() + "\n");
+    }
+    writer.close();
+  }
 
-		LOG.info("Tool: " + BuildCodebook.class.getSimpleName());
+  /**
+   * Creates an instance of this tool.
+   */
+  public BuildCodebook() {
+  }
 
-		Configuration conf = getConf();
+  private static final String INPUT = "input";
+  private static final String OUTPUT = "output";
+  private static final String NUM_CLUSTERS = "K";
 
-		// Kmeans using mahout
-		KMeansByMahout(conf, inputPath, outputPath, numClusters);
+  /**
+   * Runs this tool.
+   */
+  @SuppressWarnings({ "static-access" })
+  public int run(String[] args) throws Exception {
+    Options options = new Options();
 
-		long startTime = System.currentTimeMillis();
-		LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime)
-				/ 1000.0 + " seconds");
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("input path")
+        .create(INPUT));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("output path")
+        .create(OUTPUT));
+    options.addOption(OptionBuilder.withArgName("num").hasArg()
+        .withDescription("number of clusters").create(NUM_CLUSTERS));
 
-		return 0;
-	}
+    CommandLine cmdline;
+    CommandLineParser parser = new GnuParser();
 
-	/**
-	 * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
-	 */
-	public static void main(String[] args) throws Exception {
-		ToolRunner.run(new BuildCodebook(), args);
-	}
+    try {
+      cmdline = parser.parse(options, args);
+    } catch (ParseException exp) {
+      System.err.println("Error parsing command line: " + exp.getMessage());
+      return -1;
+    }
+
+    if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(OUTPUT)) {
+      System.out.println("args: " + Arrays.toString(args));
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.setWidth(120);
+      formatter.printHelp(this.getClass().getName(), options);
+      ToolRunner.printGenericCommandUsage(System.out);
+      return -1;
+    }
+
+    String inputPath = cmdline.getOptionValue(INPUT);
+    String outputPath = cmdline.getOptionValue(OUTPUT);
+    int numClusters = cmdline.hasOption(NUM_CLUSTERS) ? Integer.parseInt(cmdline
+        .getOptionValue(NUM_CLUSTERS)) : 1024;
+
+    LOG.info("Tool: " + BuildCodebook.class.getSimpleName());
+
+    Configuration conf = getConf();
+
+    // Kmeans using mahout
+    KMeansClustering(conf, inputPath, outputPath, numClusters);
+
+    long startTime = System.currentTimeMillis();
+    LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0 + " seconds");
+
+    return 0;
+  }
+
+  /**
+   * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
+   */
+  public static void main(String[] args) throws Exception {
+    ToolRunner.run(new BuildCodebook(), args);
+  }
 }
