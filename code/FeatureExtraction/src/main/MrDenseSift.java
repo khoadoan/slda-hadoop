@@ -15,6 +15,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -43,7 +44,7 @@ import edu.umd.cloud9.io.triple.TripleOfInts;
 public class MrDenseSift extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(MrDenseSift.class);
 
-  private static class MyMapper extends Mapper<LongWritable, Text, TripleOfInts, VectorWritable> {
+  private static class MyMapper extends Mapper<LongWritable, Text, IntWritable, VectorWritable> {
 
     // Reuse objects.
     private final static PairOfFloats CENTER = new PairOfFloats();
@@ -51,6 +52,7 @@ public class MrDenseSift extends Configured implements Tool {
     private final static TripleOfInts KEY = new TripleOfInts();
     private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
     private static RandomAccessSparseVector VECTOR = new RandomAccessSparseVector(128);
+    private final static IntWritable INT = new IntWritable(0);
 
     @Override
     public void map(LongWritable key, Text value, Context context) throws IOException,
@@ -76,9 +78,11 @@ public class MrDenseSift extends Configured implements Tool {
           VECTOR = new RandomAccessSparseVector(f.descriptor.length);
         for (int i = 0; i < f.descriptor.length; ++i)
           VECTOR.set(i, (double) f.descriptor[i]);
-        FEATURE_VECTOR.set(VECTOR);
+        NamedVector NAMED_VECTOR = new NamedVector(VECTOR, KEY.toString());
+        FEATURE_VECTOR.set(NAMED_VECTOR);
+        INT.set(f.descriptor.length);
 
-        context.write(KEY, FEATURE_VECTOR);
+        context.write(INT, FEATURE_VECTOR);
       }
 
       stream.close();
@@ -151,10 +155,10 @@ public class MrDenseSift extends Configured implements Tool {
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    job.setMapOutputKeyClass(LongWritable.class);
-    job.setMapOutputValueClass(Text.class);
+    job.setMapOutputKeyClass(IntWritable.class);
+    job.setMapOutputValueClass(VectorWritable.class);
 
-    job.setOutputKeyClass(TripleOfInts.class);
+    job.setOutputKeyClass(IntWritable.class);
     job.setOutputValueClass(VectorWritable.class);
 
     job.setMapperClass(MyMapper.class);
