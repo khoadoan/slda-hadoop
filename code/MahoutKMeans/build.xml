@@ -60,6 +60,8 @@
   </target>
 
   <target name="resolve" depends="install-ivy" description="--> retreive dependencies with ivy">
+	  <get src="https://repository.cloudera.com/artifactory/public/org/apache/mahout/mahout-core/0.7-cdh4.2.1/mahout-core-0.7-cdh4.2.1-job.jar" dest="${lib.dir}/mahout-core-0.7-cdh4.2.1-job.jar" usetimestamp="true"/>
+	  <get src="https://repository.cloudera.com/artifactory/public/org/apache/mahout/mahout-examples/0.7-cdh4.2.1/mahout-examples-0.7-cdh4.2.1-job.jar" dest="${lib.dir}/mahout-examples-0.7-cdh4.2.1-job.jar" usetimestamp="true"/>
     <ivy:retrieve/>
   </target>
 
