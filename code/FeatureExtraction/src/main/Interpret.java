@@ -60,7 +60,7 @@ public class Interpret extends Configured implements Tool {
     IntWritable key = new IntWritable();
     VectorWritable val = new VectorWritable();
     while (reader.next(key, val)) {
-      writer.write(key + "\t" + ((NamedVector)val.get()).getName() + "\t" + val.toString() + "\n");
+      writer.write(key + "\t" + val.toString() + "\n");
       ++ numPts;
     }
 
