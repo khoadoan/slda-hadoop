@@ -11,11 +11,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import mpicbg.imagefeatures.Feature;
-import mpicbg.imagefeatures.FloatArray2DSIFT;
 
 public class ExtractDenseSiftFromImage {
 
-	final static private FloatArray2DSIFT.Param p = new FloatArray2DSIFT.Param();
+	final static private FloatArray2DDenseSIFT.Param p = new FloatArray2DDenseSIFT.Param();
 	final static List< Feature > fs = new ArrayList< Feature >();
 	
 	public ExtractDenseSiftFromImage(String filePath, int stepSize) {
@@ -31,7 +30,7 @@ public class ExtractDenseSiftFromImage {
 			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
 			iplus.getProcessor().duplicate().convertToRGB();
 			
-			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
+			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DDenseSIFT( p ) );
 			ijSift.setStepSize(stepSize);
 			fs.clear();
 			
@@ -57,7 +56,7 @@ public class ExtractDenseSiftFromImage {
 			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
 			iplus.getProcessor().duplicate().convertToRGB();
 			
-			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
+			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DDenseSIFT( p ) );
 			ijSift.setStepSize(stepSize);
 			fs.clear();
 			
