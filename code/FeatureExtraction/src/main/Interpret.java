@@ -42,6 +42,32 @@ import cern.colt.Arrays;
 public class Interpret extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(Interpret.class);
 
+  public void InfoFeatures(Configuration conf, String inputPath, String outputPath)
+      throws Exception {
+
+    Path input = new Path(inputPath);
+
+    Path output = new Path(outputPath);
+    FileSystem.get(conf).delete(output, true);
+
+    @SuppressWarnings("deprecation")
+    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), input, conf);
+
+    int numPts = 0;
+    FSDataOutputStream fsout = FileSystem.get(conf).create(output);
+    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
+    
+    IntWritable key = new IntWritable();
+    VectorWritable val = new VectorWritable();
+    while (reader.next(key, val)) {
+      writer.write(key + "\t" + ((NamedVector)val.get()).getName() + "\t" + val.toString() + "\n");
+      ++ numPts;
+    }
+
+    writer.write("Total number of points: " + String.valueOf(numPts) + "\n");
+    writer.close();
+  }
+  
   public void InfoPointToCluster(Configuration conf, String inputPath, String outputPath)
       throws Exception {
 
@@ -148,7 +174,8 @@ public class Interpret extends Configured implements Tool {
 
     // Kmeans using mahout
 //    InfoClusters(conf, inputPath, outputPath);
-    InfoPointToCluster(conf, inputPath, outputPath);
+//    InfoPointToCluster(conf, inputPath, outputPath);
+    InfoFeatures(conf, inputPath, outputPath);
 
     long startTime = System.currentTimeMillis();
     LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0 + " seconds");
