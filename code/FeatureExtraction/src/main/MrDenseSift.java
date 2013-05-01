@@ -28,8 +28,8 @@ import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
-import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 
@@ -51,7 +51,7 @@ public class MrDenseSift extends Configured implements Tool {
     private final static Text FILE_PATH = new Text();
     private final static TripleOfInts KEY = new TripleOfInts();
     private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
-    private static RandomAccessSparseVector VECTOR = new RandomAccessSparseVector(128);
+    private static DenseVector VECTOR = new DenseVector(128);
     private final static IntWritable INT = new IntWritable(0);
 
     @Override
@@ -75,7 +75,7 @@ public class MrDenseSift extends Configured implements Tool {
         // FILE_PATH.set(filePath);
         KEY.set(id, (int) f.location[0], (int) f.location[1]);
         if (f.descriptor.length != VECTOR.size())
-          VECTOR = new RandomAccessSparseVector(f.descriptor.length);
+          VECTOR = new DenseVector(f.descriptor.length);
         for (int i = 0; i < f.descriptor.length; ++i)
           VECTOR.set(i, (double) f.descriptor[i]);
         NamedVector NAMED_VECTOR = new NamedVector(VECTOR, KEY.toString());

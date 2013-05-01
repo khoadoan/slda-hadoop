@@ -107,7 +107,7 @@ public class BuildCodebook extends Configured implements Tool {
     FileSystem.get(conf).delete(sequence, true);
 
     LOG.info("Preparing Input");
-    InputDriver.runJob(input, sequence, "org.apache.mahout.math.RandomAccessSparseVector");
+    InputDriver.runJob(input, sequence, "org.apache.mahout.math.DenseVector");
 
     Path output = new Path(outputPath);
     FileSystem.get(conf).delete(output, true);

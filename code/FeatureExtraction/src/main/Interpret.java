@@ -77,7 +77,7 @@ public class Interpret extends Configured implements Tool {
     FileSystem.get(conf).delete(output, true);
 
     @SuppressWarnings("deprecation")
-    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), input, conf);
+    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), new Path(input, "clusteredPoints/part-m-00000"), conf);
 
     int numPts = 0;
     FSDataOutputStream fsout = FileSystem.get(conf).create(output);
@@ -133,6 +133,7 @@ public class Interpret extends Configured implements Tool {
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
+  private static final String FUNC = "func";
 
   /**
    * Runs this tool.
@@ -145,6 +146,8 @@ public class Interpret extends Configured implements Tool {
         .create(INPUT));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("output path")
         .create(OUTPUT));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("function")
+        .create(FUNC));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -167,15 +170,19 @@ public class Interpret extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
+    String func = cmdline.getOptionValue(FUNC);
 
     LOG.info("Tool: " + Interpret.class.getSimpleName());
 
     Configuration conf = getConf();
 
     // Kmeans using mahout
-//    InfoClusters(conf, inputPath, outputPath);
-//    InfoPointToCluster(conf, inputPath, outputPath);
-    InfoFeatures(conf, inputPath, outputPath);
+    if (func.equals("clusters"))
+      InfoClusters(conf, inputPath, outputPath);
+    else if (func.equals("points"))
+      InfoPointToCluster(conf, inputPath, outputPath);
+    else if (func.equals("features"))
+      InfoFeatures(conf, inputPath, outputPath);
 
     long startTime = System.currentTimeMillis();
     LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0 + " seconds");
