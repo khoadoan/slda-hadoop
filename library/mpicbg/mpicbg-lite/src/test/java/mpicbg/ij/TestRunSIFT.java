@@ -80,10 +80,11 @@ public class TestRunSIFT {
 	    ip.drawPolygon( new Polygon( x, y, x.length ) );
 	}
 	
+	@Test
 	public void testBasic() throws IOException {
 		
 		// Load the image
-		BufferedImage input = ImageIO.read(new File("images/test03.bmp"));
+		BufferedImage input = ImageIO.read(new File("images/2_14_s.bmp"));
 		
 		ImagePlus iplus = new ImagePlus("test", input);
 		
@@ -106,19 +107,21 @@ public class TestRunSIFT {
 		ip2.setColor( Color.red );
 		for ( final Feature f : fs ) {
 			drawSquare( ip2, new double[]{ f.location[ 0 ], f.location[ 1 ] }, p.fdSize * 2.0 * ( double )f.scale, ( double )f.orientation );
+			
+			System.out.println("x = " + f.location[0] + "; y = " + f.location[1] + " --> " +  f.descriptor[3]);
+			
 			//drawSquare2( ip2, new double[]{ f.location[ 0 ], f.location[ 1 ] }, p.fdSize * 2.5 * ( double )f.scale, ( double )f.orientation );
 		}
 		
-		ImageIO.write(ip2.getBufferedImage(),"png",new File("images/ouput.png"));
+		ImageIO.write(ip2.getBufferedImage(),"png",new File("images/output.png"));
 		
 	}
 	
-	@Test
+	//@Test
 	public void testUsingExtractDenseSiftFromImage() {
 		
 		List<Feature> extractedSiftFeatures = 
 				new ExtractDenseSiftFromImage("images/test03.bmp", 16).getExtractedFeatures();
-		
 		
 		Assert.assertTrue(extractedSiftFeatures.size() != 0);
 	}

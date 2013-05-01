@@ -243,6 +243,8 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 			final float octave_sigma,
 			final float orientation )
 	{
+		//System.out.println("x = " + c[0] + "; y = " + c[1]);
+		
 		final FloatArray2DScaleOctave octave = octaves[ o ];
 		final FloatArray2D[] gradients = octave.getL1( Math.round( c[ 2 ] ) );
 		final FloatArray2D[] region = new FloatArray2D[ 2 ];
@@ -356,9 +358,14 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 			}
 		}
 		max_bin_val /= 0.2;
-		for ( i = 0; i < desc.length; ++i )
-		{
-			desc[ i ] = ( float )Math.min( 1.0, desc[ i ] / max_bin_val );
+		
+		if (max_bin_val > 0) {
+		
+		   for ( i = 0; i < desc.length; ++i )
+		   {
+			   desc[ i ] = ( float )Math.min( 1.0, desc[ i ] / max_bin_val );
+		   }
+		
 		}
 		
 		return desc;
@@ -383,10 +390,12 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 		// the subsequent center is x = x_prev + step, y = y
 		
 		float halfSize = (float) Math.ceil(fdWidth/2);
+		int offsetX = (width % fdWidth) / 2;
+		int offsetY = (height % fdWidth) / 2;
 		
-		for (int x = (int) halfSize; x < (width - halfSize); x = x + stepSize ) {
+		for (int x = (int) halfSize + offsetX; x < (width - halfSize); x = x + stepSize ) {
 			
-			for (int y = (int) halfSize; y < (height - halfSize); y = y + stepSize) {
+			for (int y = (int) halfSize + offsetY; y < (height - halfSize); y = y + stepSize) {
 				
 				float[] cParam = new float[3];
 				cParam[0] = x;
