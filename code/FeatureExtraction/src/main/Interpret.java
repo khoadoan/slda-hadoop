@@ -121,6 +121,7 @@ public class Interpret extends Configured implements Tool {
     writer.write("Total number of Clusters: " + String.valueOf(numPts) + "\n");
     writer.close();
   }
+  
   public void InfoClusters(Configuration conf, String inputPath, String outputPath)
       throws Exception {
 
