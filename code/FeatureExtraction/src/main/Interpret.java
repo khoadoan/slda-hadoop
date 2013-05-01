@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.apache.mahout.clustering.Cluster;
 import org.apache.mahout.clustering.classify.WeightedVectorWritable;
 import org.apache.mahout.clustering.conversion.InputDriver;
+import org.apache.mahout.clustering.iterator.ClusterWritable;
 import org.apache.mahout.clustering.kmeans.KMeansDriver;
 import org.apache.mahout.clustering.kmeans.RandomSeedGenerator;
 import org.apache.mahout.common.distance.DistanceMeasure;
@@ -94,6 +95,31 @@ public class Interpret extends Configured implements Tool {
     writer.close();
   }
   
+  public void InfoTextClusterWritable(Configuration conf, String inputPath, String outputPath)
+      throws Exception {
+
+    Path input = new Path(inputPath);
+
+    Path output = new Path(outputPath);
+    FileSystem.get(conf).delete(output, true);
+
+    @SuppressWarnings("deprecation")
+    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), input, conf);
+
+    int numPts = 0;
+    FSDataOutputStream fsout = FileSystem.get(conf).create(output);
+    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
+    
+    Text key = new Text();
+    ClusterWritable val = new ClusterWritable();
+    while (reader.next(key, val)) {
+      writer.write(key.toString() + "\t" + val.toString() + "\n");
+      ++ numPts;
+    }
+
+    writer.write("Total number of Clusters: " + String.valueOf(numPts) + "\n");
+    writer.close();
+  }
   public void InfoClusters(Configuration conf, String inputPath, String outputPath)
       throws Exception {
 
@@ -183,6 +209,8 @@ public class Interpret extends Configured implements Tool {
       InfoPointToCluster(conf, inputPath, outputPath);
     else if (func.equals("features"))
       InfoFeatures(conf, inputPath, outputPath);
+    else if (func.equals("TextCluster"))
+      InfoTextClusterWritable(conf, inputPath, outputPath);
 
     long startTime = System.currentTimeMillis();
     LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0 + " seconds");
