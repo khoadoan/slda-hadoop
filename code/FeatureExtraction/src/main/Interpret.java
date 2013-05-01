@@ -58,7 +58,7 @@ public class Interpret extends Configured implements Tool {
     FSDataOutputStream fsout = FileSystem.get(conf).create(output);
     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
     
-    IntWritable key = new IntWritable();
+    Text key = new Text();
     VectorWritable val = new VectorWritable();
     while (reader.next(key, val)) {
       writer.write(key + "\t" + val.toString() + "\n");
