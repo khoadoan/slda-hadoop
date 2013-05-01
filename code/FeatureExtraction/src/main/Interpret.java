@@ -113,7 +113,8 @@ public class Interpret extends Configured implements Tool {
     Text key = new Text();
     ClusterWritable val = new ClusterWritable();
     while (reader.next(key, val)) {
-      writer.write(key.toString() + "\t" + val.toString() + "\n");
+      Cluster cluster = val.getValue();
+      writer.write(key.toString() + "\t" + cluster.toString() + "\n");
       ++ numPts;
     }
 
