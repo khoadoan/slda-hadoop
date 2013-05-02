@@ -312,14 +312,15 @@ public class FloatArray2DDenseSIFT extends
       }
     }
     // max_bin_val /= 0.2;
-    max_bin_val = Math.sqrt(max_bin_val);
-    double q = Math.sqrt(desc.length);
-    if (Math.abs(max_bin_val) < 1e-9)
+    if (max_bin_val >= 1e-9) {
+      max_bin_val = Math.sqrt(max_bin_val);
       for (i = 0; i < desc.length; ++i)
         desc[i] = (float) Math.min(1.0, desc[i] / max_bin_val);
-    else
+    } else {
+      max_bin_val = Math.sqrt(desc.length);
       for (i = 0; i < desc.length; ++i)
-        desc[i] = (float) (1.0 / q);
+        desc[i] = (float) (1.0 / max_bin_val);
+    }
 
     return desc;
   }
