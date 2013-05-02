@@ -8,4 +8,4 @@ Evaluation: using 5-fold cross validation.
 ##### Google Maps Satellite Images
 1. 500,000 images of regions
 2. PNG image data, 402 x 415, 8-bit colormap, non-interlace
-3. Total disk space is ? GigaBytes.
+3. Total disk space is 49 GB.
