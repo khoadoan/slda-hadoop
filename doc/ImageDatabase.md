@@ -5,7 +5,7 @@
 
 Evaluation: using 5-fold cross validation.
 
-##### Google Maps Satellite Images
-1. 500,000 images of regions
+##### Google Maps Satellite Images (Ocean)
+1. 250,000 images of Ocean regions
 2. PNG image data, 402 x 415, 8-bit colormap, non-interlace
-3. Total disk space is 49 GB.
+3. Total disk space is 25 GB.
