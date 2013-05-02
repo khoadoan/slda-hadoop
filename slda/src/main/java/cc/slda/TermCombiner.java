@@ -14,18 +14,20 @@ public class TermCombiner extends
     Reducer<PairOfInts, DoubleWritable, PairOfInts, DoubleWritable> {
   private DoubleWritable outputValue = new DoubleWritable();
 
-  public void reduce(PairOfInts key, Iterator<DoubleWritable> values,
+  @Override
+  public void reduce(PairOfInts key, Iterable<DoubleWritable> values,
       Context context) throws IOException, InterruptedException {
-    double sum = values.next().get();
+    Iterator<DoubleWritable> value = values.iterator();
+	double sum = value.next().get();
     if (key.getLeftElement() <= 0) {
       // this is not a phi value
-      while (values.hasNext()) {
-        sum += values.next().get();
+      while (value.hasNext()) {
+        sum += value.next().get();
       }
     } else {
       // this is a phi value
-      while (values.hasNext()) {
-        sum = LogMath.add(sum, values.next().get());
+      while (value.hasNext()) {
+        sum = LogMath.add(sum, value.next().get());
       }
     }
     outputValue.set(sum);

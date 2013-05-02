@@ -65,17 +65,15 @@ public class TermReducer extends
 
     Path[] inputFiles;
     SequenceFile.Reader sequenceFileReader = null;
-
     try {
       inputFiles = DistributedCache.getLocalCacheFiles(conf);
 
       if (inputFiles != null) {
         for (Path path : inputFiles) {
           try {
-            sequenceFileReader = new SequenceFile.Reader(FileSystem.getLocal(conf), path, conf);
-
+        	  sequenceFileReader = new SequenceFile.Reader(FileSystem.getLocal(conf), path, conf);
             if (path.getName().startsWith(Settings.ALPHA)) {
-              continue;
+            	continue;
             } else if (path.getName().startsWith(Settings.BETA)) {
               continue;
             } else if (path.getName().startsWith(InformedPrior.ETA)) {
@@ -101,7 +99,7 @@ public class TermReducer extends
 
     Preconditions.checkArgument(informedPrior == (lambdaMap != null),
         "Fail to initialize informed prior...");
-
+    
     // System.out.println("======================================================================");
     // System.out.println("Available processors (cores): "
     // + Runtime.getRuntime().availableProcessors());
@@ -113,12 +111,14 @@ public class TermReducer extends
     // System.out.println("======================================================================");
   }
 
-  public void reduce(PairOfInts key, Iterator<DoubleWritable> values,
+  @Override
+  public void reduce(PairOfInts key, Iterable<DoubleWritable> values,
       Context context) throws IOException, InterruptedException {
+	Iterator<DoubleWritable> value = values.iterator();
     if (key.getLeftElement() == 0) {
-      double sum = values.next().get();
-      while (values.hasNext()) {
-        sum += values.next().get();
+      double sum = value.next().get();
+      while (value.hasNext()) {
+        sum += value.next().get();
       }
 
       Preconditions.checkArgument(key.getRightElement() > 0,
@@ -135,9 +135,9 @@ public class TermReducer extends
     Preconditions.checkArgument(learning, "Invalid key from Mapper");
     context.getCounter(ParameterCounter.TOTAL_TERM).increment(1);
 
-    double phiValue = values.next().get();
-    while (values.hasNext()) {
-      phiValue = LogMath.add(phiValue, values.next().get());
+    double phiValue = value.next().get();
+    while (value.hasNext()) {
+      phiValue = LogMath.add(phiValue, value.next().get());
     }
 
     if (lambdaMap != null) {

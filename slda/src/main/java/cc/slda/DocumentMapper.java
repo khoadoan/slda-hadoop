@@ -339,7 +339,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
 
   @Override
   public void cleanup(Context context) throws IOException, InterruptedException {
-    multipleOutputs.close();
+	multipleOutputs.close();
 
     if (mapperCombiner) {
       double[] phi = null;

@@ -30,7 +30,9 @@ By the end of execution, you will end up with three files/dirtories in the speci
 
 File `/hadoop/index/document/output/directory/term` stores the mapping between a unique token and its unique integer ID. Similarly, `/hadoop/index/document/output/directory/title` stores the mapping between a document title to its unique integer ID. Both of these two files are in sequence file format, key-ed by `IntWritable.java` and value-d by `Text.java`. You may use the following command to browse a sequence file in general
 
+Cluster Mode
      hadoop jar bin/slda-0.0.1.jar edu.umd.cloud9.io.ReadSequenceFile /hadoop/index/document/output/directory/term 20
+Local Mode
      hadoop jar bin/slda-0.0.1.jar edu.umd.cloud9.io.ReadSequenceFile /hadoop/index/document/output/directory/term 20 local
 
 and option '20' specifies the first 20 records to be displayed.

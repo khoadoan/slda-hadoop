@@ -19,7 +19,9 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.SequenceFile;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Counters;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -345,7 +347,7 @@ public class VariationalInference extends Configured implements Tool, Settings {
         + Settings.STAR);
 
     // these parameters are NOT used at all in the case of testing mode
-    Path alphaSufficientStatisticsDir = new Path(tempDir.toString() + Path.SEPARATOR + "part-00000");
+    Path alphaSufficientStatisticsDir = new Path(tempDir.toString() + Path.SEPARATOR + "part-r-00000");
     String betaGlobDir = tempDir.toString() + Path.SEPARATOR + Settings.BETA + Settings.STAR;
 
     SequenceFile.Reader sequenceFileReader = null;
@@ -379,6 +381,11 @@ public class VariationalInference extends Configured implements Tool, Settings {
         inputDir = new Path(outputPath + Settings.GAMMA + snapshotIndex);
       }
     }
+    
+    sLogger.info("\t*** alpha dir: " + inputDir);
+    sLogger.info("\t*** alpha dir: " + alphaDir);
+    sLogger.info("\t*** beta dir: " + betaDir);
+    sLogger.info("\t*** beta glob dir: " + betaGlobDir);
 
     double lastLogLikelihood = 0;
     int iterationCount = snapshotIndex;
@@ -443,7 +450,7 @@ public class VariationalInference extends Configured implements Tool, Settings {
       job1.setReducerClass(TermReducer.class);
       job1.setCombinerClass(TermCombiner.class);
       job1.setPartitionerClass(TermPartitioner.class);
-
+      
       job1.setMapOutputKeyClass(PairOfInts.class);
       job1.setMapOutputValueClass(DoubleWritable.class);
       job1.setOutputKeyClass(IntWritable.class);
@@ -455,6 +462,8 @@ public class VariationalInference extends Configured implements Tool, Settings {
 
       FileOutputFormat.setCompressOutput(job1, true);
 
+      sLogger.info("\t*** job input: " + inputDir);
+      sLogger.info("\t*** job output: " + tempDir);
       FileInputFormat.setInputPaths(job1, inputDir);
       FileOutputFormat.setOutputPath(job1, tempDir);
 
@@ -512,13 +521,13 @@ public class VariationalInference extends Configured implements Tool, Settings {
       // update alpha's
       try {
         // load old alpha's into the system
-        sequenceFileReader = new SequenceFile.Reader(fs, alphaDir, conf);
+        sequenceFileReader = new SequenceFile.Reader(fs, alphaDir, getConf());
         alphaVector = importAlpha(sequenceFileReader, numberOfTopics);
         sLogger.info("Successfully import old alpha vector from file " + alphaDir);
 
         // load alpha sufficient statistics into the system
         double[] alphaSufficientStatistics = null;
-        sequenceFileReader = new SequenceFile.Reader(fs, alphaSufficientStatisticsDir, conf);
+        sequenceFileReader = new SequenceFile.Reader(fs, alphaSufficientStatisticsDir, getConf());
         alphaSufficientStatistics = importAlpha(sequenceFileReader, numberOfTopics);
         sLogger.info("Successfully import alpha sufficient statistics tokens from file "
             + alphaSufficientStatisticsDir);
@@ -530,7 +539,7 @@ public class VariationalInference extends Configured implements Tool, Settings {
 
         // output the new alpha's to the system
         alphaDir = new Path(alphaPath + (iterationCount + 1));
-        sequenceFileWriter = new SequenceFile.Writer(fs, conf, alphaDir, IntWritable.class,
+        sequenceFileWriter = new SequenceFile.Writer(fs, getConf(), alphaDir, IntWritable.class,
             DoubleWritable.class);
         exportAlpha(sequenceFileWriter, alphaVector);
         sLogger.info("Successfully export new alpha vector to file " + alphaDir);
@@ -545,10 +554,10 @@ public class VariationalInference extends Configured implements Tool, Settings {
       // merge beta's
       // TODO: local merge doesn't compress data
       if (localMerge) {
-        betaDir = FileMerger.mergeSequenceFiles(conf, betaGlobDir, betaPath + (iterationCount + 1), 0,
+        betaDir = FileMerger.mergeSequenceFiles(getConf(), betaGlobDir, betaPath + (iterationCount + 1), 0,
             PairOfIntFloat.class, HMapIFW.class, true, true);
       } else {
-        betaDir = FileMerger.mergeSequenceFiles(conf, betaGlobDir, betaPath + (iterationCount + 1),
+        betaDir = FileMerger.mergeSequenceFiles(getConf(), betaGlobDir, betaPath + (iterationCount + 1),
             reducerTasks, PairOfIntFloat.class, HMapIFW.class, true, true);
       }
 
