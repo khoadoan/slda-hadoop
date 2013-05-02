@@ -9,6 +9,8 @@ from os import walk
 '''
 SCP from a local directory to an HDFS directory on clusters
 
+The script could only be runned in password-free mode.
+
 Command-line:
 	./hdscp <local-directory> <username>@<cluster-url> <hdfs-directory>
 
