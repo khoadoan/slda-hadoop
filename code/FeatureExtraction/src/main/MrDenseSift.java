@@ -57,11 +57,11 @@ public class MrDenseSift extends Configured implements Tool {
   }
 
   // Reducer: sums up all the counts.
-  private static class MyReducer extends
-      Reducer<IntWritable, Text, Text, VectorWritable> {
+  private static class MyReducer extends Reducer<IntWritable, Text, Text, VectorWritable> {
 
     // Reuse objects.
     private FileSystem fs;
+    private static int patchWidth = 8;
     private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
     private static DenseVector VECTOR = new DenseVector(128);
     private final static Text EMPTY = new Text();
@@ -69,14 +69,14 @@ public class MrDenseSift extends Configured implements Tool {
     @Override
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
-
       fs = FileSystem.get(conf);
+      patchWidth = conf.getInt("PatchWidth", 8);
     }
 
     @Override
-    public void reduce(IntWritable key, Iterable<Text> values, Context context)
-        throws IOException, InterruptedException {
-      
+    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException,
+        InterruptedException {
+
       int id = key.get();
 
       // there is only one value for each group
@@ -90,7 +90,7 @@ public class MrDenseSift extends Configured implements Tool {
 
           FSDataInputStream stream = fs.open(new Path(filePath));
 
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, 16)
+          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, patchWidth)
               .getExtractedFeatures();
 
           for (Feature f : extractedSiftFeatures) {
@@ -98,7 +98,8 @@ public class MrDenseSift extends Configured implements Tool {
               VECTOR = new DenseVector(f.descriptor.length);
             for (int i = 0; i < f.descriptor.length; ++i)
               VECTOR.set(i, (double) f.descriptor[i]);
-            NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " " + String.valueOf(f.location[0]) + " " + String.valueOf(f.location[1]));
+            NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " "
+                + String.valueOf(f.location[0]) + " " + String.valueOf(f.location[1]));
             FEATURE_VECTOR.set(NAMED_VECTOR);
 
             context.write(EMPTY, FEATURE_VECTOR);
@@ -112,7 +113,6 @@ public class MrDenseSift extends Configured implements Tool {
     }
   }
 
-
   /**
    * Creates an instance of this tool.
    */
@@ -122,6 +122,7 @@ public class MrDenseSift extends Configured implements Tool {
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
+  private static final String PATCH_WIDTH = "patchWidth";
 
   /**
    * Runs this tool.
@@ -136,6 +137,8 @@ public class MrDenseSift extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
+    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("width of patches")
+        .create(PATCH_WIDTH));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -160,6 +163,8 @@ public class MrDenseSift extends Configured implements Tool {
     String outputPath = cmdline.getOptionValue(OUTPUT);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
+    int patchWidth = cmdline.hasOption(PATCH_WIDTH) ? Integer.parseInt(cmdline
+        .getOptionValue(PATCH_WIDTH)) : 8;
 
     LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
@@ -167,6 +172,7 @@ public class MrDenseSift extends Configured implements Tool {
     LOG.info(" - number of reducers: " + reducerTasks);
 
     Configuration conf = getConf();
+    conf.setInt("PatchWidth", patchWidth);
     Job job = Job.getInstance(conf);
     job.setJobName(MrDenseSift.class.getSimpleName());
     job.setJarByClass(MrDenseSift.class);
