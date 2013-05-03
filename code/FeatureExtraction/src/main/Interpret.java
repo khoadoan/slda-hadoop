@@ -78,7 +78,7 @@ public class Interpret extends Configured implements Tool {
     FileSystem.get(conf).delete(output, true);
 
     @SuppressWarnings("deprecation")
-    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), new Path(input, "clusteredPoints/part-m-00000"), conf);
+    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), input, conf);
 
     int numPts = 0;
     FSDataOutputStream fsout = FileSystem.get(conf).create(output);
