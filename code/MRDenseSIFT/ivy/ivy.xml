@@ -11,7 +11,7 @@
       <exclude org="fastutil"/>
     </dependency>
     <dependency org="junit" name="junit" rev="4.11" conf="*->*,!sources,!javadoc"/>
-	<dependency org="mpicbg" name="mpicbg" rev="20120621" conf="*->*,!sources,!javadoc"/>
-	<dependency org="net.imagej" name="ij" rev="1.47n" conf="*->*,!sources,!javadoc"/>
+    <dependency org="mpicbg" name="mpicbg-lite" rev="0.6.0-SNAPSHOT" conf="*->*,!sources,!javadoc"/>
+    <dependency org="net.imagej" name="ij" rev="1.47n" conf="*->*,!sources,!javadoc"/>
   </dependencies>
 </ivy-module>
