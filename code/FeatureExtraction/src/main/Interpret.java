@@ -110,7 +110,7 @@ public class Interpret extends Configured implements Tool {
     FSDataOutputStream fsout = FileSystem.get(conf).create(output);
     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
     
-    Text key = new Text();
+    IntWritable key = new IntWritable();
     ClusterWritable val = new ClusterWritable();
     while (reader.next(key, val)) {
       Cluster cluster = val.getValue();

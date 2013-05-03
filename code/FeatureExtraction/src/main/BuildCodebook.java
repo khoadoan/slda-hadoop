@@ -24,7 +24,6 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.log4j.Logger;
 import org.apache.mahout.clustering.Cluster;
 import org.apache.mahout.clustering.classify.WeightedVectorWritable;
 import org.apache.mahout.clustering.conversion.InputDriver;
@@ -35,11 +34,13 @@ import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.clustering.ClusterDumper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cern.colt.Arrays;
 
 public class BuildCodebook extends Configured implements Tool {
-  private static final Logger LOG = Logger.getLogger(BuildCodebook.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BuildCodebook.class);
 
   public void TransformVectorsToSequence(Configuration conf, String inputPath, String outputPath)
       throws IOException {
@@ -71,15 +72,26 @@ public class BuildCodebook extends Configured implements Tool {
     }
     writer.close();
   }
-  
-  public void KMeansClustering(Configuration conf, String inputSequencePath, String outputSequencePath, int numClusters) throws IOException, InterruptedException, ClassNotFoundException {
+
+  public static void run(Configuration conf, Path input, Path clustersIn, Path output,
+      DistanceMeasure measure, double convergenceDelta, int maxIterations, boolean runClustering,
+      double clusterClassificationThreshold, boolean runSequential) throws IOException,
+      InterruptedException, ClassNotFoundException {
+
+    // iterate until the clusters converge
+
+  }
+
+  public void KMeansClustering(Configuration conf, String inputSequencePath,
+      String outputSequencePath, int numClusters) throws IOException, InterruptedException,
+      ClassNotFoundException {
 
     DistanceMeasure measure = new EuclideanDistanceMeasure();
-    
+
     Path input = new Path(inputSequencePath);
     Path output = new Path(outputSequencePath);
     FileSystem.get(conf).delete(output, true);
-    
+
     // Initial clustering
     LOG.info("Running random seed to get initial clusters");
     Path clusters = new Path(outputSequencePath, Cluster.INITIAL_CLUSTERS_DIR);
@@ -87,11 +99,24 @@ public class BuildCodebook extends Configured implements Tool {
 
     // Kmeans clustering
 
-    double convergenceDelta = 1e-3;
-    int maxIterations = 100;
+    double convergenceDelta = 1e-6;
+    int maxIterations = 1000;
+    double clusterClassificationThreshold = 0.0;
+    String delta = Double.toString(convergenceDelta);
+
     LOG.info("Running KMeans");
-    KMeansDriver.run(conf, input, clusters, output, measure, convergenceDelta, maxIterations,
-        true, 0.0, false);
+    LOG.info("Input: {} Clusters In: {} Out: {} Distance: {}", new Object[] { input, clusters,
+        output, measure.getClass().getName() });
+    LOG.info("convergence: {} max Iterations: {} num Reduce Tasks: {} Input Vectors: {}",
+        new Object[] { convergenceDelta, maxIterations, VectorWritable.class.getName() });
+    
+    Path clustersOut = KMeansDriver.buildClusters(conf, input, clusters, output, measure,
+        maxIterations, delta, false);
+
+    LOG.info("Clustering data");
+    KMeansDriver.clusterData(conf, input, clustersOut, output, measure,
+        clusterClassificationThreshold, false);
+
   }
 
   public void KMeansByMahout(Configuration conf, String inputPath, String outputPath, int K)
