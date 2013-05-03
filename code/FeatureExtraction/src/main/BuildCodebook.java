@@ -92,6 +92,7 @@ public class BuildCodebook extends Configured implements Tool {
     else
       inputPathPattern = input;
     FileStatus[] inputFiles = fs.globStatus(inputPathPattern, PathFilters.logsCRCFilter());
+    LOG.info("length of inputFiles = " + String.valueOf(inputFiles.length));
     int clusterId = 0;
     IntWritable newKey = new IntWritable();
     ClusterWritable newValue = new ClusterWritable();
@@ -106,7 +107,7 @@ public class BuildCodebook extends Configured implements Tool {
         ClusterWritable value = record.getSecond();
         Kluster cluster = (Kluster) value.getValue();
         Kluster newCluster = new Kluster(cluster.getCenter(), ++clusterId, cluster.getMeasure());
-        
+
         newKey.set(clusterId);
         newValue.setValue(newCluster);
         writer.append(newKey, newValue);
@@ -130,6 +131,13 @@ public class BuildCodebook extends Configured implements Tool {
     Path clusters = new Path(outputSequencePath, Cluster.INITIAL_CLUSTERS_DIR);
     clusters = RandomSeedGenerator.buildRandom(conf, input, clusters, numClusters, measure);
 
+    Path clustersIn = new Path(outputSequencePath, "clusters-start");
+
+    LOG.info("Renaming cluster IDs");
+    RenameClusterIds(conf, clusters, clustersIn);
+
+    HadoopUtil.delete(conf, clusters);
+    
     // Kmeans clustering
 
     double convergenceDelta = 1e-6;
@@ -138,23 +146,18 @@ public class BuildCodebook extends Configured implements Tool {
     String delta = Double.toString(convergenceDelta);
 
     LOG.info("Running KMeans");
-    LOG.info("Input: {} Clusters In: {} Out: {} Distance: {}", new Object[] { input, clusters,
+    LOG.info("Input: {} Clusters In: {} Out: {} Distance: {}", new Object[] { input, clustersIn,
         output, measure.getClass().getName() });
     LOG.info("convergence: {} max Iterations: {} num Reduce Tasks: {} Input Vectors: {}",
         new Object[] { convergenceDelta, maxIterations, VectorWritable.class.getName() });
 
-    Path clustersOut = KMeansDriver.buildClusters(conf, input, clusters, output, measure,
+    Path clustersOut = KMeansDriver.buildClusters(conf, input, clustersIn, output, measure,
         maxIterations, delta, false);
 
-    Path clustersFinal = new Path(output, "clusters-final");
+    LOG.info("clusterOut = " + clustersOut.toString());
 
-    LOG.info("Renaming cluster IDs");
-    RenameClusterIds(conf, clustersOut, clustersFinal);
-
-    LOG.info("Clustering data");
-    KMeansDriver.clusterData(conf, input, clustersFinal, output, measure,
+    KMeansDriver.clusterData(conf, input, clustersOut, output, measure,
         clusterClassificationThreshold, false);
-
   }
 
   public void KMeansByMahout(Configuration conf, String inputPath, String outputPath, int K)
@@ -213,6 +216,7 @@ public class BuildCodebook extends Configured implements Tool {
   private static final String OUTPUT = "output";
   private static final String NUM_CLUSTERS = "K";
   private static final String FUNC = "func";
+  private static final String CLUSTER = "cluster";
 
   /**
    * Runs this tool.
@@ -229,6 +233,8 @@ public class BuildCodebook extends Configured implements Tool {
         .withDescription("number of clusters").create(NUM_CLUSTERS));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("tools")
         .create(FUNC));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("cluster path")
+        .create(CLUSTER));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -240,7 +246,7 @@ public class BuildCodebook extends Configured implements Tool {
       return -1;
     }
 
-    if (!cmdline.hasOption(INPUT) || !cmdline.hasOption(OUTPUT)) {
+    if (!cmdline.hasOption(INPUT)) {
       System.out.println("args: " + Arrays.toString(args));
       HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(120);
@@ -254,6 +260,7 @@ public class BuildCodebook extends Configured implements Tool {
     int numClusters = cmdline.hasOption(NUM_CLUSTERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_CLUSTERS)) : 1024;
     String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "all";
+    String clusterPath = cmdline.hasOption(CLUSTER) ? cmdline.getOptionValue(CLUSTER) : "";
 
     LOG.info("Tool: " + BuildCodebook.class.getSimpleName());
 
@@ -261,11 +268,19 @@ public class BuildCodebook extends Configured implements Tool {
 
     // Kmeans using mahout
     if (func.equals("all")) {
-    KMeansClustering(conf, inputPath, outputPath, numClusters);
-    } else if (func.equals("rename")){
+      KMeansClustering(conf, inputPath, outputPath, numClusters);
+    } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
       Path output = new Path(outputPath);
       RenameClusterIds(conf, input, output);
+    } else if (func.equals("cluster")) {
+      Path input = new Path(inputPath);
+      Path output = new Path(outputPath);
+      Path clustersFinal = new Path(clusterPath);
+      DistanceMeasure measure = new EuclideanDistanceMeasure();
+      double clusterClassificationThreshold = 0.0;
+      KMeansDriver.clusterData(conf, input, clustersFinal, output, measure,
+          clusterClassificationThreshold, false);
     }
 
     long startTime = System.currentTimeMillis();
