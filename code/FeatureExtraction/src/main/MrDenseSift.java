@@ -61,7 +61,7 @@ public class MrDenseSift extends Configured implements Tool {
 
     // Reuse objects.
     private FileSystem fs;
-    private static int patchWidth = 8;
+    private static int stepsize = 8;
     private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
     private static DenseVector VECTOR = new DenseVector(128);
     private final static Text EMPTY = new Text();
@@ -70,7 +70,7 @@ public class MrDenseSift extends Configured implements Tool {
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
       fs = FileSystem.get(conf);
-      patchWidth = conf.getInt("PatchWidth", 8);
+      stepsize = conf.getInt("stepsize", 8);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MrDenseSift extends Configured implements Tool {
 
           FSDataInputStream stream = fs.open(new Path(filePath));
 
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, patchWidth)
+          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, stepsize)
               .getExtractedFeatures();
 
           for (Feature f : extractedSiftFeatures) {
@@ -122,7 +122,7 @@ public class MrDenseSift extends Configured implements Tool {
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
-  private static final String PATCH_WIDTH = "patchWidth";
+  private static final String STEP_SIZE = "stepsize";
 
   /**
    * Runs this tool.
@@ -137,8 +137,8 @@ public class MrDenseSift extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
-    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("width of patches")
-        .create(PATCH_WIDTH));
+    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("step size")
+        .create(STEP_SIZE));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -163,16 +163,17 @@ public class MrDenseSift extends Configured implements Tool {
     String outputPath = cmdline.getOptionValue(OUTPUT);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
-    int patchWidth = cmdline.hasOption(PATCH_WIDTH) ? Integer.parseInt(cmdline
-        .getOptionValue(PATCH_WIDTH)) : 8;
+    int stepsize = cmdline.hasOption(STEP_SIZE) ? Integer.parseInt(cmdline
+        .getOptionValue(STEP_SIZE)) : 8;
 
     LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reducerTasks);
+    LOG.info(" - step size: " + stepsize);
 
     Configuration conf = getConf();
-    conf.setInt("PatchWidth", patchWidth);
+    conf.setInt("stepsize", stepsize);
     Job job = Job.getInstance(conf);
     job.setJobName(MrDenseSift.class.getSimpleName());
     job.setJarByClass(MrDenseSift.class);
