@@ -115,6 +115,10 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 			minOctaveSize = p.minOctaveSize;
 			steps = p.steps;
 		}
+		
+		public String toString() {
+			return "fdSize = " + fdSize +"; fdBins = " + fdBins;
+		}
 	}
 	
 	final private int fdWidth;
@@ -390,12 +394,23 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 		// the subsequent center is x = x_prev + step, y = y
 		
 		float halfSize = (float) Math.ceil(fdWidth/2);
-		int offsetX = (width % fdWidth) / 2;
-		int offsetY = (height % fdWidth) / 2;
 		
-		for (int x = (int) halfSize + offsetX; x < (width - halfSize); x = x + stepSize ) {
+		int count = 0;
+		
+		// padding the boundaries with zero pixels
+		int remainder = width % fdWidth;
+		if (remainder > 0) {
 			
-			for (int y = (int) halfSize + offsetY; y < (height - halfSize); y = y + stepSize) {
+		}
+		
+		remainder = height % fdWidth;
+		if (remainder > 0) {
+			
+		}
+		
+		for (int x = (int) halfSize; x < width; x = x + stepSize ) {
+			count++;
+			for (int y = (int) halfSize; y < height; y = y + stepSize) {
 				
 				float[] cParam = new float[3];
 				cParam[0] = x;
@@ -415,6 +430,7 @@ public class FloatArray2DSIFT extends FloatArray2DFeatureTransform< FloatArray2D
 			}
 			
 		}
+		System.out.println("width = " + fdWidth + "; #block column = " + count);
 	}
 	
 	/**

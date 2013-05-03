@@ -84,7 +84,7 @@ public class TestRunSIFT {
 	public void testBasic() throws IOException {
 		
 		// Load the image
-		BufferedImage input = ImageIO.read(new File("images/2_14_s.bmp"));
+		BufferedImage input = ImageIO.read(new File("images/test03.bmp"));
 		
 		ImagePlus iplus = new ImagePlus("test", input);
 		
@@ -93,7 +93,9 @@ public class TestRunSIFT {
 		final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
 		final ImageProcessor ip2 = iplus.getProcessor().duplicate().convertToRGB();
 		
+		p.fdSize = 2;
 		final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
+		ijSift.setStepSize(8);
 		fs.clear();
 		
 		final long start_time = System.currentTimeMillis();
@@ -108,7 +110,7 @@ public class TestRunSIFT {
 		for ( final Feature f : fs ) {
 			drawSquare( ip2, new double[]{ f.location[ 0 ], f.location[ 1 ] }, p.fdSize * 2.0 * ( double )f.scale, ( double )f.orientation );
 			
-			System.out.println("x = " + f.location[0] + "; y = " + f.location[1] + " --> " +  f.descriptor[3]);
+			//System.out.println("x = " + f.location[0] + "; y = " + f.location[1] + " --> " +  f.descriptor[3]);
 			
 			//drawSquare2( ip2, new double[]{ f.location[ 0 ], f.location[ 1 ] }, p.fdSize * 2.5 * ( double )f.scale, ( double )f.orientation );
 		}
@@ -124,6 +126,42 @@ public class TestRunSIFT {
 				new ExtractDenseSiftFromImage("images/test03.bmp", 16).getExtractedFeatures();
 		
 		Assert.assertTrue(extractedSiftFeatures.size() != 0);
+	}
+	
+	//@Test
+	public void testDrawingGridOnImage() throws IOException {
+		// Load the image
+		BufferedImage input = ImageIO.read(new File("images/2_14_s.bmp"));
+				
+		ImagePlus iplus = new ImagePlus("test", input);
+		
+		
+		final ImageProcessor ip = iplus.getProcessor().duplicate().convertToRGB();
+		
+		ip.setColor(Color.GREEN);
+		ip.setLineWidth(1);
+		
+		int width = ip.getWidth();
+		int height = ip.getHeight();
+		
+		for (int x = 8; x < width; x += 8) {
+			ip.drawLine(x, 0, x, height);
+		}
+		
+		for (int y = 8; y < height; y += 8) {
+			ip.drawLine(0, y, width, y);
+		}
+		
+		ImageIO.write(ip.getBufferedImage(),"png",new File("images/grids.png"));
+	}
+	
+	//@Test
+	public void testFloatArray2DSIFTParam() {
+		
+		FloatArray2DSIFT.Param p = new FloatArray2DSIFT.Param();
+		p.fdSize = 5;
+		
+		System.out.println(p);		
 	}
 
 }

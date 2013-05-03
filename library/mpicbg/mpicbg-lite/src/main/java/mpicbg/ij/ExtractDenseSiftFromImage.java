@@ -46,7 +46,7 @@ public class ExtractDenseSiftFromImage {
 		
 	}
 	
-    public ExtractDenseSiftFromImage(DataInputStream inStream, int stepSize) {
+    public ExtractDenseSiftFromImage(DataInputStream inStream, int stepSize, int blockSize) {
 		
 	    // Load the image
 		try {
@@ -59,6 +59,7 @@ public class ExtractDenseSiftFromImage {
 			final ImageProcessor ip1 = iplus.getProcessor().convertToFloat();
 			iplus.getProcessor().duplicate().convertToRGB();
 			
+			p.fdSize = blockSize;
 			final DenseSIFT ijSift = new DenseSIFT( new FloatArray2DSIFT( p ) );
 			ijSift.setStepSize(stepSize);
 			fs.clear();
