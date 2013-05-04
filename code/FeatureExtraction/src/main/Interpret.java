@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -23,6 +24,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
@@ -39,6 +41,8 @@ import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.clustering.ClusterDumper;
 
 import cern.colt.Arrays;
+import edu.umd.cloud9.io.map.HashMapWritable;
+import edu.umd.cloud9.io.pair.PairOfInts;
 
 public class Interpret extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(Interpret.class);
@@ -152,6 +156,32 @@ public class Interpret extends Configured implements Tool {
     writer.write("Total number of points: " + String.valueOf(numPts) + "\n");
     writer.close();
   }
+  
+  public void InfoGeneralWritables(Configuration conf, String inputPath, String outputPath)
+      throws Exception {
+    
+    Path input = new Path(inputPath);
+
+    Path output = new Path(outputPath);
+    FileSystem.get(conf).delete(output, true);
+
+    @SuppressWarnings("deprecation")
+    SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), input, conf);
+
+    int numPts = 0;
+    FSDataOutputStream fsout = FileSystem.get(conf).create(output);
+    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fsout));
+    
+    Writable key = (Writable)Class.forName(reader.getKeyClassName()).getConstructor().newInstance();
+    Writable val = (Writable)Class.forName(reader.getValueClassName()).getConstructor().newInstance();
+    while (reader.next(key, val)) {
+      writer.write(key.toString() + "\t" + val.toString() + "\n");
+      ++ numPts;
+    }
+
+    writer.write("Total number of Entries: " + String.valueOf(numPts) + "\n");
+    writer.close();
+  }
 
   /**
    * Creates an instance of this tool.
@@ -213,6 +243,8 @@ public class Interpret extends Configured implements Tool {
       InfoFeatures(conf, inputPath, outputPath);
     else if (func.equals("TextCluster"))
       InfoTextClusterWritable(conf, inputPath, outputPath);
+    else if (func.equals("general"))
+      InfoGeneralWritables(conf, inputPath, outputPath);
 
     long startTime = System.currentTimeMillis();
     LOG.info("Job Finished in " + (System.currentTimeMillis() - startTime) / 1000.0 + " seconds");
