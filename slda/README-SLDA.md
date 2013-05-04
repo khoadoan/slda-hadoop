@@ -72,6 +72,7 @@ To print the help information and usage hints, please run the following command
 To train LDA model on a dataset, please run one of the following command:
 
 * Cluster Mode
+
     etc/hadoop-cluster.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100
     etc/hadoop-cluster.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40
     etc/hadoop-cluster.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40 -mapper 50 -reducer 20
@@ -79,7 +80,7 @@ To train LDA model on a dataset, please run one of the following command:
     etc/hadoop-cluster.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40 -mapper 50 -reducer 20 -localmerge
 
 * Local Mode
-	
+
     etc/hadoop-local.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100
     etc/hadoop-local.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40
     etc/hadoop-local.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40 -mapper 50 -reducer 20
