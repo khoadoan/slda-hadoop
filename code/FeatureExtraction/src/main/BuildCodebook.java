@@ -117,7 +117,7 @@ public class BuildCodebook extends Configured implements Tool {
   }
 
   public void KMeansClustering(Configuration conf, String inputSequencePath,
-      String outputSequencePath, int numClusters) throws IOException, InterruptedException,
+      String outputSequencePath, int numClusters, double convergenceDelta, int maxIterations) throws IOException, InterruptedException,
       ClassNotFoundException {
 
     DistanceMeasure measure = new EuclideanDistanceMeasure();
@@ -140,8 +140,6 @@ public class BuildCodebook extends Configured implements Tool {
     
     // Kmeans clustering
 
-    double convergenceDelta = 1e-6;
-    int maxIterations = 1000;
     double clusterClassificationThreshold = 0.0;
     String delta = Double.toString(convergenceDelta);
 
@@ -268,7 +266,9 @@ public class BuildCodebook extends Configured implements Tool {
 
     // Kmeans using mahout
     if (func.equals("all")) {
-      KMeansClustering(conf, inputPath, outputPath, numClusters);
+      double convergenceDelta = 1e-5;
+      int maxIterations = 500;
+      KMeansClustering(conf, inputPath, outputPath, numClusters, convergenceDelta, maxIterations);
     } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
       Path output = new Path(outputPath);
