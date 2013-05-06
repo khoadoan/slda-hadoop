@@ -23,6 +23,9 @@
   <path id="libjars.path.id">
     <fileset dir="${lib.dir}/" includes="cloud9*.jar"/>
     <fileset dir="${lib.dir}/" includes="guava*.jar"/>
+    <fileset dir="${lib.dir}/" includes="mahout*.jar"/>
+    <fileset dir="${lib.dir}/" includes="ij*.jar"/>
+    <fileset dir="${lib.dir}/" includes="mpicbg*.jar"/>
   </path>
 
   <property name="ivy.install.version" value="2.2.0"/>
