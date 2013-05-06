@@ -340,13 +340,14 @@ public class FloatArray2DDenseSIFT extends
     // the first center is at x = 2 * scale, y = 2 * scale.
     // the subsequent center is x = x_prev + step, y = y
 
-    int offsetX = (width % fdWidth) / 2;
-    int offsetY = (height % fdWidth) / 2;
-    float halfSize = (float) Math.ceil(fdWidth / 2);
+//    int offsetX = (width % fdWidth) / 2;
+//    int offsetY = (height % fdWidth) / 2;
+//    float halfSize = (float) Math.ceil(fdWidth / 2);
+    float halfSize = (float) Math.ceil(stepSize / 2);
 
-    for (int x = (int) halfSize + offsetX; x < (width - halfSize); x = x + stepSize) {
+    for (int x = (int) halfSize; x < width; x = x + stepSize) {
 
-      for (int y = (int) halfSize + offsetY; y < (height - halfSize); y = y + stepSize) {
+      for (int y = (int) halfSize; y < height; y = y + stepSize) {
 
         float[] cParam = new float[3];
         cParam[0] = x;
