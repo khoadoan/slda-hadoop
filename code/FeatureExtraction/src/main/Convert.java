@@ -85,9 +85,9 @@ public class Convert extends Configured implements Tool {
 
       while (iter.hasNext()) {
         TripleOfInts dat = iter.next();
-        FIRST.set(dat.getLeftElement(), dat.getMiddleElement());
-        SECOND.set(dat.getRightElement());
-        VALUE.put(FIRST, SECOND);
+        PairOfInts first = new PairOfInts(dat.getLeftElement(), dat.getMiddleElement());
+        IntWritable second = new IntWritable(dat.getRightElement());
+        VALUE.put(first, second);
       }
     }
     
