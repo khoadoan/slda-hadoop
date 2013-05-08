@@ -189,11 +189,13 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
     }
 
     double[] phi = null;// new double[numberOfTopics];
+    double[] outputPhi = null;
     // boolean keepGoing = true;
     // be careful when adjust this initial value
     int gammaUpdateIterationCount = 1;
     HMapII content = value.getContent();
 
+    outputPhiTable.clear();
     do {
       likelihoodPhi = 0;
 
@@ -214,11 +216,19 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
           phi = new double[numberOfTopics];
           phiTable.put(termID, phi);
         }
+        
+        //TODO: khoa-this is not scalable. need to rethink
+        if(outputPhiTable.containsKey(termID)){
+        	outputPhi = outputPhiTable.get(termID).getArray();
+        } else {
+            outputPhi = new double[numberOfTopics];
+            outputPhiTable.put(termID, new ArrayListOfDoublesWritable(outputPhi));
+        }
 
         int termCounts = content.get(termID);
         tempBeta = retrieveBeta(numberOfTopics, beta, termID, numberOfTerms);
 
-        likelihoodPhi += updatePhi(numberOfTopics, termCounts, tempBeta, tempGamma, phi,
+        likelihoodPhi += updatePhi(numberOfTopics, termCounts, tempBeta, tempGamma, phi, outputPhi,
             updateGamma);
         
         
@@ -236,6 +246,11 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       }
     } while (gammaUpdateIterationCount < maximumGammaIteration);
 
+    //TODO: Khoa: consider using 1 map for learning and output
+    //Write out Phi for document's labeling
+    multipleOutputs.write(Settings.PHI, key, outputPhiTable);
+
+    
     // compute the sum of gamma vector
     double sumGamma = 0;
     double likelihoodGamma = 0;
@@ -340,14 +355,6 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       multipleOutputs.write(Settings.GAMMA, key, value);
     }
 
-    //TODO: Khoa: consider using 1 map for learning and output
-    //Write out Phi for document's labeling
-    outputPhiTable.clear();
-    for(Integer termId: content.keySet()){
-        outputPhiTable.put(termId, new ArrayListOfDoublesWritable(phiTable.get(termId)));
-    }
-    multipleOutputs.write(Settings.PHI, key, outputPhiTable);
-	
 	trainingTime = System.currentTimeMillis() - trainingTime;
     context.getCounter(ParameterCounter.TRAINING_TIME).increment(trainingTime);
   }
@@ -402,7 +409,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
    * @return
    */
   public static double updatePhi(int numberOfTopics, int termCounts, double[] beta,
-      double[] digammaGamma, double[] phi, double[] updateGamma) {
+      double[] digammaGamma, double[] phi, double[] outputPhi, double[] updateGamma) {
     double convergePhi = 0;
 
     // initialize the normalize factor and the phi vector
@@ -420,6 +427,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       // normalize the K-dimensional vector phi scale the
       // K-dimensional vector phi with the term count
       phi[i] -= normalizeFactor;
+      outputPhi[i] = phi[i];
       convergePhi += termCounts * Math.exp(phi[i]) * (beta[i] - phi[i]);
       phi[i] += Math.log(termCounts);
 

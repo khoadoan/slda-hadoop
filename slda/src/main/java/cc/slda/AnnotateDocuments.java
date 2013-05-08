@@ -88,8 +88,6 @@ public class AnnotateDocuments extends Configured implements Tool {
 			Path[] inputFiles = DistributedCache.getLocalCacheFiles(conf);
 			
 			labelCutoff = Math.log(conf.getFloat(PCUTOFF, 0.9f));
-			if(labelCutoff < 0)
-				throw new InterruptedException("cutoff log: " + labelCutoff);
 			
 			// Read term and title index
 			if (inputFiles != null) {
