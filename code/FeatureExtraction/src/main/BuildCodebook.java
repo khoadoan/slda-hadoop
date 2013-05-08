@@ -259,6 +259,7 @@ public class BuildCodebook extends Configured implements Tool {
   private static final String FUNC = "func";
   private static final String CLUSTER = "cluster";
   private static final String SAMPLE = "sample";
+  private static final String MAXITER = "maxiter";
 
   /**
    * Runs this tool.
@@ -279,6 +280,8 @@ public class BuildCodebook extends Configured implements Tool {
         .create(FUNC));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("cluster path")
         .create(CLUSTER));
+    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("max iterations")
+        .create(MAXITER));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -306,6 +309,7 @@ public class BuildCodebook extends Configured implements Tool {
         .getOptionValue(NUM_CLUSTERS)) : 1024;
     String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "all";
     String clusterPath = cmdline.hasOption(CLUSTER) ? cmdline.getOptionValue(CLUSTER) : "";
+    int maxIterations = cmdline.hasOption(MAXITER) ? Integer.parseInt(cmdline.getOptionValue(MAXITER)) : 100;
 
     LOG.info("Tool: " + BuildCodebook.class.getSimpleName());
 
@@ -314,7 +318,6 @@ public class BuildCodebook extends Configured implements Tool {
     // Kmeans using mahout
     if (func.equals("all")) {
       double convergenceDelta = 1e-5;
-      int maxIterations = 500;
       KMeansClusteringWithSamples(conf, samplePath, inputPath, outputPath, numClusters, convergenceDelta, maxIterations);
     } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
