@@ -88,7 +88,7 @@ public class AnnotateDocuments extends Configured implements Tool {
 			Path[] inputFiles = DistributedCache.getLocalCacheFiles(conf);
 			
 			labelCutoff = Math.log(conf.getFloat(PCUTOFF, 0.9f));
-			
+
 			// Read term and title index
 			if (inputFiles != null) {
 				for (Path path : inputFiles) {
@@ -203,12 +203,17 @@ public class AnnotateDocuments extends Configured implements Tool {
     String outputPath = cmdline.getOptionValue(OUTPUT);
     int reduceTasks = cmdline.hasOption(NUM_REDUCERS) ?
         Integer.parseInt(cmdline.getOptionValue(NUM_REDUCERS)) : 1;
-
+    
+    float cutoff = 0.9f;
+    if(cmdline.hasOption(PCUTOFF)){
+    	cutoff = Float.parseFloat(cmdline.getOptionValue(PCUTOFF));
+    }
     LOG.info("Tool: " + AnnotateDocuments.class.getSimpleName());
     LOG.info(" - indices path: " + indexPath);
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reduceTasks);
+    LOG.info(" - log(probCutoff): " + Math.log(cutoff));
 
     Configuration conf = getConf();
     FileSystem fs = FileSystem.get(conf);
@@ -233,10 +238,8 @@ public class AnnotateDocuments extends Configured implements Tool {
 			job.getConfiguration());
 	
     job.setNumReduceTasks(reduceTasks);
-    if(cmdline.hasOption(PCUTOFF)){
-    	conf.setFloat(PCUTOFF, Float.parseFloat(cmdline.getOptionValue(PCUTOFF)));
-    }
-
+	conf.setFloat(PCUTOFF, cutoff);
+    
     job.setInputFormatClass(SequenceFileInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
     FileInputFormat.setInputPaths(job, new Path(inputPath));

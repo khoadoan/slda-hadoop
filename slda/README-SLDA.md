@@ -92,7 +92,7 @@ To annotate the dataset with topics learned from LDA, use the following command 
 
 Local Mode
 
-	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 0
+	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 0 -probCutoff 0.7
 	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 1
 	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 10
 	
