@@ -18,7 +18,9 @@ import cc.slda.VariationalInference.ParameterCounter;
 
 import com.google.common.base.Preconditions;
 
+import edu.umd.cloud9.io.array.ArrayListOfDoublesWritable;
 import edu.umd.cloud9.io.map.HMapIFW;
+import edu.umd.cloud9.io.map.HMapIVW;
 import edu.umd.cloud9.io.pair.PairOfIntFloat;
 import edu.umd.cloud9.io.pair.PairOfInts;
 import edu.umd.cloud9.math.Gamma;
@@ -26,6 +28,7 @@ import edu.umd.cloud9.math.LogMath;
 import edu.umd.cloud9.util.map.HMapII;
 import edu.umd.cloud9.util.map.HMapIV;
 
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, DoubleWritable> {
   boolean mapperCombiner = false;
   HMapIV<double[]> totalPhi = null;
@@ -50,6 +53,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
   private PairOfInts outputKey = new PairOfInts();
   private DoubleWritable outputValue = new DoubleWritable();
 
+  
   private static MultipleOutputs multipleOutputs;
 
   private double[] tempBeta = null;
@@ -58,6 +62,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
   private double[] updateGamma = null;
 
   private HMapIV<double[]> phiTable = null;
+  private HMapIVW<ArrayListOfDoublesWritable> outputPhiTable = null;
 
   private Iterator<Integer> itr = null;
 
@@ -85,6 +90,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
 
     updateGamma = new double[numberOfTopics];
     phiTable = new HMapIV<double[]>();
+    outputPhiTable = new HMapIVW<ArrayListOfDoublesWritable>();
 
     multipleOutputs = new MultipleOutputs(context);
 
@@ -98,7 +104,6 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
         for (Path path : inputFiles) {
           try {
             sequenceFileReader = new SequenceFile.Reader(FileSystem.getLocal(conf), path, conf);
-
             if (path.getName().startsWith(Settings.BETA)) {
               // TODO: check whether seeded beta is valid, i.e., a true probability distribution
               Preconditions.checkArgument(beta == null, "Beta matrix was initialized already...");
@@ -184,11 +189,13 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
     }
 
     double[] phi = null;// new double[numberOfTopics];
+    double[] outputPhi = null;
     // boolean keepGoing = true;
     // be careful when adjust this initial value
     int gammaUpdateIterationCount = 1;
     HMapII content = value.getContent();
 
+    outputPhiTable.clear();
     do {
       likelihoodPhi = 0;
 
@@ -209,18 +216,28 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
           phi = new double[numberOfTopics];
           phiTable.put(termID, phi);
         }
+        
+        //TODO: khoa-this is not scalable. need to rethink
+        if(outputPhiTable.containsKey(termID)){
+        	outputPhi = outputPhiTable.get(termID).getArray();
+        } else {
+            outputPhi = new double[numberOfTopics];
+            outputPhiTable.put(termID, new ArrayListOfDoublesWritable(outputPhi));
+        }
 
         int termCounts = content.get(termID);
         tempBeta = retrieveBeta(numberOfTopics, beta, termID, numberOfTerms);
 
-        likelihoodPhi += updatePhi(numberOfTopics, termCounts, tempBeta, tempGamma, phi,
+        likelihoodPhi += updatePhi(numberOfTopics, termCounts, tempBeta, tempGamma, phi, outputPhi,
             updateGamma);
+        
+        
       }
 
       for (int i = 0; i < numberOfTopics; i++) {
         tempGamma[i] = Math.exp(updateGamma[i]);
       }
-
+      
       gammaUpdateIterationCount++;
 
       // send out heart-beat message
@@ -229,6 +246,11 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       }
     } while (gammaUpdateIterationCount < maximumGammaIteration);
 
+    //TODO: Khoa: consider using 1 map for learning and output
+    //Write out Phi for document's labeling
+    multipleOutputs.write(Settings.PHI, key, outputPhiTable);
+
+    
     // compute the sum of gamma vector
     double sumGamma = 0;
     double likelihoodGamma = 0;
@@ -333,7 +355,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       multipleOutputs.write(Settings.GAMMA, key, value);
     }
 
-    trainingTime = System.currentTimeMillis() - trainingTime;
+	trainingTime = System.currentTimeMillis() - trainingTime;
     context.getCounter(ParameterCounter.TRAINING_TIME).increment(trainingTime);
   }
 
@@ -387,7 +409,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
    * @return
    */
   public static double updatePhi(int numberOfTopics, int termCounts, double[] beta,
-      double[] digammaGamma, double[] phi, double[] updateGamma) {
+      double[] digammaGamma, double[] phi, double[] outputPhi, double[] updateGamma) {
     double convergePhi = 0;
 
     // initialize the normalize factor and the phi vector
@@ -405,6 +427,7 @@ public class DocumentMapper extends Mapper<IntWritable, Document, PairOfInts, Do
       // normalize the K-dimensional vector phi scale the
       // K-dimensional vector phi with the term count
       phi[i] -= normalizeFactor;
+      outputPhi[i] = phi[i];
       convergePhi += termCounts * Math.exp(phi[i]) * (beta[i] - phi[i]);
       phi[i] += Math.log(termCounts);
 
