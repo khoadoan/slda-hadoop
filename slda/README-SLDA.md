@@ -88,3 +88,14 @@ Local Mode
     etc/hadoop-local.sh cc.slda.VariationalInference -input /hadoop/index/document/output/directory/document -output /hadoop/mrlda/output/directory -term 60000 -topic 100 -iteration 40 -mapper 50 -reducer 20 -localmerge
     
     
+To annotate the dataset with topics learned from LDA, use the following command (use 0 reducer for output in Mappers, 1 reducer for output to 1 file, 1+ reducers for output to multiple files; LDA also expects to have `term` and `title` indices, outputs of `ParseCorpus` to be specified with `-index` argument):
+
+Local Mode
+
+	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 0
+	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 1
+	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 10
+	
+	
+ssh -i ec2-hadoop.pem ubuntu@ec2-107-20-18-167.__compute-1.amazonaws.com
+	

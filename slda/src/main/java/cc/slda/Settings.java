@@ -48,6 +48,7 @@ public interface Settings {
   public static final String GAMMA = "gamma";
   public static final String BETA = "beta";
   public static final String ALPHA = "alpha";
+  public static final String PHI = "phi";
 
   public static final int MAXIMUM_GAMMA_ITERATION = 100;
   public static final double DEFAULT_GLOBAL_CONVERGE_CRITERIA = 0.000001;
