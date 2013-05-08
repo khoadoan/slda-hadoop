@@ -273,6 +273,8 @@ public class BuildCodebook extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of clusters").create(NUM_CLUSTERS));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("sample path")
+        .create(SAMPLE));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("tools")
         .create(FUNC));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("cluster path")
