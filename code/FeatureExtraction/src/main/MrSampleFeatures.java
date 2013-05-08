@@ -41,10 +41,10 @@ import cern.colt.Arrays;
 public class MrSampleFeatures extends Configured implements Tool {
   private static final Logger LOG = Logger.getLogger(MrSampleFeatures.class);
 
-  private static class MyMapper extends Mapper<Writable, Writable, DoubleWritable, Writable> {
+  private static class MyMapper extends Mapper<Text, VectorWritable, DoubleWritable, VectorWritable> {
 
     @Override
-    public void map(Writable key, Writable value, Context context) throws IOException,
+    public void map(Text key, VectorWritable value, Context context) throws IOException,
         InterruptedException {
 
       if (Math.random() < context.getConfiguration().getFloat("ratio", (float)1.0)) {
@@ -54,16 +54,17 @@ public class MrSampleFeatures extends Configured implements Tool {
   }
 
   // Reducer: sums up all the counts.
-  private static class MyReducer extends Reducer<DoubleWritable, Writable, Writable, Writable> {
+  private static class MyReducer extends Reducer<DoubleWritable, VectorWritable, Text, VectorWritable> {
 
+    private static final Text KEY = new Text();
     @Override
-    public void reduce(DoubleWritable key, Iterable<Writable> values, Context context) throws IOException,
+    public void reduce(DoubleWritable key, Iterable<VectorWritable> values, Context context) throws IOException,
         InterruptedException {
 
-      Iterator<Writable> iter = values.iterator();
+      Iterator<VectorWritable> iter = values.iterator();
       
       while (iter.hasNext()) {
-        context.write(key, iter.next());
+        context.write(KEY, iter.next());
       }
     }
   }
@@ -141,11 +142,11 @@ public class MrSampleFeatures extends Configured implements Tool {
     job.setInputFormatClass(SequenceFileInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    job.setMapOutputKeyClass(Writable.class);
-    job.setMapOutputValueClass(Writable.class);
+    job.setMapOutputKeyClass(DoubleWritable.class);
+    job.setMapOutputValueClass(VectorWritable.class);
 
-    job.setOutputKeyClass(Writable.class);
-    job.setOutputValueClass(Writable.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(VectorWritable.class);
 
     job.setMapperClass(MyMapper.class);
     job.setReducerClass(MyReducer.class);
