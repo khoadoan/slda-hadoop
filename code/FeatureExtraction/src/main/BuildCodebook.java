@@ -315,7 +315,7 @@ public class BuildCodebook extends Configured implements Tool {
     if (func.equals("all")) {
       double convergenceDelta = 1e-5;
       int maxIterations = 500;
-      KMeansClusteringWithSamples(conf, samplePath, inputPath, outputPath, numClusters, convergenceDelta, maxIterations);
+      KMeansClusteringWithSamples(conf, inputPath, samplePath, outputPath, numClusters, convergenceDelta, maxIterations);
     } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
       Path output = new Path(outputPath);
