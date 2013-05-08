@@ -318,12 +318,7 @@ public class BuildCodebook extends Configured implements Tool {
     // Kmeans using mahout
     if (func.equals("all")) {
       double convergenceDelta = 1e-5;
-<<<<<<< HEAD
-      KMeansClusteringWithSamples(conf, samplePath, inputPath, outputPath, numClusters, convergenceDelta, maxIterations);
-=======
-      int maxIterations = 500;
       KMeansClusteringWithSamples(conf, inputPath, samplePath, outputPath, numClusters, convergenceDelta, maxIterations);
->>>>>>> f93b24956a95bf2334b49e414bec221145e9d544
     } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
       Path output = new Path(outputPath);
