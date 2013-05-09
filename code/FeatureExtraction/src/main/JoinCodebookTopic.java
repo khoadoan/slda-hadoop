@@ -83,7 +83,9 @@ public class JoinCodebookTopic extends Configured implements Tool {
           VALUE.set(val.get(item.getValue().toString()));
           item.setValue(VALUE);
         }
+        context.write(key, maps);
       }
+      
     }
   }
 
