@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import mpicbg.imagefeatures.Feature;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -11,6 +14,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -18,6 +22,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -27,7 +32,9 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
 import org.apache.mahout.clustering.classify.WeightedVectorWritable;
+import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
+import org.apache.mahout.math.VectorWritable;
 
 import cern.colt.Arrays;
 import edu.umd.cloud9.io.map.HMapIIW;
@@ -58,6 +65,21 @@ public class ConvertSLDA extends Configured implements Tool {
       }
       
       context.write(KEY, val);
+    }
+  }
+  
+  private static class MyReducer extends Reducer<IntWritable, HMapSIW, IntWritable, HMapSIW> {
+
+    @Override
+    public void reduce(IntWritable key, Iterable<HMapSIW> values, Context context) throws IOException,
+        InterruptedException {
+
+      // there is only one value for each group
+      Iterator<HMapSIW> iter = values.iterator();
+      
+      while (iter.hasNext()) {
+        context.write(key, iter.next());
+      }
     }
   }
 
@@ -109,7 +131,8 @@ public class ConvertSLDA extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
-    int reducerTasks = 0;
+    int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
+        .getOptionValue(NUM_REDUCERS)) : 1;
     String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "";
 
     LOG.info("Tool: " + ConvertSLDA.class.getSimpleName());
@@ -123,7 +146,7 @@ public class ConvertSLDA extends Configured implements Tool {
     job.setJobName(ConvertSLDA.class.getSimpleName());
     job.setJarByClass(ConvertSLDA.class);
 
-    job.setNumReduceTasks(0);
+    job.setNumReduceTasks(reducerTasks);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));

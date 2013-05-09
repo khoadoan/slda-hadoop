@@ -99,7 +99,7 @@ public class MrDenseSift extends Configured implements Tool {
             for (int i = 0; i < f.descriptor.length; ++i)
               VECTOR.set(i, (double) f.descriptor[i]);
             NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " "
-                + String.valueOf((int)f.location[0]) + " " + String.valueOf((int)f.location[1]));
+                + String.valueOf((int) f.location[0]) + " " + String.valueOf((int) f.location[1]));
             FEATURE_VECTOR.set(NAMED_VECTOR);
 
             context.write(EMPTY, FEATURE_VECTOR);
