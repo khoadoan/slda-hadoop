@@ -91,8 +91,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
         HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
         for (Map.Entry<PairOfInts, IntWritable> item : maps.entrySet()) {
           int codeId = item.getValue().get();
-          VALUE.set(val.get(codeId));
-          item.setValue(VALUE);
+          item.setValue(new IntWritable(val.get(codeId)));
         }
         context.write(key, maps);
       }
