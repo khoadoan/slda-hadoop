@@ -109,8 +109,7 @@ public class ConvertSLDA extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
-    int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
-        .getOptionValue(NUM_REDUCERS)) : 1;
+    int reducerTasks = 0;
     String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "";
 
     LOG.info("Tool: " + ConvertSLDA.class.getSimpleName());
@@ -124,7 +123,7 @@ public class ConvertSLDA extends Configured implements Tool {
     job.setJobName(ConvertSLDA.class.getSimpleName());
     job.setJarByClass(ConvertSLDA.class);
 
-    job.setNumReduceTasks(reducerTasks);
+    job.setNumReduceTasks(0);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
