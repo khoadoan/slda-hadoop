@@ -68,14 +68,14 @@ public class ConvertSLDA extends Configured implements Tool {
     }
   }
   
-  private static class ConvertSLDAReducer extends Reducer<IntWritable, HMapSIW, IntWritable, HMapSIW> {
+  private static class ConvertSLDAReducer extends Reducer<IntWritable, HMapIIW, IntWritable, HMapIIW> {
 
     @Override
-    public void reduce(IntWritable key, Iterable<HMapSIW> values, Context context) throws IOException,
+    public void reduce(IntWritable key, Iterable<HMapIIW> values, Context context) throws IOException,
         InterruptedException {
 
       // there is only one value for each group
-      Iterator<HMapSIW> iter = values.iterator();
+      Iterator<HMapIIW> iter = values.iterator();
       
       while (iter.hasNext()) {
         context.write(key, iter.next());
