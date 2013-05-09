@@ -65,7 +65,6 @@ public class JoinCodebookTopic extends Configured implements Tool {
   private static class MyReducer extends Reducer<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
 
     private static final IntWritable VALUE = new IntWritable();
-    private static MapFile.Reader reader;
     private static HashMap<IntWritable, HMapIIW> maps = new HashMap<IntWritable, HMapIIW>();
     
     public void setup(Context context) throws IOException {
