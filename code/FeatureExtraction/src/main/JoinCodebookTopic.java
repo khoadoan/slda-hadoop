@@ -65,7 +65,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
   private static class MyReducer extends Reducer<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
 
     private static final IntWritable VALUE = new IntWritable();
-    private static HashMap<IntWritable, HMapIIW> maps = new HashMap<IntWritable, HMapIIW>();
+    private static HashMap<Integer, HMapIIW> maps = new HashMap<Integer, HMapIIW>();
     
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
@@ -75,7 +75,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
       IntWritable key = new IntWritable();
       HMapIIW value = new HMapIIW();
       while (reader.next(key, value)) {
-        maps.put(key, value);
+        maps.put(key.get(), value);
       }
     }
     
@@ -85,7 +85,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
       Iterator<HashMapWritable<PairOfInts, IntWritable>> iter = values.iterator();
       
-      HMapIIW val = maps.get(key);
+      HMapIIW val = maps.get(key.get());
       
       if (iter.hasNext()) {
         HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
