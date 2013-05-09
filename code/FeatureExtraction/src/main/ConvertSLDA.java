@@ -68,7 +68,7 @@ public class ConvertSLDA extends Configured implements Tool {
     }
   }
   
-  private static class MyReducer extends Reducer<IntWritable, HMapSIW, IntWritable, HMapSIW> {
+  private static class ConvertSLDAReducer extends Reducer<IntWritable, HMapSIW, IntWritable, HMapSIW> {
 
     @Override
     public void reduce(IntWritable key, Iterable<HMapSIW> values, Context context) throws IOException,
@@ -161,6 +161,7 @@ public class ConvertSLDA extends Configured implements Tool {
     job.setOutputFormatClass(MapFileOutputFormat.class);
 
     job.setMapperClass(ConvertSLDAMapper.class);
+    job.setReducerClass(ConvertSLDAReducer.class);
 
     // Delete the output directory if it exists already.
     Path outputDir = new Path(outputPath);
