@@ -158,7 +158,7 @@ public class ConvertSLDA extends Configured implements Tool {
 
     job.setOutputKeyClass(IntWritable.class);
     job.setOutputValueClass(HMapIIW.class);
-    job.setOutputFormatClass(MapFileOutputFormat.class);
+    job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
     job.setMapperClass(ConvertSLDAMapper.class);
     job.setReducerClass(ConvertSLDAReducer.class);
