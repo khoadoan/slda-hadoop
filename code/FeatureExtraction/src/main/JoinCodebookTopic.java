@@ -39,6 +39,7 @@ import org.apache.mahout.math.VectorWritable;
 import mpicbg.imagefeatures.Feature;
 
 import cern.colt.Arrays;
+import edu.umd.cloud9.io.map.HMapIIW;
 import edu.umd.cloud9.io.map.HMapSIW;
 import edu.umd.cloud9.io.map.HashMapWritable;
 import edu.umd.cloud9.io.pair.PairOfInts;
@@ -60,12 +61,11 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
     private static final IntWritable VALUE = new IntWritable();
     private static MapFile.Reader reader;
-    private static HMapSIW val = new HMapSIW();
+    private static HMapIIW val = new HMapIIW();
     
-    @SuppressWarnings("deprecation")
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
-      reader = new MapFile.Reader(FileSystem.get(conf), conf.get("topic"), conf);
+      reader = new MapFile.Reader(new Path(conf.get("topic")), conf);
     }
     
     @Override
@@ -74,12 +74,12 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
       Iterator<HashMapWritable<PairOfInts, IntWritable>> iter = values.iterator();
       
-      reader.get(new Text(key.toString()), val);
+      reader.get(key, val);
       
       if (iter.hasNext()) {
         HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
         for (Map.Entry<PairOfInts, IntWritable> item : maps.entrySet()) {
-          VALUE.set(val.get(item.getValue().toString()));
+          VALUE.set(val.get(item.getValue().get()));
           item.setValue(VALUE);
         }
         context.write(key, maps);
