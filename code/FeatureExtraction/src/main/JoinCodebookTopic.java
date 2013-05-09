@@ -76,6 +76,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
       HMapIIW value = new HMapIIW();
       while (reader.next(key, value)) {
         maps.put(key.get(), value);
+        value = new HMapIIW();
       }
     }
     
