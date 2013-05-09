@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +16,14 @@ import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapFile;
+import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Job;
@@ -61,11 +66,18 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
     private static final IntWritable VALUE = new IntWritable();
     private static MapFile.Reader reader;
-    private static HMapIIW val = new HMapIIW();
+    private static HashMap<IntWritable, HMapIIW> maps = new HashMap<IntWritable, HMapIIW>();
     
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
-      reader = new MapFile.Reader(new Path(conf.get("topic")), conf);
+      @SuppressWarnings("deprecation")
+      SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), new Path(conf.get("topic")), conf);
+      
+      IntWritable key = new IntWritable();
+      HMapIIW value = new HMapIIW();
+      while (reader.next(key, value)) {
+        maps.put(key, value);
+      }
     }
     
     @Override
@@ -74,7 +86,7 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
       Iterator<HashMapWritable<PairOfInts, IntWritable>> iter = values.iterator();
       
-      reader.get(key, val);
+      HMapIIW val = maps.get(key);
       
       if (iter.hasNext()) {
         HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
