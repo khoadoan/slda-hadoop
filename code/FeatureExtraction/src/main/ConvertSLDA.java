@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
@@ -12,92 +11,66 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.MapFile;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
-import org.apache.mahout.math.DenseVector;
+import org.apache.mahout.clustering.classify.WeightedVectorWritable;
 import org.apache.mahout.math.NamedVector;
-import org.apache.mahout.math.VectorWritable;
-
-import mpicbg.imagefeatures.Feature;
 
 import cern.colt.Arrays;
+import edu.umd.cloud9.io.map.HMapIIW;
 import edu.umd.cloud9.io.map.HMapSIW;
 import edu.umd.cloud9.io.map.HashMapWritable;
 import edu.umd.cloud9.io.pair.PairOfInts;
+import edu.umd.cloud9.io.triple.TripleOfInts;
+import edu.umd.cloud9.util.map.HMapII;
+import edu.umd.cloud9.util.map.MapKI;
 
-public class JoinCodebookTopic extends Configured implements Tool {
-  private static final Logger LOG = Logger.getLogger(JoinCodebookTopic.class);
+public class ConvertSLDA extends Configured implements Tool {
+  private static final Logger LOG = Logger.getLogger(ConvertSLDA.class);
 
-  private static class MyMapper extends Mapper<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
+  private static class ConvertSLDAMapper extends Mapper<Text, HMapSIW, IntWritable, HMapIIW> {
+
+    private final static IntWritable KEY = new IntWritable();
 
     @Override
-    public void map(IntWritable key, HashMapWritable<PairOfInts, IntWritable> value, Context context) throws IOException,
-        InterruptedException {
-      context.write(key, value);
-    }
-  }
-
-  // Reducer: sums up all the counts.
-  private static class MyReducer extends Reducer<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
-
-    private static final IntWritable VALUE = new IntWritable();
-    private static MapFile.Reader reader;
-    private static HMapSIW val = new HMapSIW();
-    
-    @SuppressWarnings("deprecation")
-    public void setup(Context context) throws IOException {
-      Configuration conf = context.getConfiguration();
-      reader = new MapFile.Reader(FileSystem.get(conf), conf.get("topic"), conf);
-    }
-    
-    @Override
-    public void reduce(IntWritable key, Iterable<HashMapWritable<PairOfInts, IntWritable>> values, Context context) throws IOException,
+    public void map(Text key, HMapSIW value, Context context) throws IOException,
         InterruptedException {
 
-      Iterator<HashMapWritable<PairOfInts, IntWritable>> iter = values.iterator();
+      KEY.set(Integer.parseInt(key.toString()));
       
-      reader.get(new Text(key.toString()), val);
-      
-      if (iter.hasNext()) {
-        HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
-        for (Map.Entry<PairOfInts, IntWritable> item : maps.entrySet()) {
-          VALUE.set(val.get(item.getValue().toString()));
-          item.setValue(VALUE);
-        }
-        context.write(key, maps);
+      HMapIIW val = new HMapIIW();
+      for (MapKI.Entry<String> item : value.entrySet())  {
+        int k = Integer.parseInt(item.getKey());
+        val.put(k, item.getValue());
       }
       
+      context.write(KEY, val);
     }
   }
 
   /**
    * Creates an instance of this tool.
    */
-  public JoinCodebookTopic() {
+  public ConvertSLDA() {
   }
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
-  private static final String TOPIC = "topic";
+  private static final String FUNC = "code2lda";
 
   /**
    * Runs this tool.
@@ -112,8 +85,8 @@ public class JoinCodebookTopic extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
-    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("topic path")
-        .create(TOPIC));
+    options.addOption(OptionBuilder.withArgName("arg").hasArg().withDescription("type")
+        .create(FUNC));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -136,21 +109,20 @@ public class JoinCodebookTopic extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
-    String topicPath = cmdline.getOptionValue(TOPIC);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
+    String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "";
 
-    LOG.info("Tool: " + JoinCodebookTopic.class.getSimpleName());
+    LOG.info("Tool: " + ConvertSLDA.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reducerTasks);
-    LOG.info(" - topic path: " + topicPath);
+    LOG.info(" - type: " + func);
 
     Configuration conf = getConf();
-    conf.set("topic", topicPath);
     Job job = Job.getInstance(conf);
-    job.setJobName(JoinCodebookTopic.class.getSimpleName());
-    job.setJarByClass(JoinCodebookTopic.class);
+    job.setJobName(ConvertSLDA.class.getSimpleName());
+    job.setJarByClass(ConvertSLDA.class);
 
     job.setNumReduceTasks(reducerTasks);
 
@@ -158,16 +130,15 @@ public class JoinCodebookTopic extends Configured implements Tool {
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
     job.setInputFormatClass(SequenceFileInputFormat.class);
-    job.setOutputFormatClass(SequenceFileOutputFormat.class);
+    job.setOutputFormatClass(MapFileOutputFormat.class);
 
     job.setMapOutputKeyClass(IntWritable.class);
-    job.setMapOutputValueClass(HashMapWritable.class);
+    job.setMapOutputValueClass(HMapIIW.class);
 
     job.setOutputKeyClass(IntWritable.class);
-    job.setOutputValueClass(HashMapWritable.class);
+    job.setOutputValueClass(HMapIIW.class);
 
-    job.setMapperClass(MyMapper.class);
-    job.setReducerClass(MyReducer.class);
+    job.setMapperClass(ConvertSLDAMapper.class);
 
     // Delete the output directory if it exists already.
     Path outputDir = new Path(outputPath);
@@ -184,6 +155,6 @@ public class JoinCodebookTopic extends Configured implements Tool {
    * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
    */
   public static void main(String[] args) throws Exception {
-    ToolRunner.run(new JoinCodebookTopic(), args);
+    ToolRunner.run(new ConvertSLDA(), args);
   }
 }
