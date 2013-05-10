@@ -3,7 +3,6 @@ The style file: abbrv.bst
 Database file #1: sigproc.bib
 A bad cross reference---entry "DBLP:conf/nips/WangG07"
 refers to entry "DBLP:conf/nips/2007", which doesn't exist
-Warning--I didn't find a database entry for "lda"
 Warning--I didn't find a database entry for "DBLP:conf/nips/2007"
 Warning--to sort, need author or key in mpicbg
 Warning--to sort, need author or key in mahout

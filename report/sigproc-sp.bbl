@@ -11,6 +11,11 @@ mpi-cbg javasift library:
 Msrc dataset:
   http://research.microsoft.com/en-us/projects/objectclassrecognition/.
 
+\bibitem{Blei03latentdirichlet}
+D.~M. Blei, A.~Y. Ng, M.~I. Jordan, and J.~Lafferty.
+\newblock Latent dirichlet allocation.
+\newblock {\em Journal of Machine Learning Research}, 3:2003, 2003.
+
 \bibitem{sift}
 D.~G. Lowe.
 \newblock Distinctive image features from {Scale-Invariant} keypoints.

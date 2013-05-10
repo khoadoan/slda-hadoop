@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.4.5)  10 MAY 2013 16:58
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.4.5)  10 MAY 2013 17:09
 entering extended mode
 **sigproc-sp.tex
 (C:\Users\Khoa\git\slda-hadoop\report\sigproc-sp.tex
@@ -356,14 +356,6 @@ Package pdftex.def Info: fig/timing.png used on input line 225.
 LaTeX Warning: Reference `fig:ldagraphical' on page \thepage  undefined on inpu
 t line 257.
 
-
-LaTeX Warning: Citation `Blei03latentdirichlet' on page \thepage  undefined on 
-input line 269.
-
-
-LaTeX Warning: Citation `Blei03latentdirichlet' on page \thepage  undefined on 
-input line 269.
-
 [3 <C:/Users/Khoa/git/slda-hadoop/report/fig/timing.png>]
 
 LaTeX Warning: Reference `fig:ldagraphical' on page \thepage  undefined on inpu
@@ -690,7 +682,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  4293 strings out of 494045
  56244 string characters out of 3148391
- 134432 words of memory out of 3000000
+ 134435 words of memory out of 3000000
  7471 multiletter control sequences out of 15000+200000
  56644 words of font info for 77 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
@@ -710,7 +702,7 @@ pe1/public/amsfonts/cm/cmtt9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/h
 elvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a
 .pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program 
 Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sigproc-sp.pdf (7 pages, 2200074 bytes).
+Output written on sigproc-sp.pdf (7 pages, 2201078 bytes).
 PDF statistics:
  155 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
