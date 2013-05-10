@@ -1,0 +1,90 @@
+\documentclass[]{article}
+\usepackage{amsbsy}
+\usepackage{breqn}
+\usepackage[margin=0.5in]{geometry}
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Derivation}
+
+Variational Distribution
+\begin{eqnarray}
+q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi) &=& \prod\limits_{k=1}^{K}q(\phi_k|\lambda) \: \prod\limits_{m=1}^{M}q(\pi_m|\gamma) \: \prod\limits_{n=1}^{N}q(d_n | \eta) q(z_n | \varphi)
+\end{eqnarray}
+where 
+\begin{itemize}
+	\item[$\phi_k \in R^V$] distribution over word of topic $k$
+	\item[$\pi_m \in R^K$] distribution over topics of document $m$
+	\item[$d_n \in R^M$] indicator vector where if $d_{nm} = 1$ means word $n$ belongs to document $m$
+	\item[$z_n \in R^K$] indicator vector where if $z_{nk} = 1$ means word $n$ is assigned to topic $k$
+\end{itemize}
+
+Lower bound of log likelihood:
+\begin{eqnarray}
+p(\boldsymbol{w}, \boldsymbol{c} | \alpha,\beta,\eta,\sigma) &=& \log \int\limits_{\phi} \int\limits_{\pi} \sum\limits_{d} \sum\limits_{z} p(\phi,\pi,d,z,\boldsymbol{w},\boldsymbol{c} | \alpha,\beta,\eta,\sigma) \\
+&=&  \log \int\limits_{\phi} \int\limits_{\pi} \sum\limits_{d} \sum\limits_{z} q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi) \frac{p(\phi,\pi,d,z,z,w | \alpha,\beta,\eta,\sigma)}{q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi)} \; \mathrm{d}\phi \: \mathrm{d}\pi \: \mathrm{d}d \: \mathrm{d}z\\
+&=& \log E_q \frac{p(\phi,\pi,d,z,\boldsymbol{c},\boldsymbol{w} | \alpha,\beta,\eta,\sigma)}{q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi)} \\
+&\ge& E_q \log p(\phi,\pi,d,z,\boldsymbol{c},\boldsymbol{w} | \alpha,\beta,\eta,\sigma) - E_q \log q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi) = L
+\end{eqnarray}
+where $E_q \equiv E_{q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi)}$
+
+Instead of maximizing $p$, we estimate it by maximizing the lower bound $L$
+
+Consider the first term in $L$
+\begin{eqnarray}
+E_q [\log p(\phi,\pi,d,z,\boldsymbol{c},\boldsymbol{w} | \alpha,\beta,\eta,\sigma)] &=& E_q [\log p(\phi|\beta) \: p(\pi|\alpha) \: p(d | \eta) \: p(\boldsymbol{c} | c^{\mathrm{d}}_d, \sigma) \: p(z | \pi_d) \: p(\boldsymbol{w} | \phi_d) \\
+&=& E_q [\log p(\phi|\beta)] + E_q [p(\pi|\alpha)] + E_q [\log p(d | \eta)] \\
+&+& E_q [\log p(\boldsymbol{c} | c^{\mathrm{d}}_d, \sigma)] + E_q[\log p(z | \pi_d)] + E_q [\log p(\boldsymbol{w} | \phi_z)] \\
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q [\log p(\phi|\beta)] &=& E_q \log \prod\limits_{k=1}^{K} p(\phi_k | \beta) \\
+&=& \sum\limits_{k=1}^{K} E_q [\log \Gamma(\sum\limits_{v=1}^{V} \beta_v) - \sum\limits_{v=1}^{V} \log \Gamma(\beta_v) + \sum\limits_{v=1}^{V} (\beta_v-1) \log(\phi_{kv})] \\
+&=& \sum\limits_{k=1}^{K} \log \Gamma(\sum\limits_{v=1}^{V} \beta_v) - \sum\limits_{v=1}^{V} \log \Gamma(\beta_v) + \sum\limits_{v=1}^{V} (\beta_v-1) (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v^'=1}^{V} \lambda_{kv^'}))
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q [\log p(\pi|\alpha)] 
+&=& E_q [\log \prod\limits_{m=1}^{M} p(\pi_m |  \alpha)] \\
+&=& \sum\limits_{m=1}^{M} E_q \log(p(\pi_m|\alpha)) \\
+&=& \sum\limits_{m=1}^{M} E_q [\log(\Gamma(\sum\limits_{k=1}^{K} \alpha_k)) - \sum\limits_{k=1}^{K} \log(\Gamma(\alpha_k)) + \sum\limits_{k=1}^{K} (\alpha_k-1) \log(\pi_mk)] \\
+&=& \sum\limits_{m=1}^{M} \log(\Gamma(\sum\limits_{k=1}^{K} \alpha_k)) - \sum\limits_{k=1}^{K} \log(\Gamma(\alpha_k)) + \sum\limits_{k=1}^{K} (\alpha_k-1) (\Psi(\gamma_{mk}) - \Psi(\sum\limits_{k'=1}^{K} \gamma_{mk'}))
+\end{eqnarray}
+
+Speed up things a little bit:
+\begin{eqnarray}
+E_q [\log p(d | \eta)] 
+&=& \sum\limits_{n=1}^{N} E_q \log(p(d_n | \eta)) \\
+&=& \sum\limits_{n=1}^{N} E_q \sum\limits_{m=1}^{M} d_nm \log(\eta) \\
+&=& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} \eta \log(\eta) \\
+&=& (N+M) \eta \log(\eta)
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q [\log p(\boldsymbol{c} | c^{\mathrm{d}}_d, \sigma)] 
+&=& \sum\limits_{n=1}^{N} E_q \log p(c_n | c_{d_n}^{\mathrm{d}}) \\
+&=& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} E_q [d_{mn} \log p(c_n | c_{d_{mn}}^{\mathrm{d}})]  \\
+&=& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} \eta (\delta_{g_{d_{mn}}^{\mathrm{d}}} - \frac{(x_{d_{mn}}^{\mathrm{d}} - x_n)^2 + (y_{d_{mn}}^{\mathrm{d}} - y_n)^2}{\sigma^2})\\
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q[\log p(z | \pi_d)]
+&=& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} E_q[d_{mm} \log(\pi_{mn})] \\
+&=& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} \eta (\Psi(\gamma_{mn}) - \Psi(\sum\limits_{m'=1}^{M} \gamma_{m'n})
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q [\log p(\boldsymbol{w} | \phi_z)]
+&=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \sum\limits_{v}^{V} E_q[d_{mn} z_{kn} \boldsymbol{w_n^v} log(\phi_kv)] \\
+&=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \eta \phi_{kn} \boldsymbol{w_n^v} (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{k'}^{K} \lambda_{k'v}) \\
+\end{eqnarray}
+\end{document}
