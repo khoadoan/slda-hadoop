@@ -1,6 +1,10 @@
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -12,15 +16,21 @@ import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.MapFile;
+import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
@@ -34,95 +44,72 @@ import org.apache.mahout.math.VectorWritable;
 import mpicbg.imagefeatures.Feature;
 
 import cern.colt.Arrays;
+import edu.umd.cloud9.io.map.HMapIIW;
+import edu.umd.cloud9.io.map.HMapSIW;
+import edu.umd.cloud9.io.map.HashMapWritable;
+import edu.umd.cloud9.io.pair.PairOfInts;
 
-public class MrDenseSift extends Configured implements Tool {
-  private static final Logger LOG = Logger.getLogger(MrDenseSift.class);
+public class JoinCodebookTopic extends Configured implements Tool {
+  private static final Logger LOG = Logger.getLogger(JoinCodebookTopic.class);
 
-  private static class MyMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
-
-    private final static IntWritable KEY = new IntWritable();
-    private final static Text VALUE = new Text();
+  private static class MyMapper extends Mapper<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
 
     @Override
-    public void map(LongWritable key, Text value, Context context) throws IOException,
+    public void map(IntWritable key, HashMapWritable<PairOfInts, IntWritable> value, Context context) throws IOException,
         InterruptedException {
-
-      String[] str = value.toString().split("\t");
-
-      KEY.set(Integer.parseInt(str[0]));
-      VALUE.set(str[1]);
-      context.write(KEY, VALUE);
-
+      context.write(key, value);
     }
   }
 
   // Reducer: sums up all the counts.
-  private static class MyReducer extends Reducer<IntWritable, Text, Text, VectorWritable> {
+  private static class MyReducer extends Reducer<IntWritable, HashMapWritable<PairOfInts, IntWritable>, IntWritable, HashMapWritable<PairOfInts, IntWritable>> {
 
-    // Reuse objects.
-    private FileSystem fs;
-    private static int stepsize = 8;
-    private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
-    private static DenseVector VECTOR = new DenseVector(128);
-    private final static Text EMPTY = new Text();
-
-    @Override
+    private static final IntWritable VALUE = new IntWritable();
+    private static HashMap<Integer, HMapIIW> maps = new HashMap<Integer, HMapIIW>();
+    
     public void setup(Context context) throws IOException {
       Configuration conf = context.getConfiguration();
-      fs = FileSystem.get(conf);
-      stepsize = conf.getInt("stepsize", 8);
+      @SuppressWarnings("deprecation")
+      SequenceFile.Reader reader = new SequenceFile.Reader(FileSystem.get(conf), new Path(conf.get("topic")), conf);
+      
+      IntWritable key = new IntWritable();
+      HMapIIW value = new HMapIIW();
+      while (reader.next(key, value)) {
+        maps.put(key.get(), value);
+        value = new HMapIIW();
+      }
     }
-
+    
     @Override
-    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException,
+    public void reduce(IntWritable key, Iterable<HashMapWritable<PairOfInts, IntWritable>> values, Context context) throws IOException,
         InterruptedException {
 
-      int id = key.get();
-
-      // there is only one value for each group
-      Iterator<Text> iter = values.iterator();
-
-      try {
-        // take the value which is the file path and process the image
-        if (iter.hasNext()) {
-
-          String filePath = iter.next().toString();
-
-          FSDataInputStream stream = fs.open(new Path(filePath));
-
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, stepsize)
-              .getExtractedFeatures();
-
-          for (Feature f : extractedSiftFeatures) {
-            if (f.descriptor.length != VECTOR.size())
-              VECTOR = new DenseVector(f.descriptor.length);
-            for (int i = 0; i < f.descriptor.length; ++i)
-              VECTOR.set(i, (double) f.descriptor[i]);
-            NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " "
-                + String.valueOf((int) f.location[0]) + " " + String.valueOf((int) f.location[1]));
-            FEATURE_VECTOR.set(NAMED_VECTOR);
-
-            context.write(EMPTY, FEATURE_VECTOR);
-          }
-
-          stream.close();
+      Iterator<HashMapWritable<PairOfInts, IntWritable>> iter = values.iterator();
+      
+      HMapIIW val = maps.get(key.get());
+      
+      if (iter.hasNext()) {
+        HashMapWritable<PairOfInts, IntWritable> maps = iter.next();
+        for (Map.Entry<PairOfInts, IntWritable> item : maps.entrySet()) {
+          int codeId = item.getValue().get();
+          item.setValue(new IntWritable(val.get(codeId)));
         }
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
+        context.write(key, maps);
       }
+      
     }
   }
 
   /**
    * Creates an instance of this tool.
    */
-  public MrDenseSift() {
+  public JoinCodebookTopic() {
   }
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
-  private static final String STEP_SIZE = "stepsize";
+  private static final String TOPIC = "topic";
 
   /**
    * Runs this tool.
@@ -137,8 +124,8 @@ public class MrDenseSift extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
-    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("step size")
-        .create(STEP_SIZE));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("topic path")
+        .create(TOPIC));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -161,36 +148,35 @@ public class MrDenseSift extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
+    String topicPath = cmdline.getOptionValue(TOPIC);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
-    int stepsize = cmdline.hasOption(STEP_SIZE) ? Integer.parseInt(cmdline
-        .getOptionValue(STEP_SIZE)) : 8;
 
-    LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
+    LOG.info("Tool: " + JoinCodebookTopic.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reducerTasks);
-    LOG.info(" - step size: " + stepsize);
+    LOG.info(" - topic path: " + topicPath);
 
     Configuration conf = getConf();
-    conf.setInt("stepsize", stepsize);
+    conf.set("topic", topicPath);
     Job job = Job.getInstance(conf);
-    job.setJobName(MrDenseSift.class.getSimpleName());
-    job.setJarByClass(MrDenseSift.class);
+    job.setJobName(JoinCodebookTopic.class.getSimpleName());
+    job.setJarByClass(JoinCodebookTopic.class);
 
     job.setNumReduceTasks(reducerTasks);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    job.setInputFormatClass(TextInputFormat.class);
+    job.setInputFormatClass(SequenceFileInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
     job.setMapOutputKeyClass(IntWritable.class);
-    job.setMapOutputValueClass(Text.class);
+    job.setMapOutputValueClass(HashMapWritable.class);
 
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(VectorWritable.class);
+    job.setOutputKeyClass(IntWritable.class);
+    job.setOutputValueClass(HashMapWritable.class);
 
     job.setMapperClass(MyMapper.class);
     job.setReducerClass(MyReducer.class);
@@ -210,6 +196,6 @@ public class MrDenseSift extends Configured implements Tool {
    * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
    */
   public static void main(String[] args) throws Exception {
-    ToolRunner.run(new MrDenseSift(), args);
+    ToolRunner.run(new JoinCodebookTopic(), args);
   }
 }

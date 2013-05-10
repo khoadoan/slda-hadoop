@@ -158,6 +158,49 @@ public class BuildCodebook extends Configured implements Tool {
         clusterClassificationThreshold, false);
   }
 
+  public void KMeansClusteringWithSamples(Configuration conf, String inputSequencePath, String sampleSequencePath,
+      String outputSequencePath, int numClusters, double convergenceDelta, int maxIterations) throws IOException, InterruptedException,
+      ClassNotFoundException {
+
+    DistanceMeasure measure = new EuclideanDistanceMeasure();
+
+    Path input = new Path(inputSequencePath);
+    Path output = new Path(outputSequencePath);
+    Path sample = new Path(sampleSequencePath);
+    FileSystem.get(conf).delete(output, true);
+
+    // Initial clustering
+    LOG.info("Running random seed to get initial clusters");
+    Path clusters = new Path(outputSequencePath, Cluster.INITIAL_CLUSTERS_DIR);
+    clusters = RandomSeedGenerator.buildRandom(conf, sample, clusters, numClusters, measure);
+
+    Path clustersIn = new Path(outputSequencePath, "clusters-start");
+
+    LOG.info("Renaming cluster IDs");
+    RenameClusterIds(conf, clusters, clustersIn);
+
+    HadoopUtil.delete(conf, clusters);
+    
+    // Kmeans clustering
+
+    double clusterClassificationThreshold = 0.0;
+    String delta = Double.toString(convergenceDelta);
+
+    LOG.info("Running KMeans");
+    LOG.info("Input: {} Clusters In: {} Out: {} Distance: {}", new Object[] { input, clustersIn,
+        output, measure.getClass().getName() });
+    LOG.info("convergence: {} max Iterations: {} num Reduce Tasks: {} Input Vectors: {}",
+        new Object[] { convergenceDelta, maxIterations, VectorWritable.class.getName() });
+
+    Path clustersOut = KMeansDriver.buildClusters(conf, sample, clustersIn, output, measure,
+        maxIterations, delta, false);
+
+    LOG.info("clusterOut = " + clustersOut.toString());
+
+    KMeansDriver.clusterData(conf, input, clustersOut, output, measure,
+        clusterClassificationThreshold, false);
+  }
+  
   public void KMeansByMahout(Configuration conf, String inputPath, String outputPath, int K)
       throws Exception {
 
@@ -215,6 +258,8 @@ public class BuildCodebook extends Configured implements Tool {
   private static final String NUM_CLUSTERS = "K";
   private static final String FUNC = "func";
   private static final String CLUSTER = "cluster";
+  private static final String SAMPLE = "sample";
+  private static final String MAXITER = "maxiter";
 
   /**
    * Runs this tool.
@@ -229,10 +274,14 @@ public class BuildCodebook extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of clusters").create(NUM_CLUSTERS));
+    options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("sample path")
+        .create(SAMPLE));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("tools")
         .create(FUNC));
     options.addOption(OptionBuilder.withArgName("path").hasArg().withDescription("cluster path")
         .create(CLUSTER));
+    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("max iterations")
+        .create(MAXITER));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -255,10 +304,12 @@ public class BuildCodebook extends Configured implements Tool {
 
     String inputPath = cmdline.getOptionValue(INPUT);
     String outputPath = cmdline.getOptionValue(OUTPUT);
+    String samplePath = cmdline.hasOption(SAMPLE) ? cmdline.getOptionValue(SAMPLE) : inputPath;
     int numClusters = cmdline.hasOption(NUM_CLUSTERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_CLUSTERS)) : 1024;
     String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "all";
     String clusterPath = cmdline.hasOption(CLUSTER) ? cmdline.getOptionValue(CLUSTER) : "";
+    int maxIterations = cmdline.hasOption(MAXITER) ? Integer.parseInt(cmdline.getOptionValue(MAXITER)) : 100;
 
     LOG.info("Tool: " + BuildCodebook.class.getSimpleName());
 
@@ -267,8 +318,7 @@ public class BuildCodebook extends Configured implements Tool {
     // Kmeans using mahout
     if (func.equals("all")) {
       double convergenceDelta = 1e-5;
-      int maxIterations = 500;
-      KMeansClustering(conf, inputPath, outputPath, numClusters, convergenceDelta, maxIterations);
+      KMeansClusteringWithSamples(conf, inputPath, samplePath, outputPath, numClusters, convergenceDelta, maxIterations);
     } else if (func.equals("rename")) {
       Path input = new Path(inputPath);
       Path output = new Path(outputPath);
