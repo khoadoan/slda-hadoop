@@ -14,13 +14,16 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
@@ -35,80 +38,33 @@ import mpicbg.imagefeatures.Feature;
 
 import cern.colt.Arrays;
 
-public class MrDenseSift extends Configured implements Tool {
-  private static final Logger LOG = Logger.getLogger(MrDenseSift.class);
+public class MrSampleFeatures extends Configured implements Tool {
+  private static final Logger LOG = Logger.getLogger(MrSampleFeatures.class);
 
-  private static class MyMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
-
-    private final static IntWritable KEY = new IntWritable();
-    private final static Text VALUE = new Text();
+  private static class MyMapper extends Mapper<Text, VectorWritable, DoubleWritable, VectorWritable> {
 
     @Override
-    public void map(LongWritable key, Text value, Context context) throws IOException,
+    public void map(Text key, VectorWritable value, Context context) throws IOException,
         InterruptedException {
 
-      String[] str = value.toString().split("\t");
-
-      KEY.set(Integer.parseInt(str[0]));
-      VALUE.set(str[1]);
-      context.write(KEY, VALUE);
-
+      if (Math.random() < context.getConfiguration().getFloat("ratio", (float)1.0)) {
+        context.write(new DoubleWritable(Math.random()), value);
+      }
     }
   }
 
   // Reducer: sums up all the counts.
-  private static class MyReducer extends Reducer<IntWritable, Text, Text, VectorWritable> {
+  private static class MyReducer extends Reducer<DoubleWritable, VectorWritable, Text, VectorWritable> {
 
-    // Reuse objects.
-    private FileSystem fs;
-    private static int stepsize = 8;
-    private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
-    private static DenseVector VECTOR = new DenseVector(128);
-    private final static Text EMPTY = new Text();
-
+    private static final Text KEY = new Text();
     @Override
-    public void setup(Context context) throws IOException {
-      Configuration conf = context.getConfiguration();
-      fs = FileSystem.get(conf);
-      stepsize = conf.getInt("stepsize", 8);
-    }
-
-    @Override
-    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException,
+    public void reduce(DoubleWritable key, Iterable<VectorWritable> values, Context context) throws IOException,
         InterruptedException {
 
-      int id = key.get();
-
-      // there is only one value for each group
-      Iterator<Text> iter = values.iterator();
-
-      try {
-        // take the value which is the file path and process the image
-        if (iter.hasNext()) {
-
-          String filePath = iter.next().toString();
-
-          FSDataInputStream stream = fs.open(new Path(filePath));
-
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, stepsize)
-              .getExtractedFeatures();
-
-          for (Feature f : extractedSiftFeatures) {
-            if (f.descriptor.length != VECTOR.size())
-              VECTOR = new DenseVector(f.descriptor.length);
-            for (int i = 0; i < f.descriptor.length; ++i)
-              VECTOR.set(i, (double) f.descriptor[i]);
-            NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " "
-                + String.valueOf((int) f.location[0]) + " " + String.valueOf((int) f.location[1]));
-            FEATURE_VECTOR.set(NAMED_VECTOR);
-
-            context.write(EMPTY, FEATURE_VECTOR);
-          }
-
-          stream.close();
-        }
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
+      Iterator<VectorWritable> iter = values.iterator();
+      
+      while (iter.hasNext()) {
+        context.write(KEY, iter.next());
       }
     }
   }
@@ -116,13 +72,13 @@ public class MrDenseSift extends Configured implements Tool {
   /**
    * Creates an instance of this tool.
    */
-  public MrDenseSift() {
+  public MrSampleFeatures() {
   }
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
-  private static final String STEP_SIZE = "stepsize";
+  private static final String RATIO = "ratio";
 
   /**
    * Runs this tool.
@@ -137,8 +93,8 @@ public class MrDenseSift extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
-    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("step size")
-        .create(STEP_SIZE));
+    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("sample ratio")
+        .create(RATIO));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -163,31 +119,31 @@ public class MrDenseSift extends Configured implements Tool {
     String outputPath = cmdline.getOptionValue(OUTPUT);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
-    int stepsize = cmdline.hasOption(STEP_SIZE) ? Integer.parseInt(cmdline
-        .getOptionValue(STEP_SIZE)) : 8;
+    float ratio = cmdline.hasOption(RATIO) ? Float.parseFloat(cmdline
+        .getOptionValue(RATIO)) : 1;
 
-    LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
+    LOG.info("Tool: " + MrSampleFeatures.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reducerTasks);
-    LOG.info(" - step size: " + stepsize);
+    LOG.info(" - ratio: " + ratio);
 
     Configuration conf = getConf();
-    conf.setInt("stepsize", stepsize);
+    conf.setFloat("ratio", ratio);
     Job job = Job.getInstance(conf);
-    job.setJobName(MrDenseSift.class.getSimpleName());
-    job.setJarByClass(MrDenseSift.class);
+    job.setJobName(MrSampleFeatures.class.getSimpleName());
+    job.setJarByClass(MrSampleFeatures.class);
 
     job.setNumReduceTasks(reducerTasks);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    job.setInputFormatClass(TextInputFormat.class);
+    job.setInputFormatClass(SequenceFileInputFormat.class);
     job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    job.setMapOutputKeyClass(IntWritable.class);
-    job.setMapOutputValueClass(Text.class);
+    job.setMapOutputKeyClass(DoubleWritable.class);
+    job.setMapOutputValueClass(VectorWritable.class);
 
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(VectorWritable.class);
@@ -210,6 +166,6 @@ public class MrDenseSift extends Configured implements Tool {
    * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
    */
   public static void main(String[] args) throws Exception {
-    ToolRunner.run(new MrDenseSift(), args);
+    ToolRunner.run(new MrSampleFeatures(), args);
   }
 }

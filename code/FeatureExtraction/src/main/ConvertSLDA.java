@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import mpicbg.imagefeatures.Feature;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -15,100 +18,67 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MapFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.log4j.Logger;
+import org.apache.mahout.clustering.classify.WeightedVectorWritable;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.VectorWritable;
 
-import mpicbg.imagefeatures.Feature;
-
 import cern.colt.Arrays;
+import edu.umd.cloud9.io.map.HMapIIW;
+import edu.umd.cloud9.io.map.HMapSIW;
+import edu.umd.cloud9.io.map.HashMapWritable;
+import edu.umd.cloud9.io.pair.PairOfInts;
+import edu.umd.cloud9.io.triple.TripleOfInts;
+import edu.umd.cloud9.util.map.HMapII;
+import edu.umd.cloud9.util.map.MapKI;
 
-public class MrDenseSift extends Configured implements Tool {
-  private static final Logger LOG = Logger.getLogger(MrDenseSift.class);
+public class ConvertSLDA extends Configured implements Tool {
+  private static final Logger LOG = Logger.getLogger(ConvertSLDA.class);
 
-  private static class MyMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
+  private static class ConvertSLDAMapper extends Mapper<Text, HMapSIW, IntWritable, HMapIIW> {
 
     private final static IntWritable KEY = new IntWritable();
-    private final static Text VALUE = new Text();
 
     @Override
-    public void map(LongWritable key, Text value, Context context) throws IOException,
+    public void map(Text key, HMapSIW value, Context context) throws IOException,
         InterruptedException {
 
-      String[] str = value.toString().split("\t");
-
-      KEY.set(Integer.parseInt(str[0]));
-      VALUE.set(str[1]);
-      context.write(KEY, VALUE);
-
+      KEY.set(Integer.parseInt(key.toString()));
+      
+      HMapIIW val = new HMapIIW();
+      for (MapKI.Entry<String> item : value.entrySet())  {
+        int k = Integer.parseInt(item.getKey());
+        val.put(k, item.getValue());
+      }
+      
+      context.write(KEY, val);
     }
   }
-
-  // Reducer: sums up all the counts.
-  private static class MyReducer extends Reducer<IntWritable, Text, Text, VectorWritable> {
-
-    // Reuse objects.
-    private FileSystem fs;
-    private static int stepsize = 8;
-    private final static VectorWritable FEATURE_VECTOR = new VectorWritable();
-    private static DenseVector VECTOR = new DenseVector(128);
-    private final static Text EMPTY = new Text();
+  
+  private static class ConvertSLDAReducer extends Reducer<IntWritable, HMapIIW, IntWritable, HMapIIW> {
 
     @Override
-    public void setup(Context context) throws IOException {
-      Configuration conf = context.getConfiguration();
-      fs = FileSystem.get(conf);
-      stepsize = conf.getInt("stepsize", 8);
-    }
-
-    @Override
-    public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException,
+    public void reduce(IntWritable key, Iterable<HMapIIW> values, Context context) throws IOException,
         InterruptedException {
 
-      int id = key.get();
-
       // there is only one value for each group
-      Iterator<Text> iter = values.iterator();
-
-      try {
-        // take the value which is the file path and process the image
-        if (iter.hasNext()) {
-
-          String filePath = iter.next().toString();
-
-          FSDataInputStream stream = fs.open(new Path(filePath));
-
-          List<Feature> extractedSiftFeatures = new ExtractDenseSiftFromImage(stream, stepsize)
-              .getExtractedFeatures();
-
-          for (Feature f : extractedSiftFeatures) {
-            if (f.descriptor.length != VECTOR.size())
-              VECTOR = new DenseVector(f.descriptor.length);
-            for (int i = 0; i < f.descriptor.length; ++i)
-              VECTOR.set(i, (double) f.descriptor[i]);
-            NamedVector NAMED_VECTOR = new NamedVector(VECTOR, String.valueOf(id) + " "
-                + String.valueOf((int) f.location[0]) + " " + String.valueOf((int) f.location[1]));
-            FEATURE_VECTOR.set(NAMED_VECTOR);
-
-            context.write(EMPTY, FEATURE_VECTOR);
-          }
-
-          stream.close();
-        }
-      } catch (Exception e) {
-        System.out.println(e.getMessage());
+      Iterator<HMapIIW> iter = values.iterator();
+      
+      while (iter.hasNext()) {
+        context.write(key, iter.next());
       }
     }
   }
@@ -116,13 +86,13 @@ public class MrDenseSift extends Configured implements Tool {
   /**
    * Creates an instance of this tool.
    */
-  public MrDenseSift() {
+  public ConvertSLDA() {
   }
 
   private static final String INPUT = "input";
   private static final String OUTPUT = "output";
   private static final String NUM_REDUCERS = "numReducers";
-  private static final String STEP_SIZE = "stepsize";
+  private static final String FUNC = "code2lda";
 
   /**
    * Runs this tool.
@@ -137,8 +107,8 @@ public class MrDenseSift extends Configured implements Tool {
         .create(OUTPUT));
     options.addOption(OptionBuilder.withArgName("num").hasArg()
         .withDescription("number of reducers").create(NUM_REDUCERS));
-    options.addOption(OptionBuilder.withArgName("num").hasArg().withDescription("step size")
-        .create(STEP_SIZE));
+    options.addOption(OptionBuilder.withArgName("arg").hasArg().withDescription("type")
+        .create(FUNC));
 
     CommandLine cmdline;
     CommandLineParser parser = new GnuParser();
@@ -163,37 +133,35 @@ public class MrDenseSift extends Configured implements Tool {
     String outputPath = cmdline.getOptionValue(OUTPUT);
     int reducerTasks = cmdline.hasOption(NUM_REDUCERS) ? Integer.parseInt(cmdline
         .getOptionValue(NUM_REDUCERS)) : 1;
-    int stepsize = cmdline.hasOption(STEP_SIZE) ? Integer.parseInt(cmdline
-        .getOptionValue(STEP_SIZE)) : 8;
+    String func = cmdline.hasOption(FUNC) ? cmdline.getOptionValue(FUNC) : "";
 
-    LOG.info("Tool: " + MrDenseSift.class.getSimpleName());
+    LOG.info("Tool: " + ConvertSLDA.class.getSimpleName());
     LOG.info(" - input path: " + inputPath);
     LOG.info(" - output path: " + outputPath);
     LOG.info(" - number of reducers: " + reducerTasks);
-    LOG.info(" - step size: " + stepsize);
+    LOG.info(" - type: " + func);
 
     Configuration conf = getConf();
-    conf.setInt("stepsize", stepsize);
     Job job = Job.getInstance(conf);
-    job.setJobName(MrDenseSift.class.getSimpleName());
-    job.setJarByClass(MrDenseSift.class);
+    job.setJobName(ConvertSLDA.class.getSimpleName());
+    job.setJarByClass(ConvertSLDA.class);
 
     job.setNumReduceTasks(reducerTasks);
 
     FileInputFormat.setInputPaths(job, new Path(inputPath));
     FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
-    job.setInputFormatClass(TextInputFormat.class);
-    job.setOutputFormatClass(SequenceFileOutputFormat.class);
+    job.setInputFormatClass(SequenceFileInputFormat.class);
 
     job.setMapOutputKeyClass(IntWritable.class);
-    job.setMapOutputValueClass(Text.class);
+    job.setMapOutputValueClass(HMapIIW.class);
 
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(VectorWritable.class);
+    job.setOutputKeyClass(IntWritable.class);
+    job.setOutputValueClass(HMapIIW.class);
+    job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-    job.setMapperClass(MyMapper.class);
-    job.setReducerClass(MyReducer.class);
+    job.setMapperClass(ConvertSLDAMapper.class);
+    job.setReducerClass(ConvertSLDAReducer.class);
 
     // Delete the output directory if it exists already.
     Path outputDir = new Path(outputPath);
@@ -210,6 +178,6 @@ public class MrDenseSift extends Configured implements Tool {
    * Dispatches command-line arguments to the tool via the {@code ToolRunner}.
    */
   public static void main(String[] args) throws Exception {
-    ToolRunner.run(new MrDenseSift(), args);
+    ToolRunner.run(new ConvertSLDA(), args);
   }
 }
