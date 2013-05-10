@@ -1,18 +1,20 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.4.5)  9 MAY 2013 19:52
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.5.8)  9 MAY 2013 22:34
 entering extended mode
 **SLDA.tex
-(E:\Dropbox\school\cmsc828G\project\SLDA.tex
+
+(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
+op\report\vr\SLDA.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
 croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
-vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
-an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
-romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
-sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
-senglishmax, welsh, loaded.
+lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
@@ -30,10 +32,10 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsbsy.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks14
 \ex@=\dimen103
@@ -44,226 +46,166 @@ File: amsgen.sty 1999/11/30 v2.0
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\expl3.sty"
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3names.sty"
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3bootstrap.sty"
-Package: l3bootstrap 2011/12/29 v3110 L3 Experimental bootstrap code
+Package: l3bootstrap 2013/01/08 v4420 L3 Experimental bootstrap code
 )
-Package: l3names 2012/03/04 v3494 L3 Experimental namespace for primitives
+Package: l3names 2012/12/07 v4346 L3 Namespace for primitives
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\misc\etex.sty"
 Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
 \et@xins=\count87
 )
-Package: expl3 2012/04/23 v3570 L3 Experimental code bundle wrapper
+Package: expl3 2013/03/14 v4469 L3 Experimental code bundle wrapper
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package color Info: Driver file: pdftex.def on input line 130.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-)
-\Gread@gobject=\count88
-))
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
-)
-Package graphics Info: Driver file: pdftex.def on input line 91.
-)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3basics.sty"
-Package: l3basics 2012/03/04 v3491 L3 Experimental basic definitions
+Package: l3basics 2013/01/10 v4428 L3 Basic definitions
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3expan.sty"
-Package: l3expan 2012/02/26 v3460 L3 Experimental argument expansion
+Package: l3expan 2013/02/03 v4458 L3 Argument expansion
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3tl.sty"
-Package: l3tl 2012/03/04 v3490 L3 Experimental token lists
+Package: l3tl 2013/01/08 v4415 L3 Token lists
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3seq.sty"
-Package: l3seq 2012/03/04 v3490 L3 Experimental sequences and stacks
+Package: l3seq 2013/01/12 v4434 L3 Sequences and stacks
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3int.sty"
-Package: l3int 2012/03/04 v3490 L3 Experimental integers
-\c_max_int=\count89
-\l_tmpa_int=\count90
-\l_tmpb_int=\count91
-\l_tmpc_int=\count92
-\g_tmpa_int=\count93
-\g_tmpb_int=\count94
+Package: l3int 2013/01/13 v4444 L3 Integers
+\c_max_int=\count88
+\l_tmpa_int=\count89
+\l_tmpb_int=\count90
+\g_tmpa_int=\count91
+\g_tmpb_int=\count92
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3quark.sty"
-Package: l3quark 2012/02/12 v3384 L3 Experimental quarks
+Package: l3quark 2012/11/04 v4268 L3 Quarks
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3prg.sty"
-Package: l3prg 2012/03/04 v3490 L3 Experimental control structures
-\g_prg_map_int=\count95
+Package: l3prg 2013/02/13 v4459 L3 Control structures
+\g__prg_map_int=\count93
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3clist.sty"
-Package: l3clist 2012/03/04 v3490 L3 Experimental comma separated lists
+Package: l3clist 2013/01/08 v4414 L3 Comma separated lists
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3token.sty"
-Package: l3token 2012/03/04 v3491 L3 Experimental token manipulation
+Package: l3token 2013/01/10 v4428 L3 Experimental token manipulation
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3prop.sty"
-Package: l3prop 2012/03/04 v3490 L3 Experimental property lists
+Package: l3prop 2013/01/09 v4423 L3 Property lists
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3msg.sty"
-Package: l3msg 2012/04/23 v3568 L3 Experimental messages
+Package: l3msg 2013/01/08 v4412 L3 Messages
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3file.sty"
-Package: l3file 2012/03/09 v3520 L3 Experimental file and I/O operations
-\l_iow_stream_int=\count96
-\l_iow_line_length_int=\count97
-\l_iow_target_length_int=\count98
-\l_iow_current_line_int=\count99
-\l_iow_current_word_int=\count100
-\l_iow_current_indentation_int=\count101
+Package: l3file 2013/01/14 v4446 L3 File and I/O operations
+\l_iow_line_count_int=\count94
+\l__iow_target_count_int=\count95
+\l__iow_current_line_int=\count96
+\l__iow_current_word_int=\count97
+\l__iow_current_indentation_int=\count98
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3skip.sty"
-Package: l3skip 2012/03/05 v3499 L3 Experimental dimensions and skips
-\l_tmpa_dim=\dimen105
-\l_tmpb_dim=\dimen106
-\l_tmpc_dim=\dimen107
-\g_tmpa_dim=\dimen108
-\g_tmpb_dim=\dimen109
-\l_tmpa_skip=\skip43
-\l_tmpb_skip=\skip44
-\l_tmpc_skip=\skip45
-\g_tmpa_skip=\skip46
-\g_tmpb_skip=\skip47
+Package: l3skip 2013/01/13 v4444 L3 Dimensions and skips
+\c_zero_dim=\dimen105
+\c_max_dim=\dimen106
+\l_tmpa_dim=\dimen107
+\l_tmpb_dim=\dimen108
+\g_tmpa_dim=\dimen109
+\g_tmpb_dim=\dimen110
+\c_zero_skip=\skip43
+\c_max_skip=\skip44
+\l_tmpa_skip=\skip45
+\l_tmpb_skip=\skip46
+\g_tmpa_skip=\skip47
+\g_tmpb_skip=\skip48
+\c_zero_muskip=\muskip10
+\c_max_muskip=\muskip11
+\l_tmpa_muskip=\muskip12
+\l_tmpb_muskip=\muskip13
+\g_tmpa_muskip=\muskip14
+\g_tmpb_muskip=\muskip15
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3keys.sty"
-Package: l3keys 2012/03/03 v3487 L3 Experimental key-value interfaces
-\g_keyval_level_int=\count102
-\l_keys_choice_int=\count103
+Package: l3keys 2013/02/24 v4461 L3 Experimental key-value interfaces
+\g__keyval_level_int=\count99
+\l_keys_choice_int=\count100
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3fp.sty"
-Package: l3fp 2012/03/04 v3490 L3 Experimental floating-point operations
-\c_one_million=\count104
-\c_one_hundred_million=\count105
-\c_five_hundred_million=\count106
-\c_one_thousand_million=\count107
-\c_fp_pi_by_four_decimal_int=\count108
-\c_fp_pi_by_four_extended_int=\count109
-\c_fp_pi_decimal_int=\count110
-\c_fp_pi_extended_int=\count111
-\c_fp_two_pi_decimal_int=\count112
-\c_fp_two_pi_extended_int=\count113
-\l_fp_count_int=\count114
-\l_fp_div_offset_int=\count115
-\l_fp_exp_integer_int=\count116
-\l_fp_exp_decimal_int=\count117
-\l_fp_exp_extended_int=\count118
-\l_fp_exp_exponent_int=\count119
-\l_fp_input_a_sign_int=\count120
-\l_fp_input_a_integer_int=\count121
-\l_fp_input_a_decimal_int=\count122
-\l_fp_input_a_exponent_int=\count123
-\l_fp_input_b_sign_int=\count124
-\l_fp_input_b_integer_int=\count125
-\l_fp_input_b_decimal_int=\count126
-\l_fp_input_b_exponent_int=\count127
-\l_fp_input_a_extended_int=\count128
-\l_fp_input_b_extended_int=\count129
-\l_fp_mul_a_i_int=\count130
-\l_fp_mul_a_ii_int=\count131
-\l_fp_mul_a_iii_int=\count132
-\l_fp_mul_a_iv_int=\count133
-\l_fp_mul_a_v_int=\count134
-\l_fp_mul_a_vi_int=\count135
-\l_fp_mul_b_i_int=\count136
-\l_fp_mul_b_ii_int=\count137
-\l_fp_mul_b_iii_int=\count138
-\l_fp_mul_b_iv_int=\count139
-\l_fp_mul_b_v_int=\count140
-\l_fp_mul_b_vi_int=\count141
-\l_fp_mul_output_int=\count142
-\l_fp_output_sign_int=\count143
-\l_fp_output_integer_int=\count144
-\l_fp_output_decimal_int=\count145
-\l_fp_output_exponent_int=\count146
-\l_fp_output_extended_int=\count147
-\l_fp_round_position_int=\count148
-\l_fp_round_target_int=\count149
-\l_fp_split_sign_int=\count150
-\l_fp_internal_int=\count151
-\l_fp_trig_octant_int=\count152
-\l_fp_trig_sign_int=\count153
-\l_fp_trig_decimal_int=\count154
-\l_fp_trig_extended_int=\count155
-\l_fp_internal_dim=\dimen110
-\l_fp_internal_skip=\skip48
+Package: l3fp 2013/01/19 v4449 L3 Floating points
+\c__fp_leading_shift_int=\count101
+\c__fp_middle_shift_int=\count102
+\c__fp_trailing_shift_int=\count103
+\c__fp_big_leading_shift_int=\count104
+\c__fp_big_middle_shift_int=\count105
+\c__fp_big_trailing_shift_int=\count106
+\c__fp_Bigg_leading_shift_int=\count107
+\c__fp_Bigg_middle_shift_int=\count108
+\c__fp_Bigg_trailing_shift_int=\count109
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3box.sty"
-Package: l3box 2012/03/04 v3490 L3 Experimental boxes
-\l_tmpb_box=\box26
-\l_box_top_dim=\dimen111
-\l_box_bottom_dim=\dimen112
-\l_box_left_dim=\dimen113
-\l_box_right_dim=\dimen114
-\l_box_top_new_dim=\dimen115
-\l_box_bottom_new_dim=\dimen116
-\l_box_left_new_dim=\dimen117
-\l_box_right_new_dim=\dimen118
-\l_box_internal_box=\box27
+Package: l3box 2013/01/08 v4411 L3 Experimental boxes
+\c_empty_box=\box26
+\l_tmpa_box=\box27
+\l_tmpb_box=\box28
+\g_tmpa_box=\box29
+\g_tmpb_box=\box30
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3coffins.sty"
-Package: l3coffins 2012/03/03 v3482 L3 Experimental coffin code layer
-\l_coffin_internal_box=\box28
-\l_coffin_internal_dim=\dimen119
-\l_coffin_offset_x_dim=\dimen120
-\l_coffin_offset_y_dim=\dimen121
-\l_coffin_x_dim=\dimen122
-\l_coffin_y_dim=\dimen123
-\l_coffin_x_prime_dim=\dimen124
-\l_coffin_y_prime_dim=\dimen125
-\l_coffin_Depth_dim=\dimen126
-\l_coffin_Height_dim=\dimen127
-\l_coffin_TotalHeight_dim=\dimen128
-\l_coffin_Width_dim=\dimen129
-\c_empty_coffin=\box29
-\l_coffin_aligned_coffin=\box30
-\l_coffin_aligned_internal_coffin=\box31
-\l_coffin_bounding_shift_dim=\dimen130
-\l_coffin_left_corner_dim=\dimen131
-\l_coffin_right_corner_dim=\dimen132
-\l_coffin_bottom_corner_dim=\dimen133
-\l_coffin_top_corner_dim=\dimen134
-\l_coffin_scaled_total_height_dim=\dimen135
-\l_coffin_scaled_width_dim=\dimen136
-\l_coffin_display_coffin=\box32
-\l_coffin_display_coord_coffin=\box33
-\l_coffin_display_pole_coffin=\box34
-\l_coffin_display_offset_dim=\dimen137
-\l_coffin_display_x_dim=\dimen138
-\l_coffin_display_y_dim=\dimen139
+Package: l3coffins 2012/09/09 v4212 L3 Coffin code layer
+\l__coffin_internal_box=\box31
+\l__coffin_internal_dim=\dimen111
+\l__coffin_offset_x_dim=\dimen112
+\l__coffin_offset_y_dim=\dimen113
+\l__coffin_x_dim=\dimen114
+\l__coffin_y_dim=\dimen115
+\l__coffin_x_prime_dim=\dimen116
+\l__coffin_y_prime_dim=\dimen117
+\c_empty_coffin=\box32
+\l__coffin_aligned_coffin=\box33
+\l__coffin_aligned_internal_coffin=\box34
+\l_tmpa_coffin=\box35
+\l_tmpb_coffin=\box36
+\l__coffin_display_coffin=\box37
+\l__coffin_display_coord_coffin=\box38
+\l__coffin_display_pole_coffin=\box39
+\l__coffin_display_offset_dim=\dimen118
+\l__coffin_display_x_dim=\dimen119
+\l__coffin_display_y_dim=\dimen120
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3color.sty"
-Package: l3color 2011/09/07 v2776 L3 Experimental colour support
+Package: l3color 2012/08/29 v4156 L3 Experimental color support
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3luatex.sty"
-Package: l3luatex 2012/02/09 v3355 L3 Experimental LuaTeX-specific functions
-\g_cctab_allocate_int=\count156
-\g_cctab_stack_int=\count157
+Package: l3luatex 2012/08/03 v4049 L3 Experimental LuaTeX-specific functions
+\g__cctab_allocate_int=\count110
+\g__cctab_stack_int=\count111
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\l3kernel\l3candidates.sty"
+Package: l3candidates 2013/03/14 v4468 L3 Experimental additions to l3kernel
+\l__box_top_dim=\dimen121
+\l__box_bottom_dim=\dimen122
+\l__box_left_dim=\dimen123
+\l__box_right_dim=\dimen124
+\l__box_top_new_dim=\dimen125
+\l__box_bottom_new_dim=\dimen126
+\l__box_left_new_dim=\dimen127
+\l__box_right_new_dim=\dimen128
+\l__box_internal_box=\box40
+\l__coffin_bounding_shift_dim=\dimen129
+\l__coffin_left_corner_dim=\dimen130
+\l__coffin_right_corner_dim=\dimen131
+\l__coffin_bottom_corner_dim=\dimen132
+\l__coffin_top_corner_dim=\dimen133
+\l__coffin_scaled_total_height_dim=\dimen134
+\l__coffin_scaled_width_dim=\dimen135
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 ))
 Package: breqn 2012/05/10 v0.98b Breaking equations
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\mh\flexisym.sty"
-Package: flexisym 2010/09/17 v0.97b Make math characters macros
+Package: flexisym 2013/03/16 v0.97c Make math characters macros
 LaTeX Info: Redefining \textprime on input line 296.
 LaTeX Info: Redefining \not on input line 354.
 
@@ -306,87 +248,83 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count158
-\calc@Bcount=\count159
-\calc@Adimen=\dimen140
-\calc@Bdimen=\dimen141
+\calc@Acount=\count112
+\calc@Bcount=\count113
+\calc@Adimen=\dimen136
+\calc@Bdimen=\dimen137
 \calc@Askip=\skip49
 \calc@Bskip=\skip50
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count160
+\calc@Ccount=\count114
 \calc@Cskip=\skip51
 )
-\inf@bad=\count161
-\maxint=\count162
-\listwidth=\dimen142
-\eqnumsep=\dimen143
-\eqmargin=\dimen144
+\inf@bad=\count115
+\maxint=\count116
+\listwidth=\dimen138
+\eqnumsep=\dimen139
+\eqmargin=\dimen140
 \eqlinespacing=\skip52
 \eqlineskip=\skip53
-\eqlineskiplimit=\dimen145
-\eqbinoffset=\muskip10
-\eqdelimoffset=\muskip11
-\eqindentstep=\dimen146
+\eqlineskiplimit=\dimen141
+\eqbinoffset=\muskip16
+\eqdelimoffset=\muskip17
+\eqindentstep=\dimen142
 \eqstyle=\toks16
-\eqbreakdepth=\count163
-\eqinterlinepenalty=\count164
-\intereqpenalty=\count165
+\eqbreakdepth=\count117
+\eqinterlinepenalty=\count118
+\intereqpenalty=\count119
 \intereqskip=\skip54
-\prerelpenalty=\count166
-\prebinoppenalty=\count167
-\Dmedmuskip=\muskip12
-\Dthickmuskip=\muskip13
+\prerelpenalty=\count120
+\prebinoppenalty=\count121
+\Dmedmuskip=\muskip18
+\Dthickmuskip=\muskip19
 \eqleftskip=\skip55
 \eqrightskip=\skip56
 \eq@vspan=\skip57
-\eq@binoffset=\muskip14
-\EQ@box=\box35
-\EQ@copy=\box36
-\EQ@numbox=\box37
-\eq@wdNum=\dimen147
-\GRP@numbox=\box38
-\grp@wdNum=\dimen148
-\eq@lines=\count168
-\eq@curline=\count169
-\eq@badness=\count170
-\EQ@vims=\count171
-\eq@dp=\dimen149
-\eq@wdL=\dimen150
-\eq@wdT=\dimen151
-\eq@wdMin=\dimen152
-\grp@wdL=\dimen153
-\grp@wdR=\dimen154
-\grp@wdT=\dimen155
-\eq@wdRmax=\dimen156
-\eq@firstht=\dimen157
-\eq@wdCond=\dimen158
-\eq@indentstep=\dimen159
-\eq@linewidth=\dimen160
-\grp@linewidth=\dimen161
-\eq@hshift=\dimen162
-\eq@given@sidespace=\dimen163
-\mathindent=\dimen164
-\eq@final@linecount=\count172
-\eq@wdR=\dimen165
+\eq@binoffset=\muskip20
+\EQ@box=\box41
+\EQ@copy=\box42
+\EQ@numbox=\box43
+\eq@wdNum=\dimen143
+\GRP@numbox=\box44
+\grp@wdNum=\dimen144
+\eq@lines=\count122
+\eq@curline=\count123
+\eq@badness=\count124
+\EQ@vims=\count125
+\eq@dp=\dimen145
+\eq@wdL=\dimen146
+\eq@wdT=\dimen147
+\eq@wdMin=\dimen148
+\grp@wdL=\dimen149
+\grp@wdR=\dimen150
+\grp@wdT=\dimen151
+\eq@wdRmax=\dimen152
+\eq@firstht=\dimen153
+\eq@wdCond=\dimen154
+\eq@indentstep=\dimen155
+\eq@linewidth=\dimen156
+\grp@linewidth=\dimen157
+\eq@hshift=\dimen158
+\eq@given@sidespace=\dimen159
+\mathindent=\dimen160
+\eq@final@linecount=\count126
+\eq@wdR=\dimen161
 \EQ@continue=\toks17
-\lr@level=\count173
+\lr@level=\count127
 \GRP@queue=\toks18
-\c@parentequation=\count174
-\GRP@box=\box39
-\GRP@wholebox=\box40
+\c@parentequation=\count128
+\GRP@box=\box45
+\GRP@wholebox=\box46
 \darraycolsep=\skip58
-\cur@row=\count175
-\cur@col=\count176
+\cur@row=\count129
+\cur@col=\count130
 \conditionsep=\skip59
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
@@ -394,21 +332,22 @@ Package ifvtex Info: VTeX not detected.
 ("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count177
-\Gm@cntv=\count178
-\c@Gm@tempcnt=\count179
-\Gm@bindingoffset=\dimen166
-\Gm@wd@mp=\dimen167
-\Gm@odd@mp=\dimen168
-\Gm@even@mp=\dimen169
-\Gm@layoutwidth=\dimen170
-\Gm@layoutheight=\dimen171
-\Gm@layouthoffset=\dimen172
-\Gm@layoutvoffset=\dimen173
+\Gm@cnth=\count131
+\Gm@cntv=\count132
+\c@Gm@tempcnt=\count133
+\Gm@bindingoffset=\dimen162
+\Gm@wd@mp=\dimen163
+\Gm@odd@mp=\dimen164
+\Gm@even@mp=\dimen165
+\Gm@layoutwidth=\dimen166
+\Gm@layoutheight=\dimen167
+\Gm@layouthoffset=\dimen168
+\Gm@layoutvoffset=\dimen169
 \Gm@dimlist=\toks19
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-(E:\Dropbox\school\cmsc828G\project\SLDA.aux)
+(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
+op\report\vr\SLDA.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
@@ -422,20 +361,42 @@ LaTeX Font Info:    ... okay on input line 9.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
 
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count134
+
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count180
-\scratchdimen=\dimen174
-\scratchbox=\box41
-\nofMPsegments=\count181
-\nofMParguments=\count182
+\scratchcounter=\count135
+\scratchdimen=\dimen170
+\scratchbox=\box47
+\nofMPsegments=\count136
+\nofMParguments=\count137
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count183
-\MPscratchDim=\dimen175
-\MPnumerator=\count184
-\makeMPintoPDFobject=\count185
+\MPscratchCnt=\count138
+\MPscratchDim=\dimen171
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
 \everyMPtoPDFconversion=\toks21
-)
+)))
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -483,31 +444,31 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-(E:\Dropbox\school\cmsc828G\project\SLDA.aux) ) 
+(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
+op\report\vr\SLDA.aux) ) 
 Here is how much of TeX's memory you used:
- 7009 strings out of 494045
- 112598 string characters out of 3148391
- 170058 words of memory out of 3000000
- 10221 multiletter control sequences out of 15000+200000
+ 7406 strings out of 493921
+ 124809 string characters out of 3147286
+ 177491 words of memory out of 3000000
+ 10620 multiletter control sequences out of 15000+200000
  10644 words of font info for 37 fonts, out of 3000000 for 9000
- 715 hyphenation exceptions out of 8191
- 36i,11n,35p,318b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5
-.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/
-Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Program Fi
-les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmsy5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb
->
-Output written on SLDA.pdf (2 pages, 152750 bytes).
+ 841 hyphenation exceptions out of 8191
+ 37i,11n,35p,318b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmb
+x9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
+Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program F
+iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on SLDA.pdf (2 pages, 152680 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

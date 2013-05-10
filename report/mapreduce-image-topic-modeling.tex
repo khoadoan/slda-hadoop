@@ -230,8 +230,17 @@ A list of image paths is generated in order to locate the image files. Each of t
 The raw features extracted from above generally have two problems in representing the images. On the one hand, the dimension of each feature vector is typically 128. For the similarity measure of each pair of small regions, at least 128 times of multiplications are necessary for Euclidean distances. This makes the further processing intractable even using parallelization framework. On the other hand, the feature vector is a histogram of oriented gradients which contains a lot of noises. Therefore, feature quantization is introduced to further processing the features and construct a "codebook" for the features. In the codebook, nearby feature vectors are grouped into the same index because they should belong to the same visual semantics.
 
 K-means clustering is usually the choice for doing feature quantization. However, the clustering takes more features and thus needs much more memory spaces in order to exhaustively compute the distances between cluster centers to each of the points, as the scale of data becomes larger. The MapReduce framework generally resolve this time and space problem because not only the computation is distributed into different nodes but also the intermediate results of distances are stored almost uniformly among all of the nodes. In our project, we adopt Mahout K-means clustering \cite{mahout} for building the codebook in Hadoop environment.
-\section{MapReduce Latent Dirichlet Allocation}\label{sec:mrlda}
+\section{MapReduce LDA}\label{sec:mrlda}
 \cite{mrlda}
+
+\section{MapReduce Spatial LDA}
+%\begin{equation}
+%\begin{split}
+%q(\phi,\pi,d,z &| \lambda,\gamma,\eta,\varphi) = \\
+%&\prod\limits_{k=1}^{K}q(\phi_k|\lambda) \: \prod\limits_{m=1}^{M}q(\pi_m|\gamma) \: \prod\limits_{n=1}^{N}q(d_n | \eta) q(z_n | \varphi)
+%\end{split}
+%\end{equation}
+%where $\phi_k \in R^V$ is distribution over word of topic $k$, $\pi_m \in R^K$ is distribution over topics of document $m$, $d_n \in R^M$ is indicator vector where if $d_{nm} = 1$ means word $n$ belongs to document $m$, and $z_n \in R^K$ is indicator vector where if $z_{nk} = 1$ means word $n$ is assigned to topic $k$.
 
 \section{Implementation Remarks}\label{sec:impl}
 In this section we present some implementation details that we did in the project.
@@ -319,7 +328,24 @@ We also collect satellite images using Google Maps APIs along the eastern coast 
 \end{figure}
 
 \subsection{Qualitative Evaluation}
-Images with labels in different colors are recovered from the output of LDA to show qualitatively which parts belong to the same semantics.
+Images with labels in different colors are recovered from the output of LDA to show qualitatively which parts belong to the same semantics. Figure \ref{fig:qual} presents three sample images and the output labels with 9 and 14 topics. The ground truth consists of 14 distinct semantics. However, the performance of LDA is significantly higher with 9 topics than 14 topics.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.11\textwidth]{fig/125-origin}
+\includegraphics[width=0.11\textwidth]{fig/125-lda-topic14}
+\includegraphics[width=0.11\textwidth]{fig/125-lda-topic9}
+\includegraphics[width=0.11\textwidth]{fig/125-GT}\\
+\includegraphics[width=0.11\textwidth]{fig/216-origin}
+\includegraphics[width=0.11\textwidth]{fig/216-lda-topic14}
+\includegraphics[width=0.11\textwidth]{fig/216-lda-topic9}
+\includegraphics[width=0.11\textwidth]{fig/216-GT}\\
+\includegraphics[width=0.11\textwidth]{fig/65-origin}
+\includegraphics[width=0.11\textwidth]{fig/65-lda-topic14}
+\includegraphics[width=0.11\textwidth]{fig/65-lda-topic9}
+\includegraphics[width=0.11\textwidth]{fig/65-GT}
+\caption{Sample LDA output from MSRC dataset. The second and the third column show the output of labeling with LDA using 14 and 9 topics. The last column show the ground truth images.}\label{fig:qual}
+\end{figure}
+
 \subsection{Quantitative Evaluation}
 Traditional computer vision dataset has ground-truth for evaluation. For the MSRC image labeling data, each image is corresponded to a groundtruth image in which the whole image is divided into several components. Each component is annotated using a unique RGB color. In our output, each pixel is assigned to a type of semantics. Since our approach is completely unsupervised, the truth meaning of each semantic is not understandable. One possible way to evaluate the performance is to enumerate every possible correspondence between the two set of semantics. Apparently this strategy only works when the number of topics is small enough. It becomes difficult to construct a one-one correspondence between our labels and the groundtruth labels. In fact, how to accurately evaluate the performance of image segmentation tasks is still an open problem.
 

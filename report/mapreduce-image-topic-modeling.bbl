@@ -16,6 +16,16 @@ D.~G. Lowe.
 \newblock Distinctive image features from {Scale-Invariant} keypoints.
 \newblock {\em Int. J. Comput. Vision}, 60(2):91--110, Nov. 2004.
 
+\bibitem{smallfiles}
+T.~White.
+\newblock The small files problem:
+  http://blog.cloudera.com/blog/2009/02/the-small-files-problem/.
+
+\bibitem{combinefiles}
+T.~White.
+\newblock {\em Hadoop: The Definitive Guide}, pages 239--245.
+\newblock O'Reilly Media, Inc., 1st edition, 2009.
+
 \bibitem{mrlda}
 K.~Zhai, J.~B. Graber, N.~Asadi, and M.~L. Alkhouja.
 \newblock Mr. {LDA}: a flexible large scale topic modeling package using
