@@ -90,11 +90,13 @@ Local Mode
     
 To annotate the dataset with topics learned from LDA, use the following command (use 0 reducer for output in Mappers, 1 reducer for output to 1 file, 1+ reducers for output to multiple files; LDA also expects to have `term` and `title` indices, outputs of `ParseCorpus` to be specified with `-index` argument):
 
-Local Mode
+Cluster Mode
 
+	etc/hadoop-cluster.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 0 -probCutoff 0.7
+	etc/hadoop-cluster.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 1
+	etc/hadoop-cluster.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 10
+Local Mode
 	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 0 -probCutoff 0.7
-	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 1
-	etc/hadoop-local.sh cc.slda.AnnotateDocuments -index data/index -input output/lda/phi100 -output output/annotation -numReducers 10
 	
 	
 ssh -i ec2-hadoop.pem ubuntu@ec2-107-20-18-167.__compute-1.amazonaws.com

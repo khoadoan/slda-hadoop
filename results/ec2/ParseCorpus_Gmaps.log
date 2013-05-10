@@ -1,0 +1,344 @@
+ubuntu@ip-10-8-51-30:/mnt/data/khoa/slda-hadoop/slda$ etc/hadoop-cluster.sh cc.slda.ParseCorpus -input ang/Gmaps/slda-input -output khoa/data/Gmaps/slda-input -reducer 64
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/lib/zookeeper/lib/slf4j-log4j12-1.6.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/mnt/data/khoa/slda-hadoop/slda/lib/slf4j-log4j12-1.6.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+13/05/09 01:26:58 INFO slda.ParseCorpus: Tool: ParseCorpus
+13/05/09 01:26:58 INFO slda.ParseCorpus:  - input path: ang/Gmaps/slda-input
+13/05/09 01:26:58 INFO slda.ParseCorpus:  - output path: khoa/data/Gmaps/slda-input/index
+13/05/09 01:26:58 INFO slda.ParseCorpus:  - number of mappers: 100
+13/05/09 01:26:58 INFO slda.ParseCorpus:  - number of reducers: 64
+13/05/09 01:26:58 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/05/09 01:26:59 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/05/09 01:27:04 WARN mapreduce.JobSubmitter: No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+13/05/09 01:27:04 INFO input.FileInputFormat: Total input paths to process : 24
+13/05/09 01:27:05 INFO mapreduce.JobSubmitter: number of splits:24
+13/05/09 01:27:05 WARN conf.Configuration: mapred.job.classpath.files is deprecated. Instead, use mapreduce.job.classpath.files
+13/05/09 01:27:05 WARN conf.Configuration: mapred.output.compress is deprecated. Instead, use mapreduce.output.fileoutputformat.compress
+13/05/09 01:27:05 WARN conf.Configuration: mapred.cache.files is deprecated. Instead, use mapreduce.job.cache.files
+13/05/09 01:27:05 WARN conf.Configuration: mapred.reduce.tasks is deprecated. Instead, use mapreduce.job.reduces
+13/05/09 01:27:05 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.mapoutput.value.class is deprecated. Instead, use mapreduce.map.output.value.class
+13/05/09 01:27:05 WARN conf.Configuration: mapreduce.combine.class is deprecated. Instead, use mapreduce.job.combine.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.used.genericoptionsparser is deprecated. Instead, use mapreduce.client.genericoptionsparser.used
+13/05/09 01:27:05 WARN conf.Configuration: mapreduce.map.class is deprecated. Instead, use mapreduce.job.map.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/05/09 01:27:05 WARN conf.Configuration: mapreduce.reduce.class is deprecated. Instead, use mapreduce.job.reduce.class
+13/05/09 01:27:05 WARN conf.Configuration: mapreduce.inputformat.class is deprecated. Instead, use mapreduce.job.inputformat.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.input.dir is deprecated. Instead, use mapreduce.input.fileinputformat.inputdir
+13/05/09 01:27:05 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/05/09 01:27:05 WARN conf.Configuration: mapreduce.outputformat.class is deprecated. Instead, use mapreduce.job.outputformat.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/05/09 01:27:05 WARN conf.Configuration: mapred.cache.files.timestamps is deprecated. Instead, use mapreduce.job.cache.files.timestamps
+13/05/09 01:27:05 WARN conf.Configuration: mapred.output.key.class is deprecated. Instead, use mapreduce.job.output.key.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.mapoutput.key.class is deprecated. Instead, use mapreduce.map.output.key.class
+13/05/09 01:27:05 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/05/09 01:27:05 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1367862810134_1485
+13/05/09 01:27:05 INFO mapred.YARNRunner: Job jar is not present. Not adding any jar to the list of resources.
+13/05/09 01:27:05 INFO client.YarnClientImpl: Submitted application application_1367862810134_1485 to ResourceManager at domU-12-31-39-05-3D-B1.compute-1.internal/10.241.62.63:8032
+13/05/09 01:27:05 INFO mapreduce.Job: The url to track the job: http://domU-12-31-39-05-3D-B1.compute-1.internal:8088/proxy/application_1367862810134_1485/
+13/05/09 01:27:05 INFO mapreduce.Job: Running job: job_1367862810134_1485
+13/05/09 01:27:15 INFO mapreduce.Job: Job job_1367862810134_1485 running in uber mode : false
+13/05/09 01:27:15 INFO mapreduce.Job:  map 0% reduce 0%
+13/05/09 01:27:25 INFO mapreduce.Job:  map 8% reduce 0%
+13/05/09 01:27:28 INFO mapreduce.Job:  map 20% reduce 0%
+13/05/09 01:27:30 INFO mapreduce.Job:  map 25% reduce 0%
+13/05/09 01:27:31 INFO mapreduce.Job:  map 75% reduce 0%
+13/05/09 01:27:32 INFO mapreduce.Job:  map 100% reduce 0%
+13/05/09 01:27:40 INFO mapreduce.Job:  map 100% reduce 3%
+13/05/09 01:27:41 INFO mapreduce.Job:  map 100% reduce 4%
+13/05/09 01:27:42 INFO mapreduce.Job:  map 100% reduce 7%
+13/05/09 01:27:43 INFO mapreduce.Job:  map 100% reduce 9%
+13/05/09 01:27:44 INFO mapreduce.Job:  map 100% reduce 29%
+13/05/09 01:27:45 INFO mapreduce.Job:  map 100% reduce 39%
+13/05/09 01:27:46 INFO mapreduce.Job:  map 100% reduce 68%
+13/05/09 01:27:47 INFO mapreduce.Job:  map 100% reduce 89%
+13/05/09 01:27:48 INFO mapreduce.Job:  map 100% reduce 92%
+13/05/09 01:27:49 INFO mapreduce.Job:  map 100% reduce 95%
+13/05/09 01:27:50 INFO mapreduce.Job:  map 100% reduce 100%
+13/05/09 01:27:50 INFO mapreduce.Job: Job job_1367862810134_1485 completed successfully
+13/05/09 01:27:50 INFO mapreduce.Job: Counters: 46
+        File System Counters
+                FILE: Number of bytes read=168696
+                FILE: Number of bytes written=12295186
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=513439089
+                HDFS: Number of bytes written=6824146
+                HDFS: Number of read operations=336
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=200
+        Job Counters
+                Launched map tasks=24
+                Launched reduce tasks=64
+                Data-local map tasks=13
+                Rack-local map tasks=11
+                Total time spent by all maps in occupied slots (ms)=311882
+                Total time spent by all reduces in occupied slots (ms)=623114
+        Map-Reduce Framework
+                Map input records=16401
+                Map output records=2913460
+                Map output bytes=34586876
+                Map output materialized bytes=337274
+                Input split bytes=3936
+                Combine input records=2913460
+                Combine output records=24576
+                Reduce input groups=1024
+                Reduce shuffle bytes=337274
+                Reduce input records=24576
+                Reduce output records=1024
+                Spilled Records=49152
+                Shuffled Maps =1536
+                Failed Shuffles=0
+                Merged Map outputs=1536
+                GC time elapsed (ms)=8545
+                CPU time spent (ms)=337740
+                Physical memory (bytes) snapshot=19550760960
+                Virtual memory (bytes) snapshot=141623726080
+                Total committed heap usage (bytes)=23335272448
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        cc.slda.ParseCorpus$MyCounter
+                TOTAL_DOCS=16401
+                TOTAL_TERMS=1024
+        File Input Format Counters
+                Bytes Read=513435153
+        File Output Format Counters
+                Bytes Written=21791
+13/05/09 01:27:50 INFO slda.ParseCorpus: Job Finished in 51.695 seconds
+13/05/09 01:27:50 INFO slda.ParseCorpus: Total number of documents is: 16401
+13/05/09 01:27:50 INFO slda.ParseCorpus: Total number of terms is: 1024
+13/05/09 01:27:50 INFO io.FileMerger: Tool: FileMerger
+13/05/09 01:27:50 INFO io.FileMerger:  - merge files from: khoa/data/Gmaps/slda-input/index/title*
+13/05/09 01:27:50 INFO io.FileMerger:  - merge files to: khoa/data/Gmaps/slda-input/temp
+13/05/09 01:27:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/05/09 01:27:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/05/09 01:27:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/05/09 01:27:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/05/09 01:27:55 INFO mapred.FileInputFormat: Total input paths to process : 24
+13/05/09 01:27:55 INFO mapreduce.JobSubmitter: number of splits:24
+13/05/09 01:27:55 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/05/09 01:27:55 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1367862810134_1487
+13/05/09 01:27:56 INFO client.YarnClientImpl: Submitted application application_1367862810134_1487 to ResourceManager at domU-12-31-39-05-3D-B1.compute-1.internal/10.241.62.63:8032
+13/05/09 01:27:56 INFO mapreduce.Job: The url to track the job: http://domU-12-31-39-05-3D-B1.compute-1.internal:8088/proxy/application_1367862810134_1487/
+13/05/09 01:27:56 INFO mapreduce.Job: Running job: job_1367862810134_1487
+13/05/09 01:28:06 INFO mapreduce.Job: Job job_1367862810134_1487 running in uber mode : false
+13/05/09 01:28:06 INFO mapreduce.Job:  map 0% reduce 0%
+13/05/09 01:28:17 INFO mapreduce.Job:  map 70% reduce 0%
+13/05/09 01:28:18 INFO mapreduce.Job:  map 100% reduce 0%
+13/05/09 01:28:24 INFO mapreduce.Job:  map 100% reduce 100%
+13/05/09 01:28:24 INFO mapreduce.Job: Job job_1367862810134_1487 completed successfully
+13/05/09 01:28:24 INFO mapreduce.Job: Counters: 44
+        File System Counters
+                FILE: Number of bytes read=66929
+                FILE: Number of bytes written=3437519
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=43285
+                HDFS: Number of bytes written=34214
+                HDFS: Number of read operations=99
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=2
+        Job Counters
+                Launched map tasks=24
+                Launched reduce tasks=1
+                Data-local map tasks=13
+                Rack-local map tasks=11
+                Total time spent by all maps in occupied slots (ms)=235519
+                Total time spent by all reduces in occupied slots (ms)=4613
+        Map-Reduce Framework
+                Map input records=16401
+                Map output records=16401
+                Map output bytes=87300
+                Map output materialized bytes=68612
+                Input split bytes=3936
+                Combine input records=0
+                Combine output records=0
+                Reduce input groups=16401
+                Reduce shuffle bytes=68612
+                Reduce input records=16401
+                Reduce output records=16401
+                Spilled Records=32802
+                Shuffled Maps =24
+                Failed Shuffles=0
+                Merged Map outputs=24
+                GC time elapsed (ms)=1003
+                CPU time spent (ms)=28480
+                Physical memory (bytes) snapshot=6644822016
+                Virtual memory (bytes) snapshot=40097738752
+                Total committed heap usage (bytes)=5881856000
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        File Input Format Counters
+                Bytes Read=39349
+        File Output Format Counters
+                Bytes Written=34214
+13/05/09 01:28:24 INFO io.FileMerger: Merge Finished in 33.724 seconds
+13/05/09 01:28:24 INFO io.FileMerger: Successfully merge khoa/data/Gmaps/slda-input/index/title* to khoa/data/Gmaps/slda-input/temp
+13/05/09 01:28:24 INFO zlib.ZlibFactory: Successfully loaded & initialized native-zlib library
+13/05/09 01:28:24 INFO compress.CodecPool: Got brand-new decompressor [.deflate]
+13/05/09 01:28:24 INFO compress.CodecPool: Got brand-new decompressor [.deflate]
+13/05/09 01:28:24 INFO compress.CodecPool: Got brand-new decompressor [.deflate]
+13/05/09 01:28:24 INFO compress.CodecPool: Got brand-new decompressor [.deflate]
+13/05/09 01:28:24 INFO slda.ParseCorpus: Successfully index all the titles to khoa/data/Gmaps/slda-input/title
+13/05/09 01:28:24 INFO slda.ParseCorpus: Tool: ParseCorpus
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - input path: khoa/data/Gmaps/slda-input/index/part-*
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - output path: khoa/data/Gmaps/slda-input/term
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - number of mappers: 100
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - number of reducers: 1
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - minimum document count: 0.0
+13/05/09 01:28:24 INFO slda.ParseCorpus:  - maximum document count: 16401.0
+13/05/09 01:28:24 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/05/09 01:28:24 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/05/09 01:28:29 WARN mapreduce.JobSubmitter: No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+13/05/09 01:28:29 INFO input.FileInputFormat: Total input paths to process : 64
+13/05/09 01:28:29 INFO mapreduce.JobSubmitter: number of splits:64
+13/05/09 01:28:29 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1367862810134_1488
+13/05/09 01:28:29 INFO mapred.YARNRunner: Job jar is not present. Not adding any jar to the list of resources.
+13/05/09 01:28:30 INFO client.YarnClientImpl: Submitted application application_1367862810134_1488 to ResourceManager at domU-12-31-39-05-3D-B1.compute-1.internal/10.241.62.63:8032
+13/05/09 01:28:30 INFO mapreduce.Job: The url to track the job: http://domU-12-31-39-05-3D-B1.compute-1.internal:8088/proxy/application_1367862810134_1488/
+13/05/09 01:28:30 INFO mapreduce.Job: Running job: job_1367862810134_1488
+13/05/09 01:28:39 INFO mapreduce.Job: Job job_1367862810134_1488 running in uber mode : false
+13/05/09 01:28:39 INFO mapreduce.Job:  map 0% reduce 0%
+13/05/09 01:28:47 INFO mapreduce.Job:  map 4% reduce 0%
+13/05/09 01:28:49 INFO mapreduce.Job:  map 9% reduce 0%
+13/05/09 01:28:50 INFO mapreduce.Job:  map 14% reduce 0%
+13/05/09 01:28:51 INFO mapreduce.Job:  map 65% reduce 0%
+13/05/09 01:28:52 INFO mapreduce.Job:  map 89% reduce 0%
+13/05/09 01:28:53 INFO mapreduce.Job:  map 90% reduce 0%
+13/05/09 01:28:54 INFO mapreduce.Job:  map 95% reduce 0%
+13/05/09 01:28:56 INFO mapreduce.Job:  map 100% reduce 0%
+13/05/09 01:28:58 INFO mapreduce.Job:  map 100% reduce 100%
+13/05/09 01:28:58 INFO mapreduce.Job: Job job_1367862810134_1488 completed successfully
+13/05/09 01:28:58 INFO mapreduce.Job: Counters: 45
+        File System Counters
+                FILE: Number of bytes read=11209
+                FILE: Number of bytes written=8607150
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=33055
+                HDFS: Number of bytes written=4111
+                HDFS: Number of read operations=259
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=2
+        Job Counters
+                Launched map tasks=64
+                Launched reduce tasks=1
+                Data-local map tasks=48
+                Rack-local map tasks=16
+                Total time spent by all maps in occupied slots (ms)=563305
+                Total time spent by all reduces in occupied slots (ms)=5051
+        Map-Reduce Framework
+                Map input records=1024
+                Map output records=1024
+                Map output bytes=12205
+                Map output materialized bytes=13837
+                Input split bytes=11264
+                Combine input records=0
+                Combine output records=0
+                Reduce input groups=1024
+                Reduce shuffle bytes=13837
+                Reduce input records=1024
+                Reduce output records=1024
+                Spilled Records=2048
+                Shuffled Maps =64
+                Failed Shuffles=0
+                Merged Map outputs=64
+                GC time elapsed (ms)=2618
+                CPU time spent (ms)=58280
+                Physical memory (bytes) snapshot=17330094080
+                Virtual memory (bytes) snapshot=104235622400
+                Total committed heap usage (bytes)=15292825600
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        cc.slda.ParseCorpus$MyCounter
+                LEFT_OVER_TERMS=1024
+        File Input Format Counters
+                Bytes Read=21791
+        File Output Format Counters
+                Bytes Written=4111
+13/05/09 01:28:58 INFO slda.ParseCorpus: Job Finished in 33.747 seconds
+13/05/09 01:28:58 INFO slda.ParseCorpus: [Rename khoa/data/Gmaps/slda-input/temp/part-r-00000 -> khoa/data/Gmaps/slda-input/term] Successfully index all the terms at khoa/data/Gmaps/slda-input/term
+13/05/09 01:28:58 INFO slda.ParseCorpus: Removed 0 low frequency terms.
+13/05/09 01:28:58 INFO slda.ParseCorpus: Removed 0 high frequency terms.
+13/05/09 01:28:58 INFO slda.ParseCorpus: Total number of left-over terms: 1024
+13/05/09 01:28:58 INFO slda.ParseCorpus: Tool: ParseCorpus
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - input path: khoa/data/Gmaps/slda-input/index/document*
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - output path: khoa/data/Gmaps/slda-input/document
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - term index path: khoa/data/Gmaps/slda-input/term
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - title index path: khoa/data/Gmaps/slda-input/title
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - number of mappers: 100
+13/05/09 01:28:58 INFO slda.ParseCorpus:  - number of reducers: 0
+13/05/09 01:28:58 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/05/09 01:28:58 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/05/09 01:29:03 WARN mapreduce.JobSubmitter: No job jar file set.  User classes may not be found. See Job or Job#setJar(String).
+13/05/09 01:29:03 INFO input.FileInputFormat: Total input paths to process : 24
+13/05/09 01:29:03 INFO mapreduce.JobSubmitter: number of splits:24
+13/05/09 01:29:03 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1367862810134_1489
+13/05/09 01:29:03 INFO mapred.YARNRunner: Job jar is not present. Not adding any jar to the list of resources.
+13/05/09 01:29:04 INFO client.YarnClientImpl: Submitted application application_1367862810134_1489 to ResourceManager at domU-12-31-39-05-3D-B1.compute-1.internal/10.241.62.63:8032
+13/05/09 01:29:04 INFO mapreduce.Job: The url to track the job: http://domU-12-31-39-05-3D-B1.compute-1.internal:8088/proxy/application_1367862810134_1489/
+13/05/09 01:29:04 INFO mapreduce.Job: Running job: job_1367862810134_1489
+13/05/09 01:29:13 INFO mapreduce.Job: Job job_1367862810134_1489 running in uber mode : false
+13/05/09 01:29:13 INFO mapreduce.Job:  map 0% reduce 0%
+13/05/09 01:29:26 INFO mapreduce.Job:  map 33% reduce 0%
+13/05/09 01:29:26 INFO mapreduce.Job:  map 100% reduce 0%
+13/05/09 01:29:26 INFO mapreduce.Job: Job job_1367862810134_1489 completed successfully
+13/05/09 01:29:26 INFO mapreduce.Job: Counters: 29
+        File System Counters
+                FILE: Number of bytes read=151320024
+                FILE: Number of bytes written=3180484
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=6767326
+                HDFS: Number of bytes written=23789584
+                HDFS: Number of read operations=144
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=48
+        Job Counters
+                Launched map tasks=24
+                Data-local map tasks=13
+                Rack-local map tasks=11
+                Total time spent by all maps in occupied slots (ms)=279348
+                Total time spent by all reduces in occupied slots (ms)=0
+        Map-Reduce Framework
+                Map input records=16401
+                Map output records=16401
+                Input split bytes=4320
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=2549
+                CPU time spent (ms)=70180
+                Physical memory (bytes) snapshot=4158976000
+                Virtual memory (bytes) snapshot=38356369408
+                Total committed heap usage (bytes)=5953290240
+        cc.slda.ParseCorpus$MyCounter
+                LEFT_OVER_DOCUMENTS=16401
+        File Input Format Counters
+                Bytes Read=6763006
+        File Output Format Counters
+                Bytes Written=23789584
+13/05/09 01:29:26 INFO slda.ParseCorpus: Job Finished in 28.686 seconds
+13/05/09 01:29:26 INFO slda.ParseCorpus: Successfully index all the documents at khoa/data/Gmaps/slda-input/document
+13/05/09 01:29:26 INFO slda.ParseCorpus: Total number of collapsed documnts: 0
+13/05/09 01:29:26 INFO slda.ParseCorpus: Total number of left-over documents: 16401
