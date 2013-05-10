@@ -128,6 +128,12 @@ One of the advantages of SIFT descriptors is its invariance to image rotation an
 \subsection{Dense Sampling SIFT Features}
 In order to apply SIFT features to represent the whole image for the task of image labeling, each of the pixels ideally should be described. Due to the fact that a neighborhood of pixels usually have little difference and belong to the same semantics, we sample series of small rectangular regions with a parameter \textsc{stepsize} densely across each of the image and compute the SIFT description for each of the regions. The \textsc{stepsize} controls the number of pixels between two consecutive centers of bounding boxes. Thereafter, each image can be converted from visual data to a list of \textsc{(key,value)} pairs where the \textsc{key} is the index $(g_i,x_i,y_i)$ of the regions and the \textsc{value} is the SIFT feature vector $f_i$. $g_i$ is the id of the image that contains the $i$-th region and $(x_i,y_i)$ is the center location of the $i$-th region.
 
+\begin{figure}[!htb]
+ \centering
+ We need a graph to illustrate the feature extraction strategy.
+ \caption{Illustration of Dense SIFT feature extraction}
+\end{figure}
+
 \subsection{Image Input Aggregation}
 Given a large number of image files as input, there are several ways of loading them into a MapReduce job. One possible way is creating a text file containing a list of file names and let the mapper reads the files from HDFS and processes them while the reducer does nothing. An alternative way is similar to the first except the reading and processing is moved to the reducer while the mapper just passes the (key,value) pairs. Both are relatively simple and easy to implement. However, due to the small-files problem in Hadoop\cite{smallfiles}, neither the first and the second approach achieves the best performance in terms of processing speed. 
 

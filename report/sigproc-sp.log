@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 05:18
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 05:40
 entering extended mode
  %&-line parsing enabled.
 **sigproc-sp.tex
@@ -305,7 +305,7 @@ e-
 
 
 ]
-LaTeX Font Info:    Try loading font information for T1+aett on input line 134.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 140.
 
 
 (/usr/share/texmf-texlive/tex/latex/ae/t1aett.fd
@@ -462,7 +462,7 @@ File: fig/msrc-quantitative-topic-9.png Graphic file (type png)
 File: fig/msrc-quantitative-topic-14.png Graphic file (type png)
 
 <use fig/msrc-quantitative-topic-14.png>
-Overfull \hbox (12.02042pt too wide) in paragraph at lines 443--443
+Overfull \hbox (12.02042pt too wide) in paragraph at lines 449--449
 []\secfnt DISCUSSION: SPA-TIAL LA-TENT DIRICH-
  []
 
@@ -478,31 +478,27 @@ G copy)> <./fig/msrc-quantitative-topic-9.png (PNG copy)> <./fig/msrc-quantitat
 ive-topic-14.png (PNG copy)>]
 
 LaTeX Warning: Citation `bowman:reasoning' on page \thepage  undefined on input
- line 477.
+ line 483.
 
 
 LaTeX Warning: Citation `clark:pct' on page \thepage  undefined on input line 4
-77.
+83.
 
 
 LaTeX Warning: Citation `braams:babel' on page \thepage  undefined on input lin
-e 477.
+e 483.
 
 
 LaTeX Warning: Citation `herlihy:methodology' on page \thepage  undefined on in
-put line 477.
+put line 483.
 
 
 LaTeX Warning: Citation `clark:pct' on page \thepage  undefined on input line 4
-79.
+85.
 
 
 LaTeX Warning: Citation `salas:calculus' on page \thepage  undefined on input l
-ine 479.
-
-
-LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
-ne 479.
+ine 485.
 
 
 LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
@@ -510,22 +506,27 @@ ne 485.
 
 
 LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
-ne 496.
+ne 491.
+
+
+LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
+ne 502.
 
 
 LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
-(Font)              using `T1/aett/m/n' instead on input line 577.
+(Font)              using `T1/aett/m/n' instead on input line 583.
 
 \c@theorem=\count122
 
-Underfull \hbox (badness 1603) in paragraph at lines 601--605
+Underfull \hbox (badness 1603) in paragraph at lines 607--611
 []\T1/aer/m/n/9 This uses the \T1/aer/bx/n/9 the-o-rem \T1/aer/m/n/9 en-vi-ron-
 ment, cre-ated by the
  []
 
-\c@definition=\count123
 [5]
-Overfull \hbox (15.60826pt too wide) detected at line 655
+\c@definition=\count123
+
+Overfull \hbox (15.60826pt too wide) detected at line 661
 \OML/cmm/m/it/9 l \OT1/cmr/m/n/9 = [] \OML/cmm/m/it/9 f\OT1/cmr/m/n/9 (\OML/cmm
 /m/it/9 x\OT1/cmr/m/n/9 ) = [] [] = [] \OML/cmm/m/it/9 g\OT1/cmr/m/n/9 (\OML/cm
 m/m/it/9 x\OT1/cmr/m/n/9 ) \OMS/cmsy/m/n/9 ^^A [] [] \OT1/cmr/m/n/9 = 0 \OMS/cm
@@ -534,7 +535,7 @@ sy/m/n/9 ^^A \OML/cmm/m/it/9 L \OT1/cmr/m/n/9 = 0\OML/cmm/m/it/9 ;
 
 
 LaTeX Warning: Citation `salas:calculus' on page \thepage  undefined on input l
-ine 665.
+ine 671.
 
 [6]
 Overfull \vbox (33.5pt too high) has occurred while \output is active []
@@ -570,7 +571,7 @@ r/share/texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-tex
 live/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/
 urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pf
 b></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sigproc-sp.pdf (7 pages, 2033129 bytes).
+Output written on sigproc-sp.pdf (7 pages, 2033206 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
