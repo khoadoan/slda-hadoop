@@ -24,7 +24,7 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Time consumption for (a) reading non-sequential images from HDFS in mapreduce job, and (b) streaming Sequence Files in mapreduce job}}{\thepage }}
 \newlabel{fig:time}{{2}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Building Feature Codebook}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {4}MapReduce LDA}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Topic Modeling via MapReduce Latent Dirichlet Allocation}{\thepage }}
 \newlabel{sec:mrlda}{{4}{\thepage }}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Graphical models for LDA}}{\thepage }}
 \newlabel{fig:ldagraphical}{{3}{\thepage }}
@@ -32,26 +32,43 @@
 \citation{mrlda}
 \citation{Blei03latentdirichlet}
 \citation{mrlda}
-\citation{DBLP:conf/nips/WangG07}
-\@writefile{toc}{\contentsline {section}{\numberline {5}MapReduce Spatial LDA}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Graphical models for LDA}}{\thepage }}
-\newlabel{fig:sldagraphical}{{4}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Implementation Remarks}{\thepage }}
-\newlabel{sec:impl}{{6}{\thepage }}
-\citation{msrc}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Image-to-SequenceFile Conversion}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Implementation Remarks}{\thepage }}
+\newlabel{sec:impl}{{5}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Image-to-SequenceFile Conversion}{\thepage }}
 \@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Conversion from Images to SequenceFiles}}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Sequencefile-to-Image Conversion}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Sampling data for K-means clustering}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Sequencefile-to-Image Conversion}{\thepage }}
 \@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Conversion from SequenceFiles to Images}}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Merging pixel-code/code-topic mappings}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Experimental Evaluation}{\thepage }}
-\newlabel{sec:exp}{{7}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Dataset}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}MSRC Image Labeling Dataset}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Sample images from MSRC Image Labeling Dataset}}{\thepage }}
-\newlabel{fig:msrc}{{5}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}Eastern Coast Satellite Image Dataset}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Sampling data for K-means clustering}{\thepage }}
+\citation{msrc}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Merging pixel-code/code-topic mappings}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Experimental Evaluation}{\thepage }}
+\newlabel{sec:exp}{{6}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Dataset}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}MSRC Image Labeling Dataset}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sample images from MSRC Image Labeling Dataset}}{\thepage }}
+\newlabel{fig:msrc}{{4}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2}Eastern Coast Satellite Image Dataset}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Sample images from Eastern Coast Satellite Image Dataset}}{\thepage }}
+\newlabel{fig:gmaps}{{5}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Qualitative Evaluation}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Sample LDA output from MSRC dataset. The second and the third column show the output of labeling with LDA using 14 and 9 topics. The last column show the ground truth images.}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {origin}}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {14 topics}}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {9 topics}}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {truth}}}{\thepage }}
+\newlabel{fig:qual}{{6}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Quantitative Evaluation}{\thepage }}
+\citation{DBLP:conf/nips/WangG07}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Qualitative results for Google Maps Satellite Image Dataset}}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Quantitative evaluation for each classes}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {9 topics}}}{\thepage }}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {14 topics}}}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Spatial Latent Dirichlet Allocation}{\thepage }}
+\newlabel{sec:slda}{{7.1}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Graphical models for LDA}}{\thepage }}
+\newlabel{fig:sldagraphical}{{9}{\thepage }}
+\citation{DBLP:conf/nips/WangG07}
 \bibstyle{abbrv}
 \bibdata{sigproc}
 \bibcite{mahout}{1}
@@ -59,26 +76,10 @@
 \bibcite{msrc}{3}
 \bibcite{Blei03latentdirichlet}{4}
 \bibcite{sift}{5}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Sample images from Eastern Coast Satellite Image Dataset}}{\thepage }}
-\newlabel{fig:gmaps}{{6}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Qualitative Evaluation}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Sample LDA output from MSRC dataset. The second and the third column show the output of labeling with LDA using 14 and 9 topics. The last column show the ground truth images.}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {origin}}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {14 topics}}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {9 topics}}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {truth}}}{\thepage }}
-\newlabel{fig:qual}{{7}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Quantitative Evaluation}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Quantitative evaluation for each classes}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {9 topics}}}{\thepage }}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {14 topics}}}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion: Spatial Latent Dirichlet Allocation}{\thepage }}
-\newlabel{sec:slda}{{8}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{\thepage }}
-\newlabel{sec:con}{{9}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {10}References}{\thepage }}
 \bibcite{DBLP:conf/nips/WangG07}{6}
 \bibcite{smallfiles}{7}
 \bibcite{combinefiles}{8}
 \bibcite{mrlda}{9}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Qualitative results for Google Maps Satellite Image Dataset}}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{\thepage }}
+\newlabel{sec:con}{{8}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {9}References}{\thepage }}

@@ -253,7 +253,7 @@ As we can see, if only one feature is extracted at once, there should be no big 
 The raw features extracted from above generally have two problems in representing the images. On the one hand, the dimension of each feature vector is typically 128. For the similarity measure of each pair of small regions, at least 128 times of multiplications are necessary for Euclidean distances. This makes the further processing intractable even using parallelization framework. On the other hand, the feature vector is a histogram of oriented gradients which contains a lot of noises. Therefore, feature quantization is introduced to further processing the features and construct a "codebook" for the features. In the codebook, nearby feature vectors are grouped into the same index because they should belong to the same visual semantics.
 
 K-means clustering is usually the choice for doing feature quantization. However, the clustering takes more features and thus needs much more memory spaces in order to exhaustively compute the distances between cluster centers to each of the points, as the scale of data becomes larger. The MapReduce framework generally resolve this time and space problem because not only the computation is distributed into different nodes but also the intermediate results of distances are stored almost uniformly among all of the nodes. In our project, we adopt Mahout K-means clustering \cite{mahout} for building the codebook in Hadoop environment.
-\section{MapReduce LDA}\label{sec:mrlda}
+\section{Topic Modeling via MapReduce Latent Dirichlet Allocation}\label{sec:mrlda}
 \begin{figure}[!htb]
  \centering
  \includegraphics[width=0.45\textwidth]{fig/eqn/lda-variational}
@@ -278,30 +278,6 @@ Variational inference, on the other hand, is deterministic procedure. For LDA, t
 
 In this paper, we bases our work on Mr.LDA. We have upgraded Mr.LDA implementation from MapReduce MRv1 environment to Cloudera MRv2 environment. In addition, one of the missing features of Mr.LDA is the ability to return topic labels for the documents in the corpus. This is essentially the output of the variational paramterers $\phi$. The output of $\phi$-table is written out in each Mapper (as described above) using MultipleOutput in MapReduce. The labels of each word in the document is determined by finding the value $\phi_{v,k}$ that is above some pretermine threshold. For our image-dataset, we set this value to 0.7.
 
-\section{MapReduce Spatial LDA}
-
-Since LDA describes a document as a bag-of-word, direct application of LDA on images would cause several problems. In LDA, co-occurring words tend to cluster into the same topic even if these words are further away. For images, this is often 	not correct because some objects, such as buildings and streets, usually occur together in the same document but they are in fact different objects. This is because LDA does not take in to account the spatial constraint of the visual words, i.e. words that are close in space should be more likely from the same object.
-\begin{figure}[!htb]
- \centering
- \includegraphics[width=0.45\textwidth]{fig/eqn/slda-variational}
- \caption{Graphical models for LDA}\label{fig:sldagraphical}
-\end{figure}
-
-Spatial LDA proposes a solution the above problems. In general, Spatial LDA consider an image as a collection of several documents. The probability of a visual word to belong to a document depends on its spatial distance to the document, thus it encourages grouping of visual words that are close in proximity (which are more likely to belong to the same object) into the same documents. The graphical model of Spatial LDA is in .. and its generative procedure is described as below:
-
-\begin{enumerate}
-\item For each topic $k \in \{1,2,...,K\}$, a multinomial $\phi_k$ is sampled from $Dir(\beta)$.
-\item For each document $m \in \{1,2,...,M\}$, a multinomial of topic distribution $\pi_m$ is sampled from $Dir(\alpha)$.
-\item For a visual word $i$:
-	\begin{enumerate}
-		\item A document assignment variable $d_i$ is sampled from a uniform discrete distribution $Discrete(d_i|\eta)$.
-		\item Location $c_i$ is sampled from a Gaussian kernel: $p(g_{c_i} | g_{d_i}, \sigma) = \delta_{g_{d_i}}(g_{c_i}) \exp{-\frac{(x_{d_i} - x_i)^2 + (y_{d_i} - y_i)^2} {\sigma^2}}$, where ($x_i, y_i$) and ($x_{d_i}, y_{d_i}$) indicates the locations of word $i$ and document $d_i$, respectively.
-		\item A topic label $z_{i}$ is sampled from a discrete distribution of document $d_i$:  $Discrete(\pi_{d_i})$
-		\item The word $w_i$ is sampled from a discrete distribution of topic $z_{i}$: $Discrete(\phi_{z_i})$ 
-	\end{enumerate}
-\end{enumerate}
-
-\cite{DBLP:conf/nips/WangG07} uses Gibbs Sampling as an approximation to the Spatial LDA inference problem. In this report, we propose the Variational Inference method in solving Spatial LDA. We expect this approach will allow us to extend Mr.LDA using Spatial LDA for our image dataset. The derivation of Spatial LDA is described in the Appendix.
 
 \section{Implementation Remarks}\label{sec:impl}
 In this section we present some implementation details that we did in the project.
@@ -550,17 +526,43 @@ where $\text{cardinal}(\cdot)$ denotes the size of the set.
  \caption{Quantitative evaluation for each classes}
 \end{figure}
 
-\section{Discussion: Spatial Latent Dirichlet Allocation}\label{sec:slda}
+\section{Discussion}
+From the experimental results, it can be seen that LDA, as a good topic modeling technique, does not work well on the smoothness for the labels of neighboring patches. This is due to the fact that LDA does not model the spatial information in the context. Therefore, one natural extension to LDA, the spatial Latent Dirichlet Allocation, has been proposed by \cite{DBLP:conf/nips/WangG07}. In this section, we would like to discussion some more details about the SLDA and its possible extension to the Mapreduce framework.
+
+\subsection{Spatial Latent Dirichlet Allocation}\label{sec:slda}
+Since LDA describes a document as a bag-of-word, direct application of LDA on images would cause several problems. In LDA, co-occurring words tend to cluster into the same topic even if these words are further away. For images, this is often 	not correct because some objects, such as buildings and streets, usually occur together in the same document but they are in fact different objects. This is because LDA does not take in to account the spatial constraint of the visual words, i.e. words that are close in space should be more likely from the same object.
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/eqn/slda-variational}
+ \caption{Graphical models for LDA}\label{fig:sldagraphical}
+\end{figure}
+
+Spatial LDA proposes a solution the above problems. In general, Spatial LDA consider an image as a collection of several documents. The probability of a visual word to belong to a document depends on its spatial distance to the document, thus it encourages grouping of visual words that are close in proximity (which are more likely to belong to the same object) into the same documents. The graphical model of Spatial LDA is in fig.(\ref{fig:sldagraphical}) and its generative procedure is described as below:
+
+\begin{enumerate}
+\item For each topic $k \in \{1,2,...,K\}$, a multinomial $\phi_k$ is sampled from $Dir(\beta)$.
+\item For each document $m \in \{1,2,...,M\}$, a multinomial of topic distribution $\pi_m$ is sampled from $Dir(\alpha)$.
+\item For a visual word $i$:
+	\begin{enumerate}
+		\item A document assignment variable $d_i$ is sampled from a uniform discrete distribution $Discrete(d_i|\eta)$.
+		\item Location $c_i$ is sampled from a Gaussian kernel: $p(g_{c_i} | g_{d_i}, \sigma) = \delta_{g_{d_i}}(g_{c_i}) \exp{-\frac{(x_{d_i} - x_i)^2 + (y_{d_i} - y_i)^2} {\sigma^2}}$, where ($x_i, y_i$) and ($x_{d_i}, y_{d_i}$) indicates the locations of word $i$ and document $d_i$, respectively.
+		\item A topic label $z_{i}$ is sampled from a discrete distribution of document $d_i$:  $Discrete(\pi_{d_i})$
+		\item The word $w_i$ is sampled from a discrete distribution of topic $z_{i}$: $Discrete(\phi_{z_i})$ 
+	\end{enumerate}
+\end{enumerate}
+
+\cite{DBLP:conf/nips/WangG07} uses Gibbs Sampling as an approximation to the Spatial LDA inference problem. However, the nature of Gibbs Sampling needs a lot of iterations to update the distribution which is not efficient in Mapreduce framework. Also, as inspired by Mr.LDA, we believe Variational methods should be a reasonable way to do inference on graphical models in Hadoop. We propose to use the Variational Inference method in solving Spatial LDA as a future direction of this work. We expect this approach will allow us to extend Mr.LDA using Spatial LDA for our image dataset. The derivation of Spatial LDA is described in the Appendix.
 
 \section{Conclusion}\label{sec:con}
+In this work, we propose and implement a complete framework for image labeling in the Mapreduce framework, which contains a total of five steps and each step can be implemented as Mapreduce jobs. Several importance points related to the framework has been discussed and we evidence the efficiency of our framework in one of the famous image labeling dataset (MSRC) and a large scale satellite image dataset collected from Google Maps.
+
+We expect Spatial LDA to outperform LDA for our image dataset. However, because of time constraint, we could not implement it on the MapReduce environment. Given our derivation of Spatial LDA, we expect the distribution of computation in MapReduce is similar to that of Mr.LDA. In other words, computation of document-specific variational parameters can be done in Mappers, while topic-specific variational parameter can be computed in Reducers.
 
 \section*{Acknowledgments}
 The authors would like to thank Prof. Jordan Boyd-Graber and Prof. Jimmy Lin for their consistent help in this project.
 
 \bibliographystyle{abbrv}
 \bibliography{sigproc}  % sigproc.bib is the name of the Bibliography in this case
-
-\appendix
 
 
 

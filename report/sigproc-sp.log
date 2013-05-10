@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 17:21
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 17:46
 entering extended mode
  %&-line parsing enabled.
 **sigproc-sp.tex
@@ -334,210 +334,204 @@ File: fig/timing.png Graphic file (type png)
 File: fig/eqn/lda-variational.png Graphic file (type png)
 
 <use fig/eqn/lda-variational.png> [3 <./fig/timing.png (PNG copy)> <./fig/eqn/l
-da-variational.png (PNG copy)>]
-<fig/eqn/slda-variational.png, id=27, 260.47313pt x 249.18094pt>
+da-variational.png (PNG copy)>] [4]
+<fig/sample-msrc1.jpg, id=32, 240.9pt x 160.34906pt>
+File: fig/sample-msrc1.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc1.jpg>
+<fig/sample-msrc2.jpg, id=33, 240.9pt x 160.34906pt>
+File: fig/sample-msrc2.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc2.jpg>
+<fig/sample-msrc3.jpg, id=34, 240.9pt x 160.34906pt>
+File: fig/sample-msrc3.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc3.jpg>
+<fig/sample-msrc4.jpg, id=35, 240.9pt x 160.34906pt>
+File: fig/sample-msrc4.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc4.jpg>
+<fig/sample-gmaps1.png, id=36, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps1.png Graphic file (type png)
+
+<use fig/sample-gmaps1.png>
+<fig/sample-gmaps2.png, id=37, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps2.png Graphic file (type png)
+
+<use fig/sample-gmaps2.png>
+<fig/sample-gmaps3.png, id=38, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps3.png Graphic file (type png)
+
+<use fig/sample-gmaps3.png>
+<fig/sample-gmaps4.png, id=39, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps4.png Graphic file (type png)
+
+<use fig/sample-gmaps4.png> <fig/125-origin.jpg, id=40, 321.2pt x 213.79875pt>
+File: fig/125-origin.jpg Graphic file (type jpg)
+
+<use fig/125-origin.jpg> <fig/216-origin.jpg, id=41, 321.2pt x 213.79875pt>
+File: fig/216-origin.jpg Graphic file (type jpg)
+
+<use fig/216-origin.jpg> <fig/65-origin.jpg, id=42, 321.2pt x 213.79875pt>
+File: fig/65-origin.jpg Graphic file (type jpg)
+
+<use fig/65-origin.jpg>
+<fig/125-lda-topic14.jpg, id=43, 240.9pt x 160.34906pt>
+File: fig/125-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/125-lda-topic14.jpg>
+<fig/216-lda-topic14.jpg, id=44, 240.9pt x 160.34906pt>
+File: fig/216-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/216-lda-topic14.jpg>
+<fig/65-lda-topic14.jpg, id=45, 240.9pt x 160.34906pt>
+File: fig/65-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/65-lda-topic14.jpg>
+<fig/125-lda-topic9.jpg, id=46, 240.9pt x 160.34906pt>
+File: fig/125-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/125-lda-topic9.jpg>
+<fig/216-lda-topic9.jpg, id=47, 240.9pt x 160.34906pt>
+File: fig/216-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/216-lda-topic9.jpg>
+<fig/65-lda-topic9.jpg, id=48, 240.9pt x 160.34906pt>
+File: fig/65-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/65-lda-topic9.jpg> <fig/125-GT.jpg, id=49, 240.9pt x 160.34906pt>
+File: fig/125-GT.jpg Graphic file (type jpg)
+
+<use fig/125-GT.jpg> <fig/216-GT.jpg, id=50, 240.9pt x 160.34906pt>
+File: fig/216-GT.jpg Graphic file (type jpg)
+
+<use fig/216-GT.jpg> <fig/65-GT.jpg, id=51, 240.9pt x 160.34906pt>
+File: fig/65-GT.jpg Graphic file (type jpg)
+
+<use fig/65-GT.jpg> <fig/gmaps/71.png, id=52, 403.5075pt x 416.55624pt>
+File: fig/gmaps/71.png Graphic file (type png)
+
+<use fig/gmaps/71.png> <fig/gmaps/720.png, id=53, 403.5075pt x 416.55624pt>
+File: fig/gmaps/720.png Graphic file (type png)
+
+<use fig/gmaps/720.png> <fig/gmaps/978.png, id=54, 403.5075pt x 416.55624pt>
+File: fig/gmaps/978.png Graphic file (type png)
+
+<use fig/gmaps/978.png> <fig/gmaps/1307.png, id=55, 403.5075pt x 416.55624pt>
+File: fig/gmaps/1307.png Graphic file (type png)
+
+<use fig/gmaps/1307.png> <fig/gmaps/5474.png, id=56, 403.5075pt x 416.55624pt>
+File: fig/gmaps/5474.png Graphic file (type png)
+
+<use fig/gmaps/5474.png> <fig/gmaps/8436.png, id=57, 403.5075pt x 416.55624pt>
+File: fig/gmaps/8436.png Graphic file (type png)
+
+<use fig/gmaps/8436.png>
+<fig/gmaps/12338.png, id=58, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12338.png Graphic file (type png)
+
+<use fig/gmaps/12338.png>
+<fig/gmaps/12396.png, id=59, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12396.png Graphic file (type png)
+
+<use fig/gmaps/12396.png>
+<fig/gmaps/14811.png, id=60, 403.5075pt x 416.55624pt>
+File: fig/gmaps/14811.png Graphic file (type png)
+
+<use fig/gmaps/14811.png> <fig/gmaps/71g.png, id=61, 403.5075pt x 416.55624pt>
+File: fig/gmaps/71g.png Graphic file (type png)
+
+<use fig/gmaps/71g.png> <fig/gmaps/720g.png, id=62, 403.5075pt x 416.55624pt>
+File: fig/gmaps/720g.png Graphic file (type png)
+
+<use fig/gmaps/720g.png> <fig/gmaps/978g.png, id=63, 403.5075pt x 416.55624pt>
+File: fig/gmaps/978g.png Graphic file (type png)
+
+<use fig/gmaps/978g.png>
+<fig/gmaps/1307g.png, id=64, 403.5075pt x 416.55624pt>
+File: fig/gmaps/1307g.png Graphic file (type png)
+
+<use fig/gmaps/1307g.png>
+<fig/gmaps/5474g.png, id=65, 403.5075pt x 416.55624pt>
+File: fig/gmaps/5474g.png Graphic file (type png)
+
+<use fig/gmaps/5474g.png>
+<fig/gmaps/8436g.png, id=66, 403.5075pt x 416.55624pt>
+File: fig/gmaps/8436g.png Graphic file (type png)
+
+<use fig/gmaps/8436g.png>
+<fig/gmaps/12338g.png, id=67, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12338g.png Graphic file (type png)
+
+<use fig/gmaps/12338g.png>
+<fig/gmaps/12396g.png, id=68, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12396g.png Graphic file (type png)
+
+<use fig/gmaps/12396g.png>
+<fig/gmaps/14811g.png, id=69, 403.5075pt x 416.55624pt>
+File: fig/gmaps/14811g.png Graphic file (type png)
+
+<use fig/gmaps/14811g.png>
+<fig/msrc-quantitative-topic-9.png, id=70, 642.4pt x 385.44pt>
+File: fig/msrc-quantitative-topic-9.png Graphic file (type png)
+
+<use fig/msrc-quantitative-topic-9.png>
+<fig/msrc-quantitative-topic-14.png, id=71, 642.4pt x 385.44pt>
+File: fig/msrc-quantitative-topic-14.png Graphic file (type png)
+
+<use fig/msrc-quantitative-topic-14.png> [5 <./fig/sample-msrc1.jpg> <./fig/sam
+ple-msrc2.jpg> <./fig/sample-msrc3.jpg> <./fig/sample-msrc4.jpg> <./fig/sample-
+gmaps1.png (PNG copy)> <./fig/sample-gmaps2.png (PNG copy)> <./fig/sample-gmaps
+3.png (PNG copy)> <./fig/sample-gmaps4.png (PNG copy)> <./fig/125-origin.jpg> <
+./fig/216-origin.jpg> <./fig/65-origin.jpg> <./fig/125-lda-topic14.jpg> <./fig/
+216-lda-topic14.jpg> <./fig/65-lda-topic14.jpg> <./fig/125-lda-topic9.jpg> <./f
+ig/216-lda-topic9.jpg> <./fig/65-lda-topic9.jpg> <./fig/125-GT.jpg> <./fig/216-
+GT.jpg> <./fig/65-GT.jpg>]
+<fig/eqn/slda-variational.png, id=79, 260.47313pt x 249.18094pt>
 File: fig/eqn/slda-variational.png Graphic file (type png)
 
 <use fig/eqn/slda-variational.png>
-Overfull \hbox (6.65639pt too wide) in paragraph at lines 297--298
+Overfull \hbox (6.65639pt too wide) in paragraph at lines 547--548
 \T1/aer/m/n/9 from a uni-form dis-crete dis-tri-bu-tion $\OML/cmm/m/it/9 Discre
 te\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 d[]\OMS/cmsy/m/n/9 j\OML/cmm/m/it/9 ^^Q\OT1/c
 mr/m/n/9 )$\T1/aer/m/n/9 . 
  []
 
-[4 <./fig/eqn/slda-variational.png (PNG copy)>]
-<fig/sample-msrc1.jpg, id=34, 240.9pt x 160.34906pt>
-File: fig/sample-msrc1.jpg Graphic file (type jpg)
-
-<use fig/sample-msrc1.jpg>
-<fig/sample-msrc2.jpg, id=35, 240.9pt x 160.34906pt>
-File: fig/sample-msrc2.jpg Graphic file (type jpg)
-
-<use fig/sample-msrc2.jpg>
-<fig/sample-msrc3.jpg, id=36, 240.9pt x 160.34906pt>
-File: fig/sample-msrc3.jpg Graphic file (type jpg)
-
-<use fig/sample-msrc3.jpg>
-<fig/sample-msrc4.jpg, id=37, 240.9pt x 160.34906pt>
-File: fig/sample-msrc4.jpg Graphic file (type jpg)
-
-<use fig/sample-msrc4.jpg>
-<fig/sample-gmaps1.png, id=38, 403.5075pt x 416.55624pt>
-File: fig/sample-gmaps1.png Graphic file (type png)
-
-<use fig/sample-gmaps1.png>
-<fig/sample-gmaps2.png, id=39, 403.5075pt x 416.55624pt>
-File: fig/sample-gmaps2.png Graphic file (type png)
-
-<use fig/sample-gmaps2.png>
-<fig/sample-gmaps3.png, id=40, 403.5075pt x 416.55624pt>
-File: fig/sample-gmaps3.png Graphic file (type png)
-
-<use fig/sample-gmaps3.png>
-<fig/sample-gmaps4.png, id=41, 403.5075pt x 416.55624pt>
-File: fig/sample-gmaps4.png Graphic file (type png)
-
-<use fig/sample-gmaps4.png> [5 <./fig/sample-msrc1.jpg> <./fig/sample-msrc2.jpg
-> <./fig/sample-msrc3.jpg> <./fig/sample-msrc4.jpg>]
-<fig/125-origin.jpg, id=45, 321.2pt x 213.79875pt>
-File: fig/125-origin.jpg Graphic file (type jpg)
- <use fig/125-origin.jpg>
-<fig/216-origin.jpg, id=46, 321.2pt x 213.79875pt>
-File: fig/216-origin.jpg Graphic file (type jpg)
- <use fig/216-origin.jpg>
-<fig/65-origin.jpg, id=47, 321.2pt x 213.79875pt>
-File: fig/65-origin.jpg Graphic file (type jpg)
- <use fig/65-origin.jpg>
-<fig/125-lda-topic14.jpg, id=48, 240.9pt x 160.34906pt>
-File: fig/125-lda-topic14.jpg Graphic file (type jpg)
-
-<use fig/125-lda-topic14.jpg>
-<fig/216-lda-topic14.jpg, id=49, 240.9pt x 160.34906pt>
-File: fig/216-lda-topic14.jpg Graphic file (type jpg)
-
-<use fig/216-lda-topic14.jpg>
-<fig/65-lda-topic14.jpg, id=50, 240.9pt x 160.34906pt>
-File: fig/65-lda-topic14.jpg Graphic file (type jpg)
-
-<use fig/65-lda-topic14.jpg>
-<fig/125-lda-topic9.jpg, id=51, 240.9pt x 160.34906pt>
-File: fig/125-lda-topic9.jpg Graphic file (type jpg)
-
-<use fig/125-lda-topic9.jpg>
-<fig/216-lda-topic9.jpg, id=52, 240.9pt x 160.34906pt>
-File: fig/216-lda-topic9.jpg Graphic file (type jpg)
-
-<use fig/216-lda-topic9.jpg>
-<fig/65-lda-topic9.jpg, id=53, 240.9pt x 160.34906pt>
-File: fig/65-lda-topic9.jpg Graphic file (type jpg)
-
-<use fig/65-lda-topic9.jpg> <fig/125-GT.jpg, id=54, 240.9pt x 160.34906pt>
-File: fig/125-GT.jpg Graphic file (type jpg)
-
-<use fig/125-GT.jpg> <fig/216-GT.jpg, id=55, 240.9pt x 160.34906pt>
-File: fig/216-GT.jpg Graphic file (type jpg)
-
-<use fig/216-GT.jpg> <fig/65-GT.jpg, id=56, 240.9pt x 160.34906pt>
-File: fig/65-GT.jpg Graphic file (type jpg)
-
-<use fig/65-GT.jpg> <fig/gmaps/71.png, id=57, 403.5075pt x 416.55624pt>
-File: fig/gmaps/71.png Graphic file (type png)
-
-<use fig/gmaps/71.png> <fig/gmaps/720.png, id=58, 403.5075pt x 416.55624pt>
-File: fig/gmaps/720.png Graphic file (type png)
-
-<use fig/gmaps/720.png> <fig/gmaps/978.png, id=59, 403.5075pt x 416.55624pt>
-File: fig/gmaps/978.png Graphic file (type png)
-
-<use fig/gmaps/978.png> <fig/gmaps/1307.png, id=60, 403.5075pt x 416.55624pt>
-File: fig/gmaps/1307.png Graphic file (type png)
-
-<use fig/gmaps/1307.png> <fig/gmaps/5474.png, id=61, 403.5075pt x 416.55624pt>
-File: fig/gmaps/5474.png Graphic file (type png)
-
-<use fig/gmaps/5474.png> <fig/gmaps/8436.png, id=62, 403.5075pt x 416.55624pt>
-File: fig/gmaps/8436.png Graphic file (type png)
-
-<use fig/gmaps/8436.png>
-<fig/gmaps/12338.png, id=63, 403.5075pt x 416.55624pt>
-File: fig/gmaps/12338.png Graphic file (type png)
-
-<use fig/gmaps/12338.png>
-<fig/gmaps/12396.png, id=64, 403.5075pt x 416.55624pt>
-File: fig/gmaps/12396.png Graphic file (type png)
-
-<use fig/gmaps/12396.png>
-<fig/gmaps/14811.png, id=65, 403.5075pt x 416.55624pt>
-File: fig/gmaps/14811.png Graphic file (type png)
-
-<use fig/gmaps/14811.png> <fig/gmaps/71g.png, id=66, 403.5075pt x 416.55624pt>
-File: fig/gmaps/71g.png Graphic file (type png)
-
-<use fig/gmaps/71g.png> <fig/gmaps/720g.png, id=67, 403.5075pt x 416.55624pt>
-File: fig/gmaps/720g.png Graphic file (type png)
-
-<use fig/gmaps/720g.png> <fig/gmaps/978g.png, id=68, 403.5075pt x 416.55624pt>
-File: fig/gmaps/978g.png Graphic file (type png)
-
-<use fig/gmaps/978g.png>
-<fig/gmaps/1307g.png, id=69, 403.5075pt x 416.55624pt>
-File: fig/gmaps/1307g.png Graphic file (type png)
-
-<use fig/gmaps/1307g.png>
-<fig/gmaps/5474g.png, id=70, 403.5075pt x 416.55624pt>
-File: fig/gmaps/5474g.png Graphic file (type png)
-
-<use fig/gmaps/5474g.png>
-<fig/gmaps/8436g.png, id=71, 403.5075pt x 416.55624pt>
-File: fig/gmaps/8436g.png Graphic file (type png)
-
-<use fig/gmaps/8436g.png>
-<fig/gmaps/12338g.png, id=72, 403.5075pt x 416.55624pt>
-File: fig/gmaps/12338g.png Graphic file (type png)
-
-<use fig/gmaps/12338g.png>
-<fig/gmaps/12396g.png, id=73, 403.5075pt x 416.55624pt>
-File: fig/gmaps/12396g.png Graphic file (type png)
-
-<use fig/gmaps/12396g.png>
-<fig/gmaps/14811g.png, id=74, 403.5075pt x 416.55624pt>
-File: fig/gmaps/14811g.png Graphic file (type png)
-
-<use fig/gmaps/14811g.png>
-<fig/msrc-quantitative-topic-9.png, id=75, 642.4pt x 385.44pt>
-File: fig/msrc-quantitative-topic-9.png Graphic file (type png)
-
-<use fig/msrc-quantitative-topic-9.png>
-<fig/msrc-quantitative-topic-14.png, id=76, 642.4pt x 385.44pt>
-File: fig/msrc-quantitative-topic-14.png Graphic file (type png)
-
-<use fig/msrc-quantitative-topic-14.png>
-Overfull \hbox (12.02042pt too wide) in paragraph at lines 553--553
-[]\secfnt DISCUSSION: SPA-TIAL LA-TENT DIRICH-
- []
-
-(./sigproc-sp.bbl [6 <./fig/sample-gmaps1.png (PNG copy)> <./fig/sample-gmaps2.
-png (PNG copy)> <./fig/sample-gmaps3.png (PNG copy)> <./fig/sample-gmaps4.png (
-PNG copy)> <./fig/125-origin.jpg> <./fig/216-origin.jpg> <./fig/65-origin.jpg> 
-<./fig/125-lda-topic14.jpg> <./fig/216-lda-topic14.jpg> <./fig/65-lda-topic14.j
-pg> <./fig/125-lda-topic9.jpg> <./fig/216-lda-topic9.jpg> <./fig/65-lda-topic9.
-jpg> <./fig/125-GT.jpg> <./fig/216-GT.jpg> <./fig/65-GT.jpg> <./fig/msrc-quanti
-tative-topic-9.png (PNG copy)> <./fig/msrc-quantitative-topic-14.png (PNG copy)
->]) [7
-
- <./fig/gmaps/71.png (PNG copy)> <./fig/gmaps/720.png (PNG copy)> <./fig/gmaps/
-978.png (PNG copy)> <./fig/gmaps/1307.png (PNG copy)> <./fig/gmaps/5474.png (PN
-G copy)> <./fig/gmaps/8436.png (PNG copy)> <./fig/gmaps/12338.png (PNG copy)> <
-./fig/gmaps/12396.png (PNG copy)> <./fig/gmaps/14811.png (PNG copy)> <./fig/gma
-ps/71g.png (PNG copy)> <./fig/gmaps/720g.png (PNG copy)> <./fig/gmaps/978g.png 
-(PNG copy)> <./fig/gmaps/1307g.png (PNG copy)> <./fig/gmaps/5474g.png (PNG copy
-)> <./fig/gmaps/8436g.png (PNG copy)> <./fig/gmaps/12338g.png (PNG copy)> <./fi
-g/gmaps/12396g.png (PNG copy)> <./fig/gmaps/14811g.png (PNG copy)>]
-(./sigproc-sp.aux) ) 
+[6 <./fig/gmaps/71.png (PNG copy)> <./fig/gmaps/720.png (PNG copy)> <./fig/gmap
+s/978.png (PNG copy)> <./fig/gmaps/1307.png (PNG copy)> <./fig/gmaps/5474.png (
+PNG copy)> <./fig/gmaps/8436.png (PNG copy)> <./fig/gmaps/12338.png (PNG copy)>
+ <./fig/gmaps/12396.png (PNG copy)> <./fig/gmaps/14811.png (PNG copy)> <./fig/g
+maps/71g.png (PNG copy)> <./fig/gmaps/720g.png (PNG copy)> <./fig/gmaps/978g.pn
+g (PNG copy)> <./fig/gmaps/1307g.png (PNG copy)> <./fig/gmaps/5474g.png (PNG co
+py)> <./fig/gmaps/8436g.png (PNG copy)> <./fig/gmaps/12338g.png (PNG copy)> <./
+fig/gmaps/12396g.png (PNG copy)> <./fig/gmaps/14811g.png (PNG copy)> <./fig/msr
+c-quantitative-topic-9.png (PNG copy)> <./fig/msrc-quantitative-topic-14.png (P
+NG copy)> <./fig/eqn/slda-variational.png (PNG copy)>] (./sigproc-sp.bbl)
+[7] (./sigproc-sp.aux) ) 
 Here is how much of TeX's memory you used:
  4086 strings out of 495061
  52694 string characters out of 1182621
- 129282 words of memory out of 3000000
+ 131284 words of memory out of 3000000
  7152 multiletter control sequences out of 15000+50000
  56644 words of font info for 77 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  39i,20n,29p,1043b,534s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmti9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-tt9.pfb></usr/share/texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/sha
-re/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/
-fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/time
-s/utmri8a.pfb>
-Output written on sigproc-sp.pdf (7 pages, 2280406 bytes).
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}<
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/am
+sfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+r5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmti9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmtt9.pfb></usr/share/texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr
+/share/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texl
+ive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/
+times/utmri8a.pfb>
+Output written on sigproc-sp.pdf (7 pages, 2282289 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
