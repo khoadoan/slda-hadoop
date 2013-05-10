@@ -1,49 +1,11 @@
-This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
-The top-level auxiliary file: sigproc-sp.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: sigproc-sp.aux
 The style file: abbrv.bst
 Database file #1: sigproc.bib
+A bad cross reference---entry "DBLP:conf/nips/WangG07"
+refers to entry "DBLP:conf/nips/2007", which doesn't exist
+Warning--I didn't find a database entry for "lda"
+Warning--I didn't find a database entry for "DBLP:conf/nips/2007"
 Warning--to sort, need author or key in mpicbg
 Warning--to sort, need author or key in mahout
 Warning--to sort, need author or key in msrc
-You've used 7 entries,
-            2118 wiz_defined-function locations,
-            532 strings with 4591 characters,
-and the built_in function-call counts, 1880 in all, are:
-= -- 183
-> -- 47
-< -- 2
-+ -- 22
-- -- 14
-* -- 101
-:= -- 263
-add.period$ -- 15
-call.type$ -- 7
-change.case$ -- 28
-chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 84
-empty$ -- 195
-format.name$ -- 14
-if$ -- 432
-int.to.chr$ -- 0
-int.to.str$ -- 7
-missing$ -- 4
-newline$ -- 31
-num.names$ -- 8
-pop$ -- 49
-preamble$ -- 1
-purify$ -- 21
-quote$ -- 0
-skip$ -- 84
-stack$ -- 0
-substring$ -- 118
-swap$ -- 25
-text.length$ -- 2
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 26
-warning$ -- 3
-while$ -- 15
-width$ -- 8
-write$ -- 61
-(There were 3 warnings)
+(There was 1 error message)

@@ -16,6 +16,11 @@ D.~G. Lowe.
 \newblock Distinctive image features from {Scale-Invariant} keypoints.
 \newblock {\em Int. J. Comput. Vision}, 60(2):91--110, Nov. 2004.
 
+\bibitem{DBLP:conf/nips/WangG07}
+X.~Wang and E.~Grimson.
+\newblock Spatial latent dirichlet allocation.
+\newblock In {\em NIPS}, 2007.
+
 \bibitem{smallfiles}
 T.~White.
 \newblock The small files problem:
