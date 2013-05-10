@@ -3,18 +3,14 @@
 \usepackage{breqn}
 \usepackage[margin=0.5in]{geometry}
 %opening
-\title{}
+\title{Appendix}
 \author{}
 
 \begin{document}
 
 \maketitle
 
-\begin{abstract}
-
-\end{abstract}
-
-\section{Derivation}
+\section*{Derivation of Variational Spatial LDA}
 
 Variational Distribution
 \begin{eqnarray}
@@ -30,7 +26,8 @@ where
 
 Lower bound of log likelihood:
 \begin{eqnarray}
-p(\boldsymbol{w}, \boldsymbol{c} | \alpha,\beta,\eta,\sigma) &=& \log \int\limits_{\phi} \int\limits_{\pi} \sum\limits_{d} \sum\limits_{z} p(\phi,\pi,d,z,\boldsymbol{w},\boldsymbol{c} | \alpha,\beta,\eta,\sigma) \\
+p(\boldsymbol{w}, \boldsymbol{c} | \alpha,\beta,\eta,\sigma) 
+&=& \log \int\limits_{\phi} \int\limits_{\pi} \sum\limits_{d} \sum\limits_{z} p(\phi,\pi,d,z,\boldsymbol{w},\boldsymbol{c} | \alpha,\beta,\eta,\sigma) \\
 &=&  \log \int\limits_{\phi} \int\limits_{\pi} \sum\limits_{d} \sum\limits_{z} q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi) \frac{p(\phi,\pi,d,z,z,w | \alpha,\beta,\eta,\sigma)}{q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi)} \; \mathrm{d}\phi \: \mathrm{d}\pi \: \mathrm{d}d \: \mathrm{d}z\\
 &=& \log E_q \frac{p(\phi,\pi,d,z,\boldsymbol{c},\boldsymbol{w} | \alpha,\beta,\eta,\sigma)}{q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi)} \\
 &\ge& E_q \log p(\phi,\pi,d,z,\boldsymbol{c},\boldsymbol{w} | \alpha,\beta,\eta,\sigma) - E_q \log q(\phi,\pi,d,z | \lambda,\gamma,\eta,\varphi) = L
@@ -87,4 +84,64 @@ E_q [\log p(\boldsymbol{w} | \phi_z)]
 &=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \sum\limits_{v}^{V} E_q[d_{mn} z_{kn} \boldsymbol{w_n^v} log(\phi_kv)] \\
 &=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \eta \phi_{kn} \boldsymbol{w_n^v} (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{k'}^{K} \lambda_{k'v}) \\
 \end{eqnarray}
+
+Now, consider the second term in $L$, this is to use the log of the joint distribution under variational parameters in (1)
+\begin{eqnarray}
+E_q \log q(\phi | \lambda) 
+&=& \sum\limits_{k}^{K} E_q \log q(\phi_k | \lambda) \\
+&=& \sum\limits_{k}^{K} \log \Gamma(\sum\limits_{v}^{V} \lambda_{kv}) - \sum\limits_{v}^{V} \log(\Gamma(\lambda_{kv})) + \sum\limits_{v}^{V}(\lambda_{kv}-1) E_q[\log(\phi_{kv})] \\
+&=& \sum\limits_{k}^{K} \log \Gamma(\sum\limits_{v}^{V} \lambda_{kv}) - \sum\limits_{v}^{V} \log(\Gamma(\lambda_{kv})) + \sum\limits_{v}^{V}(\lambda_{kv}-1)(\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v'}^{V} \lambda_{kv'}) \\
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q \log q(\pi | \gamma) 
+&=& \sum\limits_{m}^{M} E_q \log q(\pi_m | \gamma) \\
+&=& \sum\limits_{m}^{M} \log \Gamma(\sum\limits_{k}^{K} \gamma_{km}) - \sum\limits_{k}^{K} \log \Gamma(\gamma_{km}) + \sum\limits_{k}^{K}(\gamma_{km})E_q[\log(\pi_{km})] \\
+&=& \sum\limits_{m}^{M} \log \Gamma(\sum\limits_{k}^{K} \gamma_{km}) - \sum\limits_{k}^{K} \log \Gamma(\gamma_{km}) + \sum\limits_{k}^{K}(\gamma_{km})(\Psi(\gamma_{km}) - \Psi(\sum\limits_{k'}^{K} \gamma_{km})) \\
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q \log q(d_n | \eta) 
+&=& \sum\limits_{n}^{N} E_q \log p(d_n | \eta) \\
+&=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} E_q d_{mn} \log(\eta) \\
+&=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} E_q [d_{mn} \log(\eta)] \\
+&=& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \eta \log(\eta)] \\
+&=& (M + N)\eta \log(\eta) \\
+\end{eqnarray}
+
+\begin{eqnarray}
+E_q \log q(z_n | \eta) 
+&=& \sum\limits_{n}^{N} E_q \log q(z_n | \varphi) \\
+&=& \sum\limits_{n}^{N} \sum\limits_{k}^{K} E_q z_{kn} \log(\varphi_{kn}) \\
+&=& \sum\limits_{n}^{N} \sum\limits_{k}^{K} \varphi_{kn} (\Psi(\varphi_{kn}) - \Psi(\sum\limits_{k'}^{K} \varphi_{k'n})\\
+\end{eqnarray}
+
+\newpage
+
+Putting it all together:
+\begin{eqnarray}
+L 
+&=& E_q [\log p(\phi|\beta)] + E_q [p(\pi|\alpha)] + E_q [\log p(d | \eta)] + E_q [\log p(\boldsymbol{c} | c^{\mathrm{d}}_d, \sigma)] + E_q[\log p(z | \pi_d)] + E_q [\log p(\boldsymbol{w} | \phi_z)] \\
+&+& E_q \log q(\phi | \lambda) + E_q \log q(\pi | \gamma)  + E_q \log q(d_n | \eta) + E_q \log q(z_n | \eta) \\
+&=& \sum\limits_{k=1}^{K} \log \Gamma(\sum\limits_{v=1}^{V} \beta_v) - \sum\limits_{v=1}^{V} \log \Gamma(\beta_v) + \sum\limits_{v=1}^{V} (\beta_v-1) (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v^'=1}^{V} \lambda_{kv^'})) \\
+&+& \sum\limits_{m=1}^{M} \log(\Gamma(\sum\limits_{k=1}^{K} \alpha_k)) - \sum\limits_{k=1}^{K} \log(\Gamma(\alpha_k)) + \sum\limits_{k=1}^{K} (\alpha_k-1) (\Psi(\gamma_{mk}) - \Psi(\sum\limits_{k'=1}^{K} \gamma_{mk'})) \\
+&+& (N+M) \eta \log(\eta) \\
+&+& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} \eta (\delta_{g_{d_{mn}}^{\mathrm{d}}} - \frac{(x_{d_{mn}}^{\mathrm{d}} - x_n)^2 + (y_{d_{mn}}^{\mathrm{d}} - y_n)^2}{\sigma^2})\\
+&+& \sum\limits_{n=1}^{N} \sum\limits_{m=1}^{M} \eta (\Psi(\gamma_{mn}) - \Psi(\sum\limits_{m'=1}^{M} \gamma_{m'n}) \\
+&+& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \eta \phi_{kn} \boldsymbol{w_n^v} (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{k'}^{K} \lambda_{k'v}) \\
+&+& \sum\limits_{k}^{K} \log \Gamma(\sum\limits_{v}^{V} \lambda_{kv}) - \sum\limits_{v}^{V} \log(\Gamma(\lambda_{kv})) + \sum\limits_{v}^{V}(\lambda_{kv}-1)(\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v'}^{V} \lambda_{kv'}) \\
+&+& \sum\limits_{m}^{M} \log \Gamma(\sum\limits_{k}^{K} \gamma_{km}) - \sum\limits_{k}^{K} \log \Gamma(\gamma_{km}) + \sum\limits_{k}^{K}(\gamma_{km})(\Psi(\gamma_{km}) - \Psi(\sum\limits_{k'}^{K} \gamma_{km})) \\
+&+& (M + N)\eta \log(\eta) \\
+&+& \sum\limits_{n}^{N} \sum\limits_{k}^{K} \varphi_{kn} (\Psi(\varphi_{kn}) - \Psi(\sum\limits_{k'}^{K} \varphi_{k'n})\\
+\end{eqnarray}
+
+Maximize with respect to each term:
+
+\begin{eqnarray}
+L_{\lambda} 
+&=& \sum\limits_{v=1}^{V} (\beta_v-1) (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v^'=1}^{V} \lambda_{kv^'})) \\
+&+& \sum\limits_{n}^{N} \sum\limits_{m}^{M} \sum\limits_{k}^{K} \eta \phi_{kn} \boldsymbol{w_n^v} (\Psi(\lambda_{kv}) - \Psi(\sum\limits_{k'}^{K} \lambda_{k'v}) \\
+&+& \sum\limits_{k}^{K} \log \Gamma(\sum\limits_{v}^{V} \lambda_{kv}) - \sum\limits_{v}^{V} \log(\Gamma(\lambda_{kv})) + \sum\limits_{v}^{V}(\lambda_{kv}-1)(\Psi(\lambda_{kv}) - \Psi(\sum\limits_{v'}^{V} \lambda_{kv'})
+\end{eqnarray}
 \end{document}
+
