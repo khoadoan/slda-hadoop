@@ -192,7 +192,13 @@ possible extensions from LDA to Spatial LDA is presented in section \ref{sec:sld
 \section{Feature Extraction}\label{sec:feature}
 Feature extraction often dominates the most computational resources in computer vision tasks. In this section, we introduce a MapReduce based framework to extract visual features efficiently which distributes the computation loads for raw feature extraction and scales up the construction of feature codebook via MapReduce K-means clustering.
 \subsection{Scale Invariant Feature Transform (SIFT)}
-In this work, the Scale Invariant Feature Transform (SIFT) \cite{sift} is adopted to describe local regions across the images. Generally, a SIFT descriptor represent a region bounded by a rectangular box centered at $(x_c,y_c)$. The bounding box is uniformly divided into $K\times K$ parts. The gradients are computed in these sub-regions and the gradient magnitudes in $N_b$ (the number of bins) discretized orientations  are computed. A histogram is then constructed to represent the distribution of the gradient magnitudes. Therefore, for each region, the SIFT descriptor is a $K^2N_b$ dimensional histogram vector.
+In this work, the Scale Invariant Feature Transform (SIFT) \cite{sift} is adopted to describe local regions across the images. Generally, a SIFT descriptor represent a region bounded by a rectangular box centered at $(x_c,y_c)$. The bounding box is uniformly divided into $K\times K$ parts. The gradients are computed in these sub-regions and the gradient magnitudes in $N_b$ (the number of bins) discretized orientations  are computed. A histogram is then constructed to represent the distribution of the gradient magnitudes. Therefore, for each region, the SIFT descriptor is a $K^2N_b$ dimensional histogram vector. Figure \ref{fig:sift} illustrates the SIFT feature computation.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.48\textwidth]{fig/sift-extract}
+\caption{Illustration of SIFT feature extraction}\label{fig:sift}
+\end{figure}
 
 One of the advantages of SIFT descriptors is its invariance to image rotation and translation, which makes this feature very popular among the computer vision community. We base our project on the MPI-CBG JavaSIFT library\cite{mpicbg}.
 \subsection{Dense Sampling SIFT Features}
