@@ -2,18 +2,12 @@ This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: sigproc-sp.aux
 The style file: abbrv.bst
 Database file #1: sigproc.bib
-Warning--I didn't find a database entry for "bowman:reasoning"
-Warning--I didn't find a database entry for "clark:pct"
-Warning--I didn't find a database entry for "braams:babel"
-Warning--I didn't find a database entry for "herlihy:methodology"
-Warning--I didn't find a database entry for "salas:calculus"
-Warning--I didn't find a database entry for "Lamport:LaTeX"
 Warning--to sort, need author or key in mpicbg
 Warning--to sort, need author or key in mahout
 Warning--to sort, need author or key in msrc
 You've used 7 entries,
             2118 wiz_defined-function locations,
-            539 strings with 4687 characters,
+            532 strings with 4591 characters,
 and the built_in function-call counts, 1880 in all, are:
 = -- 183
 > -- 47
@@ -52,4 +46,4 @@ warning$ -- 3
 while$ -- 15
 width$ -- 8
 write$ -- 61
-(There were 9 warnings)
+(There were 3 warnings)

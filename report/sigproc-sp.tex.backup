@@ -29,6 +29,8 @@
 \documentclass{acm_proc_article-sp}
 
 \usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+\usepackage{subfigure}
+\usepackage{graphicx}
 
 \newcommand\mb\mathbf
 
@@ -124,7 +126,12 @@ In this work, the Scale Invariant Feature Transform (SIFT) \cite{sift} is adopte
 
 One of the advantages of SIFT descriptors is its invariance to image rotation and translation, which makes this feature very popular among the computer vision community. We base our project on the MPI-CBG JavaSIFT library\cite{mpicbg}.
 \subsection{Dense Sampling SIFT Features}
-In order to apply SIFT features to represent the whole image for the task of image labeling, each of the pixels ideally should be described. Due to the fact that a neighborhood of pixels usually have little difference and belong to the same semantics, we sample series of small rectangular regions with a parameter \textsc{stepsize} densely across each of the image and compute the SIFT description for each of the regions. The \textsc{stepsize} controls the number of pixels between two consecutive centers of bounding boxes. Thereafter, each image can be converted from visual data to a list of \textsc{(key,value)} pairs where the \textsc{key} is the index $(g_i,x_i,y_i)$ of the regions and the \textsc{value} is the SIFT feature vector $f_i$. $g_i$ is the id of the image that contains the $i$-th region and $(x_i,y_i)$ is the center location of the $i$-th region.
+In order to apply SIFT features to represent the whole image for the task of image labeling, each of the pixels ideally should be described. Due to the fact that a neighborhood of pixels usually have little difference and belong to the same semantics, we sample series of small rectangular regions with a parameter \textsc{stepsize} densely across each of the image and compute the SIFT description for each of the regions. The \textsc{stepsize} controls the number of pixels between two consecutive centers of bounding boxes. Thereafter, each image can be converted from visual data to a list of \textsc{(key,value)} pairs where the \textsc{key} is the index $(g_i,x_i,y_i)$ of the regions and the \textsc{value} is the SIFT feature vector $f_i$. $g_i$ is the id of the image that contains the $i$-th region and $(x_i,y_i)$ is the center location of the $i$-th region. Figure \ref{fig:sift} illustrates how the dense sampled SIFT feature extraction works.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.48\textwidth]{fig/sift-extract}
+\caption{Illustration of dense SIFT feature extraction}\label{fig:sift}
+\end{figure}
 
 \subsection{Image Input Aggregation}
 Given a large number of image files as input, there are several ways of loading them into a MapReduce job. One possible way is creating a text file containing a list of file names and let the mapper reads the files from HDFS and processes them while the reducer does nothing. An alternative way is similar to the first except the reading and processing is moved to the reducer while the mapper just passes the (key,value) pairs. Both are relatively simple and easy to implement. However, due to the small-files problem in Hadoop\cite{smallfiles}, neither the first and the second approach achieves the best performance in terms of processing speed. 
@@ -132,6 +139,10 @@ Given a large number of image files as input, there are several ways of loading 
 Since Hadoop framework works best with large files, we need to aggregate the images in the dataset into a few big files. This step allows us to speed-up the feature extraction (and other images processing tasks) given a large number of image files as input. We adopt the approach presented in\cite{combinefiles} which creates a MapReduce job that packs multiple files into a \texttt{SequenceFile}. This aggregation is performed as a preprocessing step for the other jobs that take images as input.
 
 \subsection{MapReduce-based Feature Extraction}
+We experimented two types of mapreduce based feature extraction strategies for image dataset (a)
+extracting features directly for unprocessed original image dataset and (b) extracting features for
+preprocessed sequentialized image files.
+\subsubsection{Feature extraction for unprocessed images}
 A list of image paths is generated in order to locate the image files. Each of the paths is assigned a number as image ID. The MapReduce job takes the path list as input and output sequence files containing region indices as keys and SIFT feature descriptors as values.
 \begin{algorithm}[!htb]
 \SetAlgoVlined
@@ -157,8 +168,55 @@ A list of image paths is generated in order to locate the image files. Each of t
 \Emit{id, feature}
 }
 }
-\caption{Mapreduce based Visual Feature Extraction}
+\caption{Feature Extraction for Unprocessed Images}
 \end{algorithm}
+Generally, the mappers distribute the paths into different reducers. Each of the reducers reads images from HDFS paths, extracts and emits the features.
+\subsubsection{Feature extraction for sequentialized images} One might find that reading data from HDFS does not sufficiently make use of the Hadoop architecture.
+Therefore, images can also be sequentialized to SequenceFiles. The key is the image id and the value is a byte array that encodes the corresponding image data.
+The preprocessing of sequentialization can be done aforehand. 
+\begin{algorithm}[!htb]
+\SetAlgoVlined
+\SetKwFor{Class}{class}{}{}
+\SetKwFor{Method}{method}{}{}
+\SetKwFunction{Split}{split}
+\SetKwFunction{Map}{map}
+\SetKwFunction{Reduce}{reduce}
+\SetKwFunction{Emit}{emit }
+\SetKwFunction{Readimage}{readImageFromHDFS}
+\SetKwFunction{Extract}{extractFeature}
+\SetKwFunction{Read}{readImageFromBytes}
+\SetKwFunction{Size}{sizeOf}
+\SetKwFunction{Getpixel}{getPixel}
+\SetKwFunction{Iterator}{iterator}
+\SetKwFunction{Triple}{triple}
+\SetKwFunction{HasNext}{hasNext}
+\SetKwFunction{Iterator}{iterator}
+\SetKwFunction{Next}{next}
+\SetKwFor{Forall}{for all}{do}{}
+\Class{\sc Mapper}{
+\Method{\Map{\FuncSty{IntWritable} key, \FuncSty{BytesWritable} value}}{
+\ArgSty{image} = \Read{value}\;
+\ArgSty{feature} = \Extract{image}\;
+\Emit{key, feature}\;
+}
+}
+\caption{Feature Extraction for Sequentialized Images}
+\end{algorithm}
+The details of conversion between origin image data and Sequence files will be explained in section \ref{sec:impl}.
+\subsubsection{Evaluation and Comparison} We compare these two feature extraction methods on a cluster using different sizes of image dataset.
+The two methods are evaluated under the same settings. Time consumption for either of the methods is shown
+in Fig.(\ref{fig:time}). The results show that reading data from HDFS can be expensive and sometimes unstable.
+The reason why the first method becomes expensive is because in Hadoop data is stored distributedly in different nodes
+and simply using HDFS paths as mapreduce job input do not give information about which node the specific image file is stored in.
+Therefore, cross-node data streaming may happen. However, the reading cross-node data only takes place when the demanded file is not located in node of the reduce job, which
+generally randomly occurs. This explains why the time consumption does not vary smoothly and stably when the size of image set changes.
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/timing}
+ \caption{Time consumption for (a) reading non-sequential images from HDFS in mapreduce job, and (b) streaming Sequence Files in mapreduce job}
+ \label{fig:time}
+\end{figure}
+The major advantage of using Sequence files lies in the case that different types of visual features are needed to be extracted incrementally which makes the system more expandable. People might be interested in adding a new type of feature into the system.
 
 % \begin{algorithm}[!htb]
 % \caption{Mapreduce Feature Extraction}
@@ -346,11 +404,17 @@ Also for the evaluation purpose, we need to build images from a set of pixels. T
 % \end{algorithmic}
 % \end{algorithm}
 
+\subsection{Sampling data for K-means clustering}
+The K-means clustering involves heavy computation on the Euclidean distances between cluster centers and each of the data point. Therefore, for extremely large dataset which might contain millions of regular images, the number of 128 dimensional feature points can exceed billions. The scale of data are very redundant and not able to be processed even in Hadoop mapreduce framework. However, for the building of feature codebook, we don't need to include all of the features in clustering. Instead, uniform sampling features usually gives a good estimate of the feature distribution and produces the codebook with same performance. In this project, for the large scale satellite image dataset, we use a mapper-only mapreduce job to random sampling data points. For each mapper, a random number is generated from 0 to 1 and if this number is less than a user-specified \texttt{ratio}, then the corresponding feature is sampled into the feature pool for clustering. Otherwise, the mapper does not output anything.
+
+\subsection{Connecting pixel-codebook mapping with codebook-topic mapping}
+The LDA will generate a mapping from the words in codebook to the set of topics. However, we want the results to be a mapping from pixel locations to the set of topics. In the feature extraction and codebook building steps, a big mapping from pixel locations to codebook has been constructed. Therefore, a connection operation between the two mapping is necessary to generate the final topic images. Fortunately, the codebook-topic mapping won't be large. Especially, the number of topics should be much less than the codebook size because topics represent a higher level of semantics in images. Therefore, it is affordable to load the codebook-topic mapping from HDFS in each of the reducers and join the two mappings in only one mapreduce job.
+
 \section{Experimental Evaluation}\label{sec:exp}
 \subsection{Dataset}
 \subsubsection{MSRC Image Labeling Dataset}
 The MSRC image labeling dataset (version 1) \cite{msrc} contains 240 images and 9 object classes in total. 
-Each of the images is pixel-wise labeled. Fig.(\ref{fig:msrc}) shows some sample images from MSRC dataset.
+Each of the images is pixel-wise labeled and contains $320\times213$ pixels. Fig.(\ref{fig:msrc}) shows some sample images from MSRC dataset.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.11\textwidth]{fig/sample-msrc1}
@@ -360,7 +424,7 @@ Each of the images is pixel-wise labeled. Fig.(\ref{fig:msrc}) shows some sample
 \caption{Sample images from MSRC Image Labeling Dataset}\label{fig:msrc}
 \end{figure}
 \subsubsection{Eastern Coast Satellite Image Dataset}
-We also collect satellite images using Google Maps APIs along the eastern coast in the United States. Each of the image is of 8-bit colormap PNG format and contains $402\times415$ pixels. Due to the capacity of our cluster, we pick 10,000 images amongst the dataset for the experiments. Fig.(\ref{fig:gmaps}) shows some sample images from Satellite image dataset.
+We also collect satellite images using Google Maps APIs along the eastern coast in the United States. Each of the image is of 8-bit colormap PNG format and contains $402\times415$ pixels. Due to the capacity of our cluster, we pick 16,401 images amongst the dataset for the experiments. Fig.(\ref{fig:gmaps}) shows some sample images from Satellite image dataset.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.11\textwidth]{fig/sample-gmaps1}
@@ -374,20 +438,49 @@ We also collect satellite images using Google Maps APIs along the eastern coast 
 Images with labels in different colors are recovered from the output of LDA to show qualitatively which parts belong to the same semantics. Figure \ref{fig:qual} presents three sample images and the output labels with 9 and 14 topics. The ground truth consists of 14 distinct semantics. However, the performance of LDA is significantly higher with 9 topics than 14 topics.
 \begin{figure}[!htb]
 \centering
+\subfigure[origin]{\parbox{0.11\textwidth}{
 \includegraphics[width=0.11\textwidth]{fig/125-origin}
-\includegraphics[width=0.11\textwidth]{fig/125-lda-topic14}
-\includegraphics[width=0.11\textwidth]{fig/125-lda-topic9}
-\includegraphics[width=0.11\textwidth]{fig/125-GT}\\
 \includegraphics[width=0.11\textwidth]{fig/216-origin}
+\includegraphics[width=0.11\textwidth]{fig/65-origin}}
+}\subfigure[14 topics]{\parbox{0.11\textwidth}{
+\includegraphics[width=0.11\textwidth]{fig/125-lda-topic14}
 \includegraphics[width=0.11\textwidth]{fig/216-lda-topic14}
+\includegraphics[width=0.11\textwidth]{fig/65-lda-topic14}}
+}\subfigure[9 topics]{\parbox{0.11\textwidth}{
+\includegraphics[width=0.11\textwidth]{fig/125-lda-topic9}
 \includegraphics[width=0.11\textwidth]{fig/216-lda-topic9}
-\includegraphics[width=0.11\textwidth]{fig/216-GT}\\
-\includegraphics[width=0.11\textwidth]{fig/65-origin}
-\includegraphics[width=0.11\textwidth]{fig/65-lda-topic14}
-\includegraphics[width=0.11\textwidth]{fig/65-lda-topic9}
-\includegraphics[width=0.11\textwidth]{fig/65-GT}
+\includegraphics[width=0.11\textwidth]{fig/65-lda-topic9}}
+}\subfigure[truth]{\parbox{0.11\textwidth}{
+\includegraphics[width=0.11\textwidth]{fig/125-GT}
+\includegraphics[width=0.11\textwidth]{fig/216-GT}
+\includegraphics[width=0.11\textwidth]{fig/65-GT}}
+}
 \caption{Sample LDA output from MSRC dataset. The second and the third column show the output of labeling with LDA using 14 and 9 topics. The last column show the ground truth images.}\label{fig:qual}
 \end{figure}
+
+\begin{figure*}
+ \centering
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/71}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/720}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/978}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/1307}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/5474}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/8436}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/12338}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/12396}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/14811}\\
+  \includegraphics[width=0.1\textwidth]{fig/gmaps/71g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/720g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/978g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/1307g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/5474g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/8436g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/12338g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/12396g}
+ \includegraphics[width=0.1\textwidth]{fig/gmaps/14811g}
+ \caption{Qualitative results for Google Maps Satellite Image Dataset}
+\end{figure*}
+
 
 \subsection{Quantitative Evaluation}
 Traditional computer vision dataset has ground-truth for evaluation. For the MSRC image labeling data, each image is corresponded to a groundtruth image in which the whole image is divided into several components. Each component is annotated using a unique RGB color. In our output, each pixel is assigned to a type of semantics. Since our approach is completely unsupervised, the truth meaning of each semantic is not understandable. One possible way to evaluate the performance is to enumerate every possible correspondence between the two set of semantics. Apparently this strategy only works when the number of topics is small enough. It becomes difficult to construct a one-one correspondence between our labels and the groundtruth labels. In fact, how to accurately evaluate the performance of image segmentation tasks is still an open problem.
@@ -398,11 +491,22 @@ In this project, we propose to evaluate the results for each of the topics separ
 \text{FalseAlarm}(k)&=\frac{\text{cardinal}(\{\mb{x}\mid G(\mb{x})\not=k\})}{\text{cardinal}(\{ \mb{x}\mid P(\mb{x})=k\})}
 \end{align}
 where $\text{cardinal}(\cdot)$ denotes the size of the set.
+
+\begin{figure}[!htb]
+ \centering
+ \subfigure[9 topics]{
+ \includegraphics[width=0.45\textwidth]{fig/msrc-quantitative-topic-9}
+ }\\\subfigure[14 topics]{
+ \includegraphics[width=0.45\textwidth]{fig/msrc-quantitative-topic-14}
+ }
+ \caption{Quantitative evaluation for each classes}
+\end{figure}
+
 \section{Discussion: Spatial Latent Dirichlet Allocation}\label{sec:slda}
 
 \section{Conclusion}\label{sec:con}
 
-\section{Acknowledgments}
+\section*{Acknowledgments}
 The authors would like to thank Prof. Jordan Boyd-Graber and Prof. Jimmy Lin for their consistent help in this project.
 
 \bibliographystyle{abbrv}
