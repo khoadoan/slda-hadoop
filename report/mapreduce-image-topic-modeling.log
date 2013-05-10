@@ -1,53 +1,35 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.5.8)  10 MAY 2013 00:30
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 02:41
 entering extended mode
+ %&-line parsing enabled.
 **mapreduce-image-topic-modeling.tex
-
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\mapreduce-image-topic-modeling.tex
-LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
- lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
-german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
-ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
-an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
-ishmax, welsh, loaded.
-
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\sig-alternate.cls
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+(./mapreduce-image-topic-modeling.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(./acm_proc_article-sp.cls
+(/usr/share/texmf-texlive/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-)
-("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
-)
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 \Gread@gobject=\count79
 ))
 \Gin@req@height=\dimen102
@@ -56,52 +38,52 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \epsfxsize=\dimen104
 \epsfysize=\dimen105
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
-Package: amssymb 2013/01/14 v3.01 AMS font symbols
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
-Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks15
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
-Package: amsmath 2013/01/14 v2.14 AMS math features
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip41
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks16
 \ex@=\dimen106
 ))
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen107
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count80
-LaTeX Info: Redefining \frac on input line 210.
+LaTeX Info: Redefining \frac on input line 211.
 \uproot@=\count81
 \leftroot@=\count82
-LaTeX Info: Redefining \overline on input line 306.
+LaTeX Info: Redefining \overline on input line 307.
 \classnum@=\count83
 \DOTSCASE@=\count84
-LaTeX Info: Redefining \ldots on input line 378.
-LaTeX Info: Redefining \dots on input line 381.
-LaTeX Info: Redefining \cdots on input line 466.
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box26
 \strutbox@=\box27
 \big@size=\dimen108
-LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \macc@depth=\count85
 \c@MaxMatrixCols=\count86
 \dotsspace@=\muskip10
@@ -122,18 +104,15 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \multlinegap=\skip42
 \multlinetaggap=\skip43
 \mathdisplay@stack=\toks20
-LaTeX Info: Redefining \[ on input line 2665.
-LaTeX Info: Redefining \] on input line 2666.
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
 )
-Document Class 'sig-alternate' <23rd. May '12>. Modified by G.K.M. Tobin/Gerry 
-Murray
+Document Class 'acm_proc_article-sp' <22nd. April '09>. Modified by G.K.M. Tobi
+n
 Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
 shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
 Excerpts were taken from (Journal Style) 'esub2acm.cls'.
-****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.ac
-m.org ******
-Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
-
+****** Bugs/comments/suggestions to Gerry Murray -- murray@hq.acm.org ******
 \footheight=\dimen115
 \@maxsep=\dimen116
 \@dblmaxsep=\dimen117
@@ -153,9 +132,9 @@ Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
 \c@table=\count99
 \titleboxnotes=\toks23
 \titleboxnoteflag=\count100
-Document Class: sig-alternate 2012/05/23 - V2.5 - based on acmproc.cls V1.3 <No
-v. 30 '99>
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+Document Class: acm_proc_article-sp 2009/04/22 - V3.2SP - based on esub2acm.sty
+ <23 April 96>
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
@@ -179,7 +158,7 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 \c@paragraph=\count107
 
 Using 'Abbrev' bibliography style
-LaTeX Info: Redefining \cite on input line 1211.
+LaTeX Info: Redefining \cite on input line 1236.
 \bibindent=\dimen122
 \colcntr=\count108
 \saveb@x=\box29
@@ -187,346 +166,608 @@ LaTeX Info: Redefining \cite on input line 1211.
 \acmcopyr=\toks33
 \boilerplate=\toks34
 \copyrightetc=\toks35
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 )
 LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
+(/usr/share/texmf-texlive/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-)))
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\algpseudocode.sty
-Package: algpseudocode 
+))) (./algorithm2e.sty
+Package: algorithm2e 2003/10/10
+\c@AlgoLine=\count109
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\algorithmicx\algorithmicx.sty"
-Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
-
-Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count109
-\c@ALG@rem=\count110
-\c@ALG@nested=\count111
-\ALG@tlm=\skip44
-\ALG@thistlm=\skip45
-\c@ALG@Lnr=\count112
-\c@ALG@blocknr=\count113
-\c@ALG@storecount=\count114
-\c@ALG@tmpcounter=\count115
-\ALG@tmplength=\skip46
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count110
+\float@exts=\toks36
+\float@box=\box30
+\@float@everytoks=\toks37
+\@floatcapt=\box31
 )
-Document Style - pseudocode environments for use with the `algorithmicx' style
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption.sty"
-Package: caption 2013/04/14 v3.3-73 Customizing captions (AR)
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\caption\caption3.sty"
-Package: caption3 2013/04/14 v1.5-71 caption3 kernel (AR)
-\captionmargin=\dimen123
-\captionmargin@=\dimen124
-\captionwidth=\dimen125
-\caption@tempdima=\dimen126
-\caption@indent=\dimen127
-\caption@parindent=\dimen128
-\caption@hangindent=\dimen129
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
-Package caption Info: Unknown document class (or package),
-(caption)             standard defaults will be used.
+(/usr/share/texmf-texlive/tex/latex/tools/xspace.sty
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
 )
 
-Package caption Warning: Unsupported document class (or package) detected,
-(caption)                usage of the caption package is not recommended.
-See the caption package documentation for explanation.
+********************************************************
+Package `algorithm2e' Release 2.51 -- October 27 2003 --
+- algorithm2e-announce@lirmm.fr mailing list for
+ announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for
+ discussion, comments, questions about the package
+(subscribe by sending an email to sympa@lirmm.fr with subscribe <list> <firstna
+me name>)
+- Author: Christophe Fiorio (fiorio@lirmm.fr)
+********************************************************
 
-Package caption Info: \@makecaption = \long macro:#1#2-> \vskip 10pt \setbox \@
-tempboxa \hbox {\textbf {#1: #2}} \ifdim \wd \@tempboxa >\hsize \textbf {#1: #2
-}\par \else \hbox to\hsize {\hfil \box \@tempboxa \hfil } \fi .
-\c@ContinuedFloat=\count116
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\caption\newfloat.sty"
-Package: newfloat 2013/02/03 v1.0-62 Defining new floating environments (AR)
-)
-Package newfloat Info: New float `algorithm' with options `' on input line 52.
-\c@algorithm=\count117
-\newfloat@ftype=\count118
-Package newfloat Info: float type `algorithm'=8 on input line 52.
+\skiptotal=\skip44
+\skiprule=\skip45
+\skiptext=\skip46
+\skiplength=\skip47
+\algomargin=\skip48
+\skipnumline=\skip49
+\skipalgocfslide=\skip50
+\algowidth=\dimen123
+\inoutsize=\dimen124
+\inoutline=\dimen125
+\algocf@inoutbox=\box32
+\algocf@inputbox=\box33
+\@float@every@algocf=\toks38
+\c@algocf=\count111
+) (./mapreduce-image-topic-modeling.aux)
+\openout1 = `mapreduce-image-topic-modeling.aux'.
 
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\mapreduce-image-topic-modeling.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
 
-("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count119
-\scratchdimen=\dimen130
-\scratchbox=\box30
-\nofMPsegments=\count120
-\nofMParguments=\count121
-\everyMPshowfont=\toks36
-\MPscratchCnt=\count122
-\MPscratchDim=\dimen131
-\MPnumerator=\count123
-\makeMPintoPDFobject=\count124
-\everyMPtoPDFconversion=\toks37
+\scratchcounter=\count112
+\scratchdimen=\dimen126
+\scratchbox=\box34
+\nofMPsegments=\count113
+\nofMParguments=\count114
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count115
+\MPscratchDim=\dimen127
+\MPnumerator=\count116
+\everyMPtoPDFconversion=\toks40
 )
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 160.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+LaTeX Font Info:    Try loading font information for U+msa on input line 162.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 160.
+LaTeX Font Info:    Try loading font information for U+msb on input line 162.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 160.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 162.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+)
+Overfull \hbox (7.80965pt too wide) in paragraph at lines 185--191
+\T1/aer/m/n/9 briefly in-tro-duces the sys-tem struc-ture of this project. MapR
+e-
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Overfull \hbox (1.41924pt too wide) in paragraph at lines 195--196
-[]\T1/aer/m/n/9 In this work, the Scale In-vari-ant Fea-ture Trans-form (SIFT)
- []
+LaTeX Font Info:    Try loading font information for T1+aett on input line 206.
 
-LaTeX Font Info:    Try loading font information for T1+aett on input line 204.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
+(/usr/share/texmf-texlive/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [2]
-Underfull \hbox (badness 10000) in paragraph at lines 254--255
-[]\T1/aer/bx/n/9 func-tion \T1/aer/m/sc/9 map-per\T1/aer/m/n/9 (IntWritable \T1
-/aett/m/n/9 key\T1/aer/m/n/9 , BytesWritable
- []
+)
+! Undefined control sequence.
+<recently read> \DontPrintSemicolon 
+                                    
+l.212 \DontPrintSemicolon
+                          % Some LaTeX compilers require you to use \dontpri...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[2]
+
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.265 \begin{algorithmic}
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.267 \Function
+               {mapper}{IntWritable \texttt{key}, BytesWritable \texttt{value}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.268 \State
+             \texttt{image} = \textbf{read}(\texttt{value});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.269 \State
+             \texttt{width,height} = size(\texttt{image});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Argument of \For has an extra }.
+<inserted text> 
+                \par 
+l.271 \For
+          {$x = 1 \to \texttt{width}$}
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \For was complete.
+<to be read again> 
+                   \par 
+l.271 \For
+          {$x = 1 \to \texttt{width}$}
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Undefined control sequence.
+l.272 \State
+             \texttt{pixel} = \textbf{getpixel}\texttt{(image,x,y)};
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.273 \State
+             \textbf{emit} (\texttt{pixel}, \texttt{(key,x,y)});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.274 \EndFor
+             
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.275 \EndFor
+             
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.276 \EndFunction
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--269
-[]\T1/aer/bx/n/9 func-tion \T1/aer/m/sc/9 re-ducer\T1/aer/m/n/9 (IntWritable \T
-1/aett/m/n/9 key\T1/aer/m/n/9 , It-er-
- []
+! LaTeX Error: \begin{algocf} on input line 263 ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.277 \end{algorithmic}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 292--293
-[]\T1/aer/bx/n/9 func-tion \T1/aer/m/sc/9 re-ducer\T1/aer/m/n/9 (IntWritable \T
-1/aett/m/n/9 key\T1/aer/m/n/9 , It-er-
- []
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.279 \begin{algorithmic}
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.281 \Function
+               {reducer}{IntWritable \texttt{key}, Iterable<TripleOfInts> \t...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.282 \State
+             \texttt{iter} = \textbf{iterator}(\texttt{values})
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \State 
+                  
+l.284 \State
+             \textbf{emit} (\texttt{iter.next()}, \texttt{key});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.285 \EndWhile
+               
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.286 \EndFunction
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: \begin{algocf} on input line 263 ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.287 \end{algorithmic}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.295 \begin{algorithmic}
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.297 \Function
+               {mapper}{TripleOfInts \texttt{key}, IntWritable \texttt{value}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.298 \State
+             \texttt{image\_id,x,y} = getmembers(\texttt{key});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.299 \State
+             \textbf{emit} (\texttt{image\_id}, \texttt{(x,y,value)});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.300 \EndFunction
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: \begin{algocf} on input line 293 ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.301 \end{algorithmic}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.303 \begin{algorithmic}
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.305 \Function
+               {reducer}{IntWritable \texttt{key}, Iterable<TripleOfInts> \t...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.306 \State
+             \texttt{image} = \textbf{new image}(\texttt{width,height});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.307 \State
+             \texttt{iter} = \textbf{iterator}(\texttt{values})
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> \State 
+                  
+l.309 \State
+             \texttt{x,y,pixel} = \textbf{getmembers}(\texttt{value});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.310 \State
+             \textbf{setpixel}(\texttt{image,x,y,pixel});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.311 \EndWhile
+               
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.313 \State
+             \texttt{imseq} = \textbf{getbytes}(\texttt{image});
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.314 \State
+             \textbf{emit} (\texttt{key}, imseq);
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.315 \EndFunction
+                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: \begin{algocf} on input line 293 ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.316 \end{algorithmic}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 <fig/sample-msrc1.jpg, id=20, 240.9pt x 160.34906pt>
 File: fig/sample-msrc1.jpg Graphic file (type jpg)
 
 <use fig/sample-msrc1.jpg>
-Package pdftex.def Info: fig/sample-msrc1.jpg used on input line 313.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/sample-msrc2.jpg, id=21, 240.9pt x 160.34906pt>
 File: fig/sample-msrc2.jpg Graphic file (type jpg)
 
 <use fig/sample-msrc2.jpg>
-Package pdftex.def Info: fig/sample-msrc2.jpg used on input line 314.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/sample-msrc3.jpg, id=22, 240.9pt x 160.34906pt>
 File: fig/sample-msrc3.jpg Graphic file (type jpg)
 
 <use fig/sample-msrc3.jpg>
-Package pdftex.def Info: fig/sample-msrc3.jpg used on input line 315.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/sample-msrc4.jpg, id=23, 240.9pt x 160.34906pt>
 File: fig/sample-msrc4.jpg Graphic file (type jpg)
 
 <use fig/sample-msrc4.jpg>
-Package pdftex.def Info: fig/sample-msrc4.jpg used on input line 316.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/sample-gmaps1.png, id=24, 403.5075pt x 416.55624pt>
 File: fig/sample-gmaps1.png Graphic file (type png)
 
 <use fig/sample-gmaps1.png>
-Package pdftex.def Info: fig/sample-gmaps1.png used on input line 323.
-(pdftex.def)             Requested size: 55.4403pt x 57.23058pt.
-
 <fig/sample-gmaps2.png, id=25, 403.5075pt x 416.55624pt>
 File: fig/sample-gmaps2.png Graphic file (type png)
 
 <use fig/sample-gmaps2.png>
-Package pdftex.def Info: fig/sample-gmaps2.png used on input line 324.
-(pdftex.def)             Requested size: 55.4403pt x 57.23058pt.
-
 <fig/sample-gmaps3.png, id=26, 403.5075pt x 416.55624pt>
 File: fig/sample-gmaps3.png Graphic file (type png)
 
 <use fig/sample-gmaps3.png>
-Package pdftex.def Info: fig/sample-gmaps3.png used on input line 325.
-(pdftex.def)             Requested size: 55.4403pt x 57.23058pt.
-
 <fig/sample-gmaps4.png, id=27, 403.5075pt x 416.55624pt>
 File: fig/sample-gmaps4.png Graphic file (type png)
 
-<use fig/sample-gmaps4.png>
-Package pdftex.def Info: fig/sample-gmaps4.png used on input line 326.
-(pdftex.def)             Requested size: 55.4403pt x 57.23058pt.
- <fig/125-origin.jpg, id=28, 321.2pt x 213.79875pt>
+<use fig/sample-gmaps4.png> <fig/125-origin.jpg, id=28, 321.2pt x 213.79875pt>
 File: fig/125-origin.jpg Graphic file (type jpg)
 
 <use fig/125-origin.jpg>
-Package pdftex.def Info: fig/125-origin.jpg used on input line 334.
-(pdftex.def)             Requested size: 55.4403pt x 36.89989pt.
-
 <fig/125-lda-topic14.jpg, id=29, 240.9pt x 160.34906pt>
 File: fig/125-lda-topic14.jpg Graphic file (type jpg)
 
 <use fig/125-lda-topic14.jpg>
-Package pdftex.def Info: fig/125-lda-topic14.jpg used on input line 335.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/125-lda-topic9.jpg, id=30, 240.9pt x 160.34906pt>
 File: fig/125-lda-topic9.jpg Graphic file (type jpg)
 
-<use fig/125-lda-topic9.jpg>
-Package pdftex.def Info: fig/125-lda-topic9.jpg used on input line 336.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- <fig/125-GT.jpg, id=31, 240.9pt x 160.34906pt>
+<use fig/125-lda-topic9.jpg> <fig/125-GT.jpg, id=31, 240.9pt x 160.34906pt>
 File: fig/125-GT.jpg Graphic file (type jpg)
 
-<use fig/125-GT.jpg>
-Package pdftex.def Info: fig/125-GT.jpg used on input line 337.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- <fig/216-origin.jpg, id=32, 321.2pt x 213.79875pt>
+<use fig/125-GT.jpg> <fig/216-origin.jpg, id=32, 321.2pt x 213.79875pt>
 File: fig/216-origin.jpg Graphic file (type jpg)
 
 <use fig/216-origin.jpg>
-Package pdftex.def Info: fig/216-origin.jpg used on input line 338.
-(pdftex.def)             Requested size: 55.4403pt x 36.89989pt.
-
 <fig/216-lda-topic14.jpg, id=33, 240.9pt x 160.34906pt>
 File: fig/216-lda-topic14.jpg Graphic file (type jpg)
 
 <use fig/216-lda-topic14.jpg>
-Package pdftex.def Info: fig/216-lda-topic14.jpg used on input line 339.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/216-lda-topic9.jpg, id=34, 240.9pt x 160.34906pt>
 File: fig/216-lda-topic9.jpg Graphic file (type jpg)
 
-<use fig/216-lda-topic9.jpg>
-Package pdftex.def Info: fig/216-lda-topic9.jpg used on input line 340.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- <fig/216-GT.jpg, id=35, 240.9pt x 160.34906pt>
+<use fig/216-lda-topic9.jpg> <fig/216-GT.jpg, id=35, 240.9pt x 160.34906pt>
 File: fig/216-GT.jpg Graphic file (type jpg)
 
-<use fig/216-GT.jpg>
-Package pdftex.def Info: fig/216-GT.jpg used on input line 341.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- <fig/65-origin.jpg, id=36, 321.2pt x 213.79875pt>
+<use fig/216-GT.jpg> <fig/65-origin.jpg, id=36, 321.2pt x 213.79875pt>
 File: fig/65-origin.jpg Graphic file (type jpg)
 
-<use fig/65-origin.jpg>
-Package pdftex.def Info: fig/65-origin.jpg used on input line 342.
-(pdftex.def)             Requested size: 55.4403pt x 36.89989pt.
- <fig/65-lda-topic14.jpg, id=37, 240.9pt x 160.34906pt>
+<use fig/65-origin.jpg> <fig/65-lda-topic14.jpg, id=37, 240.9pt x 160.34906pt>
 File: fig/65-lda-topic14.jpg Graphic file (type jpg)
 
 <use fig/65-lda-topic14.jpg>
-Package pdftex.def Info: fig/65-lda-topic14.jpg used on input line 343.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
-
 <fig/65-lda-topic9.jpg, id=38, 240.9pt x 160.34906pt>
 File: fig/65-lda-topic9.jpg Graphic file (type jpg)
 
-<use fig/65-lda-topic9.jpg>
-Package pdftex.def Info: fig/65-lda-topic9.jpg used on input line 344.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- <fig/65-GT.jpg, id=39, 240.9pt x 160.34906pt>
+<use fig/65-lda-topic9.jpg> <fig/65-GT.jpg, id=39, 240.9pt x 160.34906pt>
 File: fig/65-GT.jpg Graphic file (type jpg)
 
-<use fig/65-GT.jpg>
-Package pdftex.def Info: fig/65-GT.jpg used on input line 345.
-(pdftex.def)             Requested size: 55.4403pt x 36.90152pt.
- [3 <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assignments/project/slda-
-hadoop/report/fig/sample-msrc1.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/Map
-Reduce-assignments/project/slda-hadoop/report/fig/sample-msrc2.jpg> <C:/Users/u
-ser/UMD/Spring2013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/f
-ig/sample-msrc3.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assignme
-nts/project/slda-hadoop/report/fig/sample-msrc4.jpg> <C:/Users/user/UMD/Spring2
-013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/fig/sample-gmaps
-1.png> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assignments/project/sl
-da-hadoop/report/fig/sample-gmaps2.png> <C:/Users/user/UMD/Spring2013/MapReduce
-/MapReduce-assignments/project/slda-hadoop/report/fig/sample-gmaps3.png> <C:/Us
-ers/user/UMD/Spring2013/MapReduce/MapReduce-assignments/project/slda-hadoop/rep
-ort/fig/sample-gmaps4.png> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-as
-signments/project/slda-hadoop/report/fig/125-origin.jpg> <C:/Users/user/UMD/Spr
-ing2013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/fig/125-lda-
-topic14.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assignments/proj
-ect/slda-hadoop/report/fig/125-lda-topic9.jpg> <C:/Users/user/UMD/Spring2013/Ma
-pReduce/MapReduce-assignments/project/slda-hadoop/report/fig/125-GT.jpg> <C:/Us
-ers/user/UMD/Spring2013/MapReduce/MapReduce-assignments/project/slda-hadoop/rep
-ort/fig/216-origin.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assig
-nments/project/slda-hadoop/report/fig/216-lda-topic14.jpg> <C:/Users/user/UMD/S
-pring2013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/fig/216-ld
-a-topic9.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assignments/pro
-ject/slda-hadoop/report/fig/216-GT.jpg> <C:/Users/user/UMD/Spring2013/MapReduce
-/MapReduce-assignments/project/slda-hadoop/report/fig/65-origin.jpg> <C:/Users/
-user/UMD/Spring2013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/
-fig/65-lda-topic14.jpg> <C:/Users/user/UMD/Spring2013/MapReduce/MapReduce-assig
-nments/project/slda-hadoop/report/fig/65-lda-topic9.jpg> <C:/Users/user/UMD/Spr
-ing2013/MapReduce/MapReduce-assignments/project/slda-hadoop/report/fig/65-GT.jp
-g>]
-Overfull \hbox (12.02042pt too wide) in paragraph at lines 357--357
+<use fig/65-GT.jpg> [3 <./fig/sample-msrc1.jpg> <./fig/sample-msrc2.jpg> <./fig
+/sample-msrc3.jpg> <./fig/sample-msrc4.jpg> <./fig/sample-gmaps1.png (PNG copy)
+> <./fig/sample-gmaps2.png (PNG copy)> <./fig/sample-gmaps3.png (PNG copy)> <./
+fig/sample-gmaps4.png (PNG copy)> <./fig/125-origin.jpg> <./fig/125-lda-topic14
+.jpg> <./fig/125-lda-topic9.jpg> <./fig/125-GT.jpg> <./fig/216-origin.jpg> <./f
+ig/216-lda-topic14.jpg> <./fig/216-lda-topic9.jpg> <./fig/216-GT.jpg> <./fig/65
+-origin.jpg> <./fig/65-lda-topic14.jpg> <./fig/65-lda-topic9.jpg> <./fig/65-GT.
+jpg>]
+Overfull \hbox (12.02042pt too wide) in paragraph at lines 370--370
 []\secfnt DISCUSSION: SPA-TIAL LA-TENT DIRICH-
  []
 
-
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\mapreduce-image-topic-modeling.bbl) [4
+(./mapreduce-image-topic-modeling.bbl) [4
 
 ]
-(C:\Users\user\UMD\Spring2013\MapReduce\MapReduce-assignments\project\slda-hado
-op\report\mapreduce-image-topic-modeling.aux) ) 
+(./mapreduce-image-topic-modeling.aux) ) 
 Here is how much of TeX's memory you used:
- 4278 strings out of 493921
- 61126 string characters out of 3147286
- 124378 words of memory out of 3000000
- 7480 multiletter control sequences out of 15000+200000
- 57745 words of font info for 78 fonts, out of 3000000 for 9000
- 841 hyphenation exceptions out of 8191
- 41i,12n,38p,1013b,314s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fon
-ts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmcsc10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/P
-rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmti9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmtt9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helveti
-c/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/
-MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/
-type1/urw/times/utmri8a.pfb>
-Output written on mapreduce-image-topic-modeling.pdf (4 pages, 953619 bytes).
+ 2888 strings out of 495061
+ 33381 string characters out of 1182621
+ 100080 words of memory out of 3000000
+ 5980 multiletter control sequences out of 15000+50000
+ 63888 words of font info for 86 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 39i,12n,26p,1012b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvi
+ps/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf-texlive/fonts/t
+ype1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/helvetic
+/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/sh
+are/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on mapreduce-image-topic-modeling.pdf (4 pages, 958087 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
+ 100 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

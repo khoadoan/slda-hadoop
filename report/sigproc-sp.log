@@ -1,0 +1,578 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.2.10)  10 MAY 2013 05:18
+entering extended mode
+ %&-line parsing enabled.
+**sigproc-sp.tex
+(./sigproc-sp.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(./acm_proc_article-sp.cls
+(/usr/share/texmf-texlive/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count79
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count80
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count81
+\leftroot@=\count82
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count83
+\DOTSCASE@=\count84
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count85
+\c@MaxMatrixCols=\count86
+\dotsspace@=\muskip10
+\c@parentequation=\count87
+\dspbrk@lvl=\count88
+\tag@help=\toks17
+\row@=\count89
+\column@=\count90
+\maxfields@=\count91
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+Document Class 'acm_proc_article-sp' <22nd. April '09>. Modified by G.K.M. Tobi
+n
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+****** Bugs/comments/suggestions to Gerry Murray -- murray@hq.acm.org ******
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count92
+\originalaucount=\count93
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count94
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count95
+\subtitletext=\toks22
+\savesection=\count96
+\sectioncntr=\count97
+\c@figure=\count98
+\c@table=\count99
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count100
+Document Class: acm_proc_article-sp 2009/04/22 - V3.2SP - based on esub2acm.sty
+ <23 April 96>
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count101
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count102
+\copyrightnotice=\toks29
+\conf=\toks30
+\confinfo=\toks31
+\c@part=\count103
+\c@section=\count104
+\c@subsection=\count105
+\c@subsubsection=\count106
+\c@paragraph=\count107
+
+Using 'Abbrev' bibliography style
+LaTeX Info: Redefining \cite on input line 1236.
+\bibindent=\dimen122
+\colcntr=\count108
+\saveb@x=\box29
+\copyrtyr=\toks32
+\acmcopyr=\toks33
+\boilerplate=\toks34
+\copyrightetc=\toks35
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
+
+(/usr/share/texmf-texlive/tex/latex/ae/t1aer.fd
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+))) (./algorithm2e.sty
+Package: algorithm2e 2013/01/06 v5.00 algorithms environments
+\c@AlgoLine=\count109
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/tools/xspace.sty
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
+)
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/relsize.sty
+Package: relsize 2003/07/04 ver 3.1
+
+
+Package relsize Warning: Failed to get list of font sizes.
+(relsize)                Falling back to old definition. on input line 81.
+
+)
+********************************************************
+Package `algorithm2e' Release 5.0 -- january 06 2013 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (cfiorio@um2.fr)
+********************************************************
+\skiptotal=\skip44
+\skiplinenumber=\skip45
+\skiprule=\skip46
+\skiphlne=\skip47
+\skiptext=\skip48
+\skiplength=\skip49
+\algomargin=\skip50
+\skipalgocfslide=\skip51
+\algowidth=\dimen123
+\inoutsize=\dimen124
+\inoutindent=\dimen125
+\interspacetitleruled=\dimen126
+\interspacealgoruled=\dimen127
+\interspacetitleboxruled=\dimen128
+\algocf@inoutbox=\box30
+\algocf@inputbox=\box31
+\AlCapSkip=\skip52
+\AlCapHSkip=\skip53
+\algoskipindent=\skip54
+\algocf@nlbox=\box32
+\algocf@hangingbox=\box33
+\algocf@untilbox=\box34
+\algocf@skipuntil=\skip55
+\algocf@capbox=\box35
+\algoheightruledefault=\skip56
+\algoheightrule=\skip57
+\algotitleheightruledefault=\skip58
+\algotitleheightrule=\skip59
+\c@algocfline=\count110
+\c@algocfproc=\count111
+\c@algocf=\count112
+\algocf@algoframe=\box36
+\algocf@algobox=\box37
+) (/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip60
+\subfigcapskip=\skip61
+\subfigcaptopadj=\dimen129
+\subfigbottomskip=\skip62
+\subfigcapmargin=\dimen130
+\subfiglabelskip=\skip63
+\c@subfigure=\count113
+\c@lofdepth=\count114
+\c@subtable=\count115
+\c@lotdepth=\count116
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip64
+\subfig@bottom=\skip65
+) (./sigproc-sp.aux)
+\openout1 = `sigproc-sp.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
+LaTeX Font Info:    ... okay on input line 37.
+ (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count117
+\scratchdimen=\dimen131
+\scratchbox=\box38
+\nofMPsegments=\count118
+\nofMParguments=\count119
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count120
+\MPscratchDim=\dimen132
+\MPnumerator=\count121
+\everyMPtoPDFconversion=\toks37
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 90.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 90.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 90.
+
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+Overfull \hbox (7.80965pt too wide) in paragraph at lines 112--118
+\T1/aer/m/n/9 briefly in-tro-duces the sys-tem struc-ture of this project. MapR
+e-
+ []
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+LaTeX Font Info:    Try loading font information for T1+aett on input line 134.
+
+
+(/usr/share/texmf-texlive/tex/latex/ae/t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+) [2]
+<fig/sample-msrc1.jpg, id=20, 240.9pt x 160.34906pt>
+File: fig/sample-msrc1.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc1.jpg>
+<fig/sample-msrc2.jpg, id=21, 240.9pt x 160.34906pt>
+File: fig/sample-msrc2.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc2.jpg>
+<fig/sample-msrc3.jpg, id=22, 240.9pt x 160.34906pt>
+File: fig/sample-msrc3.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc3.jpg>
+<fig/sample-msrc4.jpg, id=23, 240.9pt x 160.34906pt>
+File: fig/sample-msrc4.jpg Graphic file (type jpg)
+
+<use fig/sample-msrc4.jpg>
+<fig/sample-gmaps1.png, id=24, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps1.png Graphic file (type png)
+
+<use fig/sample-gmaps1.png>
+<fig/sample-gmaps2.png, id=25, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps2.png Graphic file (type png)
+
+<use fig/sample-gmaps2.png>
+<fig/sample-gmaps3.png, id=26, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps3.png Graphic file (type png)
+
+<use fig/sample-gmaps3.png>
+<fig/sample-gmaps4.png, id=27, 403.5075pt x 416.55624pt>
+File: fig/sample-gmaps4.png Graphic file (type png)
+
+<use fig/sample-gmaps4.png> <fig/125-origin.jpg, id=28, 321.2pt x 213.79875pt>
+File: fig/125-origin.jpg Graphic file (type jpg)
+
+<use fig/125-origin.jpg> <fig/216-origin.jpg, id=29, 321.2pt x 213.79875pt>
+File: fig/216-origin.jpg Graphic file (type jpg)
+
+<use fig/216-origin.jpg> <fig/65-origin.jpg, id=30, 321.2pt x 213.79875pt>
+File: fig/65-origin.jpg Graphic file (type jpg)
+
+<use fig/65-origin.jpg>
+<fig/125-lda-topic14.jpg, id=31, 240.9pt x 160.34906pt>
+File: fig/125-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/125-lda-topic14.jpg>
+<fig/216-lda-topic14.jpg, id=32, 240.9pt x 160.34906pt>
+File: fig/216-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/216-lda-topic14.jpg>
+<fig/65-lda-topic14.jpg, id=33, 240.9pt x 160.34906pt>
+File: fig/65-lda-topic14.jpg Graphic file (type jpg)
+
+<use fig/65-lda-topic14.jpg>
+<fig/125-lda-topic9.jpg, id=34, 240.9pt x 160.34906pt>
+File: fig/125-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/125-lda-topic9.jpg>
+<fig/216-lda-topic9.jpg, id=35, 240.9pt x 160.34906pt>
+File: fig/216-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/216-lda-topic9.jpg>
+<fig/65-lda-topic9.jpg, id=36, 240.9pt x 160.34906pt>
+File: fig/65-lda-topic9.jpg Graphic file (type jpg)
+
+<use fig/65-lda-topic9.jpg> <fig/125-GT.jpg, id=37, 240.9pt x 160.34906pt>
+File: fig/125-GT.jpg Graphic file (type jpg)
+
+<use fig/125-GT.jpg> <fig/216-GT.jpg, id=38, 240.9pt x 160.34906pt>
+File: fig/216-GT.jpg Graphic file (type jpg)
+
+<use fig/216-GT.jpg> <fig/65-GT.jpg, id=39, 240.9pt x 160.34906pt>
+File: fig/65-GT.jpg Graphic file (type jpg)
+
+<use fig/65-GT.jpg> <fig/gmaps/71.png, id=40, 403.5075pt x 416.55624pt>
+File: fig/gmaps/71.png Graphic file (type png)
+
+<use fig/gmaps/71.png> <fig/gmaps/720.png, id=41, 403.5075pt x 416.55624pt>
+File: fig/gmaps/720.png Graphic file (type png)
+
+<use fig/gmaps/720.png> <fig/gmaps/978.png, id=42, 403.5075pt x 416.55624pt>
+File: fig/gmaps/978.png Graphic file (type png)
+
+<use fig/gmaps/978.png> <fig/gmaps/1307.png, id=43, 403.5075pt x 416.55624pt>
+File: fig/gmaps/1307.png Graphic file (type png)
+
+<use fig/gmaps/1307.png> <fig/gmaps/5474.png, id=44, 403.5075pt x 416.55624pt>
+File: fig/gmaps/5474.png Graphic file (type png)
+
+<use fig/gmaps/5474.png> <fig/gmaps/8436.png, id=45, 403.5075pt x 416.55624pt>
+File: fig/gmaps/8436.png Graphic file (type png)
+
+<use fig/gmaps/8436.png>
+<fig/gmaps/12338.png, id=46, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12338.png Graphic file (type png)
+
+<use fig/gmaps/12338.png>
+<fig/gmaps/12396.png, id=47, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12396.png Graphic file (type png)
+
+<use fig/gmaps/12396.png>
+<fig/gmaps/14811.png, id=48, 403.5075pt x 416.55624pt>
+File: fig/gmaps/14811.png Graphic file (type png)
+
+<use fig/gmaps/14811.png> <fig/gmaps/71g.png, id=49, 403.5075pt x 416.55624pt>
+File: fig/gmaps/71g.png Graphic file (type png)
+
+<use fig/gmaps/71g.png> <fig/gmaps/720g.png, id=50, 403.5075pt x 416.55624pt>
+File: fig/gmaps/720g.png Graphic file (type png)
+
+<use fig/gmaps/720g.png> <fig/gmaps/978g.png, id=51, 403.5075pt x 416.55624pt>
+File: fig/gmaps/978g.png Graphic file (type png)
+
+<use fig/gmaps/978g.png>
+<fig/gmaps/1307g.png, id=52, 403.5075pt x 416.55624pt>
+File: fig/gmaps/1307g.png Graphic file (type png)
+
+<use fig/gmaps/1307g.png>
+<fig/gmaps/5474g.png, id=53, 403.5075pt x 416.55624pt>
+File: fig/gmaps/5474g.png Graphic file (type png)
+
+<use fig/gmaps/5474g.png>
+<fig/gmaps/8436g.png, id=54, 403.5075pt x 416.55624pt>
+File: fig/gmaps/8436g.png Graphic file (type png)
+
+<use fig/gmaps/8436g.png>
+<fig/gmaps/12338g.png, id=55, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12338g.png Graphic file (type png)
+
+<use fig/gmaps/12338g.png>
+<fig/gmaps/12396g.png, id=56, 403.5075pt x 416.55624pt>
+File: fig/gmaps/12396g.png Graphic file (type png)
+
+<use fig/gmaps/12396g.png>
+<fig/gmaps/14811g.png, id=57, 403.5075pt x 416.55624pt>
+File: fig/gmaps/14811g.png Graphic file (type png)
+
+<use fig/gmaps/14811g.png> [3 <./fig/sample-msrc1.jpg> <./fig/sample-msrc2.jpg>
+ <./fig/sample-msrc3.jpg> <./fig/sample-msrc4.jpg> <./fig/sample-gmaps1.png (PN
+G copy)> <./fig/sample-gmaps2.png (PNG copy)> <./fig/sample-gmaps3.png (PNG cop
+y)> <./fig/sample-gmaps4.png (PNG copy)> <./fig/125-origin.jpg> <./fig/216-orig
+in.jpg> <./fig/65-origin.jpg> <./fig/125-lda-topic14.jpg> <./fig/216-lda-topic1
+4.jpg> <./fig/65-lda-topic14.jpg> <./fig/125-lda-topic9.jpg> <./fig/216-lda-top
+ic9.jpg> <./fig/65-lda-topic9.jpg> <./fig/125-GT.jpg> <./fig/216-GT.jpg> <./fig
+/65-GT.jpg>] <fig/msrc-quantitative-topic-9.png, id=66, 642.4pt x 385.44pt>
+File: fig/msrc-quantitative-topic-9.png Graphic file (type png)
+
+<use fig/msrc-quantitative-topic-9.png>
+<fig/msrc-quantitative-topic-14.png, id=67, 642.4pt x 385.44pt>
+File: fig/msrc-quantitative-topic-14.png Graphic file (type png)
+
+<use fig/msrc-quantitative-topic-14.png>
+Overfull \hbox (12.02042pt too wide) in paragraph at lines 443--443
+[]\secfnt DISCUSSION: SPA-TIAL LA-TENT DIRICH-
+ []
+
+(./sigproc-sp.bbl) [4 <./fig/gmaps/71.png (PNG copy)> <./fig/gmaps/720.png (PNG
+ copy)> <./fig/gmaps/978.png (PNG copy)> <./fig/gmaps/1307.png (PNG copy)> <./f
+ig/gmaps/5474.png (PNG copy)> <./fig/gmaps/8436.png (PNG copy)> <./fig/gmaps/12
+338.png (PNG copy)> <./fig/gmaps/12396.png (PNG copy)> <./fig/gmaps/14811.png (
+PNG copy)> <./fig/gmaps/71g.png (PNG copy)> <./fig/gmaps/720g.png (PNG copy)> <
+./fig/gmaps/978g.png (PNG copy)> <./fig/gmaps/1307g.png (PNG copy)> <./fig/gmap
+s/5474g.png (PNG copy)> <./fig/gmaps/8436g.png (PNG copy)> <./fig/gmaps/12338g.
+png (PNG copy)> <./fig/gmaps/12396g.png (PNG copy)> <./fig/gmaps/14811g.png (PN
+G copy)> <./fig/msrc-quantitative-topic-9.png (PNG copy)> <./fig/msrc-quantitat
+ive-topic-14.png (PNG copy)>]
+
+LaTeX Warning: Citation `bowman:reasoning' on page \thepage  undefined on input
+ line 477.
+
+
+LaTeX Warning: Citation `clark:pct' on page \thepage  undefined on input line 4
+77.
+
+
+LaTeX Warning: Citation `braams:babel' on page \thepage  undefined on input lin
+e 477.
+
+
+LaTeX Warning: Citation `herlihy:methodology' on page \thepage  undefined on in
+put line 477.
+
+
+LaTeX Warning: Citation `clark:pct' on page \thepage  undefined on input line 4
+79.
+
+
+LaTeX Warning: Citation `salas:calculus' on page \thepage  undefined on input l
+ine 479.
+
+
+LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
+ne 479.
+
+
+LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
+ne 485.
+
+
+LaTeX Warning: Citation `Lamport:LaTeX' on page \thepage  undefined on input li
+ne 496.
+
+
+LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
+(Font)              using `T1/aett/m/n' instead on input line 577.
+
+\c@theorem=\count122
+
+Underfull \hbox (badness 1603) in paragraph at lines 601--605
+[]\T1/aer/m/n/9 This uses the \T1/aer/bx/n/9 the-o-rem \T1/aer/m/n/9 en-vi-ron-
+ment, cre-ated by the
+ []
+
+\c@definition=\count123
+[5]
+Overfull \hbox (15.60826pt too wide) detected at line 655
+\OML/cmm/m/it/9 l \OT1/cmr/m/n/9 = [] \OML/cmm/m/it/9 f\OT1/cmr/m/n/9 (\OML/cmm
+/m/it/9 x\OT1/cmr/m/n/9 ) = [] [] = [] \OML/cmm/m/it/9 g\OT1/cmr/m/n/9 (\OML/cm
+m/m/it/9 x\OT1/cmr/m/n/9 ) \OMS/cmsy/m/n/9 ^^A [] [] \OT1/cmr/m/n/9 = 0 \OMS/cm
+sy/m/n/9 ^^A \OML/cmm/m/it/9 L \OT1/cmr/m/n/9 = 0\OML/cmm/m/it/9 ;
+ []
+
+
+LaTeX Warning: Citation `salas:calculus' on page \thepage  undefined on input l
+ine 665.
+
+[6]
+Overfull \vbox (33.5pt too high) has occurred while \output is active []
+
+ [7
+
+]
+(./sigproc-sp.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 4090 strings out of 495061
+ 52400 string characters out of 1182621
+ 131244 words of memory out of 3000000
+ 7152 multiletter control sequences out of 15000+50000
+ 61852 words of font info for 86 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 39i,20n,29p,992b,548s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/
+amsfonts/cmextra/cmex9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/shar
+e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/public/am
+sfonts/cm/cmti7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+ti9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb></us
+r/share/texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-tex
+live/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/
+urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pf
+b></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on sigproc-sp.pdf (7 pages, 2033129 bytes).
+PDF statistics:
+ 157 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 201 words of extra memory for PDF output out of 10000 (max. 10000000)
+
