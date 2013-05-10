@@ -1,4 +1,0 @@
-MahoutKMeans
-============
-
-Kmeans using Mahout
