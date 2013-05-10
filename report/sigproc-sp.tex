@@ -61,7 +61,7 @@ Khoa Doan\\
        \affaddr{University of Maryland}\\
        \affaddr{Dept. of Computer Science}\\
        \affaddr{College Park, MD 20742}\\
-       \email{??}
+       \email{khoadoan@cs.umd.edu}
 %% 2nd. author
 \alignauthor
 Rahmatri Mardiko\\
@@ -254,7 +254,13 @@ The raw features extracted from above generally have two problems in representin
 
 K-means clustering is usually the choice for doing feature quantization. However, the clustering takes more features and thus needs much more memory spaces in order to exhaustively compute the distances between cluster centers to each of the points, as the scale of data becomes larger. The MapReduce framework generally resolve this time and space problem because not only the computation is distributed into different nodes but also the intermediate results of distances are stored almost uniformly among all of the nodes. In our project, we adopt Mahout K-means clustering \cite{mahout} for building the codebook in Hadoop environment.
 \section{MapReduce LDA}\label{sec:mrlda}
-Mr.LDA is a MapReduce implementation of Latent Dirichlet Allocation (LDA) using variational inference \cite{mrlda}. LDA is a corpora topic model which clusters co-occurring words into topics. The graphical model of LDA is in (\ref{fig:ldagraphical}). LDA assumes the following generative prodedure of the corpus:
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/eqn/lda-variational}
+ \caption{Graphical models for LDA}\label{fig:ldagraphical}
+\end{figure}
+
+Mr.LDA is a MapReduce implementation of Latent Dirichlet Allocation (LDA) using variational inference \cite{mrlda}. LDA is a corpora topic model which clusters co-occurring words into topics. The graphical model of LDA is in fig.(\ref{fig:ldagraphical}). LDA assumes the following generative prodedure of the corpus:
 
 \begin{enumerate}
 \item For each topic $k \in \{1,2,...,K\}$, a multinomial $\beta_k$ is sampled from $Dir(\eta)$.
@@ -275,8 +281,13 @@ In this paper, we bases our work on Mr.LDA. We have upgraded Mr.LDA implementati
 \section{MapReduce Spatial LDA}
 
 Since LDA describes a document as a bag-of-word, direct application of LDA on images would cause several problems. In LDA, co-occurring words tend to cluster into the same topic even if these words are further away. For images, this is often 	not correct because some objects, such as buildings and streets, usually occur together in the same document but they are in fact different objects. This is because LDA does not take in to account the spatial constraint of the visual words, i.e. words that are close in space should be more likely from the same object.
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/eqn/slda-variational}
+ \caption{Graphical models for LDA}\label{fig:sldagraphical}
+\end{figure}
 
-Spatial LDA proposes a solution the above problems. In general, Spatial LDA consider an image as a collection of several documents. The probability of a visual word to belong to a document depends on its spatial distance to the document, thus it encourages grouping of visual words that are close in proximity (which are more likely to belong to the same object) into the same documents. The graphical model of Spatial LDA is in .. and its generative procedure is described as below:
+Spatial LDA proposes a solution the above problems. In general, Spatial LDA consider an image as a collection of several documents. The probability of a visual word to belong to a document depends on its spatial distance to the document, thus it encourages grouping of visual words that are close in proximity (which are more likely to belong to the same object) into the same documents. The graphical model of Spatial LDA is in fig.(\ref{fig:sldagraphical}) and its generative procedure is described as below:
 
 \begin{enumerate}
 \item For each topic $k \in \{1,2,...,K\}$, a multinomial $\phi_k$ is sampled from $Dir(\beta)$.

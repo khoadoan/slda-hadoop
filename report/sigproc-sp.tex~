@@ -61,7 +61,7 @@ Khoa Doan\\
        \affaddr{University of Maryland}\\
        \affaddr{Dept. of Computer Science}\\
        \affaddr{College Park, MD 20742}\\
-       \email{trovato@corporation.com}
+       \email{khoadoan@cs.umd.edu}
 %% 2nd. author
 \alignauthor
 Rahmatri Mardiko\\
@@ -254,16 +254,54 @@ The raw features extracted from above generally have two problems in representin
 
 K-means clustering is usually the choice for doing feature quantization. However, the clustering takes more features and thus needs much more memory spaces in order to exhaustively compute the distances between cluster centers to each of the points, as the scale of data becomes larger. The MapReduce framework generally resolve this time and space problem because not only the computation is distributed into different nodes but also the intermediate results of distances are stored almost uniformly among all of the nodes. In our project, we adopt Mahout K-means clustering \cite{mahout} for building the codebook in Hadoop environment.
 \section{MapReduce LDA}\label{sec:mrlda}
-\cite{mrlda}
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/eqn/lda-variational}
+ \caption{Graphical models for LDA}\label{fig:ldagraphical}
+\end{figure}
+
+Mr.LDA is a MapReduce implementation of Latent Dirichlet Allocation (LDA) using variational inference \cite{mrlda}. LDA is a corpora topic model which clusters co-occurring words into topics. The graphical model of LDA is in fig.(\ref{fig:ldagraphical}). LDA assumes the following generative prodedure of the corpus:
+
+\begin{enumerate}
+\item For each topic $k \in \{1,2,...,K\}$, a multinomial $\beta_k$ is sampled from $Dir(\eta)$.
+\item For each document $m \in \{1,2,...,M\}$, a multinomial of topic distribution $\theta_m$ is sampled from $Dir(\alpha)$.
+\item For each word $n$ in a document $m$:
+\begin{enumerate}
+	\item A topic label $z_{mn}$ is sampled from a discrete distribution $Discrete(\theta_m)$.
+	\item The word $w_mn$ is sampled from a discrete distribution of topic $z_{mn} \tilde \beta_{z_{mn}}$.
+\end{enumerate}
+\end{enumerate}
+
+The following section borrows heavily on \cite{Blei03latentdirichlet} and \cite{mrlda}. On the high level, LDA computes the likelihood of the generating the the corpus $p(w | \alpha, \eta) = E_{p(\beta, \theta, z | \alpha, \eta)} p(w, \beta, \theta, z | \alpha, \eta)$. Since this is intractable to compute \cite{Blei03latentdirichlet}, Variational Inference or Monte-Carlos Markov-Chain (MCMC) sampling is used for approximation. MCMC techinique, such as Gibbs Sampling, is unbiased but undeterministic. In addition, it requires many iterations (in the order of thousands) to adequately walk the sample space, and synchonizatation of all variables at each iteration. For these reasons, Gibbs Sampling is not ideal for a MapReduce environment.
+
+Variational inference, on the other hand, is deterministic procedure. For LDA, the variational distribution, as described in (\ref{fig:ldagraphical}). Interestingly, maximizing the loglikelihood of the data with respect to the variational distribution results in updates of the variational parameters that can be efficiently distributed in a MapReduce environment, as described in \cite{mrlda}. Intuitively, document specific variables, $\phi_{v,k}$ and $\gamma_m$, can be computed in Mappers, and topic specific variables, $\lambda_k$, which is updated from aggregation of other document-specific variables for a specific topic k, can be computed in Reducers by shuffling all values for a specific topic to the same reducer.
+
+In this paper, we bases our work on Mr.LDA. We have upgraded Mr.LDA implementation from MapReduce MRv1 environment to Cloudera MRv2 environment. In addition, one of the missing features of Mr.LDA is the ability to return topic labels for the documents in the corpus. This is essentially the output of the variational paramterers $\phi$. The output of $\phi$-table is written out in each Mapper (as described above) using MultipleOutput in MapReduce. The labels of each word in the document is determined by finding the value $\phi_{v,k}$ that is above some pretermine threshold. For our image-dataset, we set this value to 0.7.
 
 \section{MapReduce Spatial LDA}
-%\begin{equation}
-%\begin{split}
-%q(\phi,\pi,d,z &| \lambda,\gamma,\eta,\varphi) = \\
-%&\prod\limits_{k=1}^{K}q(\phi_k|\lambda) \: \prod\limits_{m=1}^{M}q(\pi_m|\gamma) \: \prod\limits_{n=1}^{N}q(d_n | \eta) q(z_n | \varphi)
-%\end{split}
-%\end{equation}
-%where $\phi_k \in R^V$ is distribution over word of topic $k$, $\pi_m \in R^K$ is distribution over topics of document $m$, $d_n \in R^M$ is indicator vector where if $d_{nm} = 1$ means word $n$ belongs to document $m$, and $z_n \in R^K$ is indicator vector where if $z_{nk} = 1$ means word $n$ is assigned to topic $k$.
+
+Since LDA describes a document as a bag-of-word, direct application of LDA on images would cause several problems. In LDA, co-occurring words tend to cluster into the same topic even if these words are further away. For images, this is often 	not correct because some objects, such as buildings and streets, usually occur together in the same document but they are in fact different objects. This is because LDA does not take in to account the spatial constraint of the visual words, i.e. words that are close in space should be more likely from the same object.
+\begin{figure}[!htb]
+ \centering
+ \includegraphics[width=0.45\textwidth]{fig/eqn/slda-variational}
+ \caption{Graphical models for LDA}\label{fig:sldagraphical}
+\end{figure}
+
+Spatial LDA proposes a solution the above problems. In general, Spatial LDA consider an image as a collection of several documents. The probability of a visual word to belong to a document depends on its spatial distance to the document, thus it encourages grouping of visual words that are close in proximity (which are more likely to belong to the same object) into the same documents. The graphical model of Spatial LDA is in .. and its generative procedure is described as below:
+
+\begin{enumerate}
+\item For each topic $k \in \{1,2,...,K\}$, a multinomial $\phi_k$ is sampled from $Dir(\beta)$.
+\item For each document $m \in \{1,2,...,M\}$, a multinomial of topic distribution $\pi_m$ is sampled from $Dir(\alpha)$.
+\item For a visual word $i$:
+	\begin{enumerate}
+		\item A document assignment variable $d_i$ is sampled from a uniform discrete distribution $Discrete(d_i|\eta)$.
+		\item Location $c_i$ is sampled from a Gaussian kernel: $p(g_{c_i} | g_{d_i}, \sigma) = \delta_{g_{d_i}}(g_{c_i}) \exp{-\frac{(x_{d_i} - x_i)^2 + (y_{d_i} - y_i)^2} {\sigma^2}}$, where ($x_i, y_i$) and ($x_{d_i}, y_{d_i}$) indicates the locations of word $i$ and document $d_i$, respectively.
+		\item A topic label $z_{i}$ is sampled from a discrete distribution of document $d_i$:  $Discrete(\pi_{d_i})$
+		\item The word $w_i$ is sampled from a discrete distribution of topic $z_{i}$: $Discrete(\phi_{z_i})$ 
+	\end{enumerate}
+\end{enumerate}
+
+\cite{DBLP:conf/nips/WangG07} uses Gibbs Sampling as an approximation to the Spatial LDA inference problem. In this report, we propose the Variational Inference method in solving Spatial LDA. We expect this approach will allow us to extend Mr.LDA using Spatial LDA for our image dataset. The derivation of Spatial LDA is described in the Appendix.
 
 \section{Implementation Remarks}\label{sec:impl}
 In this section we present some implementation details that we did in the project.
